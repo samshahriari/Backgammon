@@ -1,1 +1,4 @@
-These are Jordan's changes. Hopefully they stay intact when merging!
+
+Sam is editing now!
+
+These are Jordan's changes.
