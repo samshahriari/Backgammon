@@ -1,3 +1,3 @@
-# DD1349-backgammon-project
+# jordanjo-samsha-backgammon
 
 README file
