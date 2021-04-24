@@ -8,4 +8,4 @@ three-word description of the purpose of the branch.
 Example: `jor-feature-board-class`
 
 
-Sam
+Sam bla bla
