@@ -1,3 +1,3 @@
 # jordanjo-samsha-backgammon
 
-Some very important text
+Backgammon game by Jordan Jass Olsson & Sam Shahriari. Made in the course DD1349 projINDA.
