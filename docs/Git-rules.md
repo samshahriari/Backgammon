@@ -6,3 +6,5 @@ Branch name should include first three letters of username followed by what type
 three-word description of the purpose of the branch.   
 
 Example: `jor-feature-board-class`
+
+jordan
