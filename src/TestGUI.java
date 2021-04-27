@@ -25,7 +25,6 @@ public class TestGUI{
                 //textArea.append("Button was clicked\n");
                 //f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));
                 //f.dispose();
-
             }
         });
 
