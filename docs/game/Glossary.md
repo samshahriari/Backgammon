@@ -11,6 +11,7 @@ in colour and are occupied by `checkers`. There are `red` checkers and `white` c
     * `White outer quadrant` - the quadrant adjacent to white home quadrant
 * `Pip` - one of the 24 narrow triangles on which the checkers move (aka points)
     * `Occupied` - a pip with a checker on it
+        * `Colour` - colour of checker on pip
         * `Stacked` - a pip with 2 or more checkers on it
     * `Unoccupied` - a pip without any checkers on it
 * `Bar` - the raised strip that divides the board and holds hit checkers
