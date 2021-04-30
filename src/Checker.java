@@ -6,6 +6,13 @@ public class Checker {
         color = c;
     }
 
+
+    // Prints the color of the checker instead of memory address
+    @Override
+    public String toString() {
+        return color.toString();
+    }
+
     public Color getColor() {
         return color;
     }
