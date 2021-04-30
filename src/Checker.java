@@ -3,9 +3,9 @@ public class Checker {
     private Color color;
 
 
-    private int position;
+    private Pip position;
 
-    public Checker(Color c, int pos) {
+    public Checker(Color c, Pip pos) {
         color = c;
         position = pos;
     }
@@ -21,8 +21,15 @@ public class Checker {
         return color;
     }
 
-    public int getPosition() {
+    public Pip getPosition() {
         return position;
+    }
+
+    public int getDirection() {
+        if (color == Color.WHITE) {
+            return 1;
+        }
+        return -1; // Direction for red
     }
 }
 
