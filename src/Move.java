@@ -1,13 +1,29 @@
 public class Move {
 
-    public void moveChecker(Checker checker, int distance, Board board) {
+    public boolean moveChecker(Checker checker, Color color, int distance, Board board) {
 
         Pip currentPip = checker.getPosition();
         int currentPipIndex = board.getPipIndex(currentPip);
         int newPipIndex = currentPipIndex + (checker.getDirection() * distance);
+        if (outOfBounds(newPipIndex)) {
+            return false;
+        }
 
         Pip newPip = board.getPip(newPipIndex);
+
+        int newPipStatus = checkPip(newPip, color);
+
+        if (newPipStatus == 1) {
+            return false;
+        }
+
+        if (newPipStatus == 0) {
+            Checker hitChecker = newPip.removeChecker();
+                board.increaseBar(hitChecker.getColor());
+        }
+        // Move checker
         newPip.addChecker(currentPip.removeChecker());
+        return true;
     }
 
     private boolean outOfBounds(int newPipIndex) {
