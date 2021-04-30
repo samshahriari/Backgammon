@@ -4,9 +4,7 @@ import java.util.Map;
 
 public class Board {
 
-
     private ArrayList<Pip> pips; // 0--23
-
 
     private Map<Color, Integer> bar;
 
@@ -20,7 +18,6 @@ public class Board {
         bar.put(Color.WHITE, 0);
         bar.put(Color.RED, 0);
     }
-
 
     public int getPipIndex(Pip pip) {
         return pips.indexOf(pip);
@@ -37,7 +34,4 @@ public class Board {
     public void increaseBar(Color color) {
         bar.put(color, bar.get(color) + 1);
     }
-
 }
-
-

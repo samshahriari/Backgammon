@@ -2,14 +2,12 @@ public class Checker {
 
     private Color color;
 
-
     private Pip position;
 
     public Checker(Color c, Pip pos) {
         color = c;
         position = pos;
     }
-
 
     // Prints the color of the checker instead of memory address
     @Override
@@ -32,4 +30,3 @@ public class Checker {
         return -1; // Direction for red
     }
 }
-
