@@ -12,7 +12,7 @@ public class Pip {
     private Stack<Checker> checkerStack; // holds the checkers on the pip
 
     /**
-     * Constructor for the Pip class.
+     * Create new pip.
      */
     public Pip() {
         checkerStack = new Stack<Checker>();

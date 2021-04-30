@@ -16,7 +16,7 @@ public class Board {
     private Map<Color, Integer> bar;
 
     /**
-     * Construct new board.
+     * Create new board.
      */
     public Board() {
 
@@ -33,9 +33,9 @@ public class Board {
     }
 
     /**
-     * Set up the board in its start configuration.
+     * Set up the checkers in their start configuration.
      */
-    public void setUpBoard() {
+    public void setUpCheckers() {
 
     }
 
