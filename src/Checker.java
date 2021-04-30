@@ -2,8 +2,12 @@ public class Checker {
 
     private Color color;
 
-    public Checker(Color c) {
+
+    private int position;
+
+    public Checker(Color c, int pos) {
         color = c;
+        position = pos;
     }
 
 
@@ -16,4 +20,9 @@ public class Checker {
     public Color getColor() {
         return color;
     }
+
+    public int getPosition() {
+        return position;
+    }
 }
+
