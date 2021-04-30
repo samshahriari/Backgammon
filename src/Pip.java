@@ -35,21 +35,4 @@ public class Pip {
     public String toString() {
         return checkerStack.toString();
     }
-
-    public static void main(String[] args) {
-        Pip pip = new Pip();
-        System.out.println(pip.isOccupied());
-        System.out.println(pip.getColor());
-        System.out.println(pip.isStacked());
-        pip.addChecker(new Checker(Color.RED));
-        System.out.println(pip.toString());
-        System.out.println(pip.isOccupied());
-        System.out.println(pip.getColor());
-        System.out.println(pip.isStacked());
-        pip.addChecker(new Checker(Color.RED));
-        pip.addChecker(new Checker(Color.RED));
-        System.out.println(pip.toString());
-        System.out.println(pip.isStacked());
-
-    }
 }
