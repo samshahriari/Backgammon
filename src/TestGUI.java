@@ -11,13 +11,13 @@ public class TestGUI{
 
     public static void main(String[] args) {
 
-        JFrame f = new JFrame("A JFrame"); // Titeln
-        f.setSize(250, 250);
-        f.setLocation(300,300); // Position på användarens skärm
+        JFrame f = new JFrame("A JFrame"); // Title
+        f.setSize(250, 250); // Size of window
+        f.setLocation(300,300); // Position on screen
         final JTextArea textArea = new JTextArea(10, 40);
         f.getContentPane().add(BorderLayout.CENTER, textArea);
-        final JButton button = new JButton("Click Me");
-        f.getContentPane().add(BorderLayout.SOUTH, button);
+        final JButton button = new JButton("Click Me"); // Create button
+        f.getContentPane().add(BorderLayout.SOUTH, button); // Position button
         button.addActionListener(new ActionListener() {
 
             @Override
