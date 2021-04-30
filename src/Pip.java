@@ -23,4 +23,8 @@ public class Pip {
     public boolean isStacked() {
         return checkerStack.size() > 1;
     }
+
+    public Color getColor() {
+        return checkerStack.peek().getColor();
+    }
 }

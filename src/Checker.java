@@ -1,8 +1,12 @@
 public class Checker {
 
-    private int color;
+    private Color color;
 
-    public Checker(int color) {
-        this.color = color;
+    public Checker(Color c) {
+        color = c;
+    }
+
+    public Color getColor() {
+        return color;
     }
 }
