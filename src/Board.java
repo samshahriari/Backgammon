@@ -19,3 +19,6 @@ public class Board {
     // quadrants
     // checkers
     // players
+
+
+//reuhwfoewhf
