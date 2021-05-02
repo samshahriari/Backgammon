@@ -9,13 +9,15 @@ import java.util.Stack;
  */
 public class Pip {
 
-    private Stack<Checker> checkerStack; // holds the checkers on the pip
+    private int checkerCount; // holds the checkers on the pip
+    private Color color;
 
     /**
      * Create new pip.
      */
     public Pip() {
-        checkerStack = new Stack<Checker>();
+        checkerCount = 0;
+        color = null;
     }
 
     /**
