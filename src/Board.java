@@ -30,6 +30,8 @@ public class Board {
         bar = new HashMap<>();
         bar.put(Color.WHITE, 0);
         bar.put(Color.RED, 0);
+
+        setUpCheckers();
     }
 
     /**
@@ -111,11 +113,5 @@ public class Board {
         String board = pips.toString();
 
         return board;
-    }
-
-    public static void main(String[] args) {
-        Board board = new Board();
-        board.setUpCheckers();
-        System.out.println(board.displayBoard());
     }
 }
