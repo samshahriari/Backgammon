@@ -88,6 +88,13 @@ public class Pip {
      */
     @Override
     public String toString() {
-        return checkerCount + ", " + String.valueOf(color);
+        StringBuilder sb = new StringBuilder();
+        sb.append(checkerCount);
+        if (String.valueOf(color).equals("WHITE")) {
+            sb.append("W");
+        } else if (String.valueOf(color).equals("RED")) {
+            sb.append("R");
+        }
+        return sb.toString();
     }
 }
