@@ -23,7 +23,7 @@ public class Board {
         // Create list of pips
         pips = new ArrayList<>(24);
         for (int i = 0; i < 24; i++) {
-            pips.set(i, new Pip());
+            pips.add(i, new Pip());
         }
 
         // Create bar and assign initial values 0 for RED and WHITE
