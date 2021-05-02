@@ -4,54 +4,72 @@ import java.util.Stack;
  * Class for board pips holding information about the color and number of checkers on a pip.
  * Allows for adding/removing checkers from pips.
  *
- * @author  Jordan & Sam
- * @version 2021-04-30
+ * @author Jordan & Sam
+ * @version 2021-05-02
  */
 public class Pip {
 
-    private Stack<Checker> checkerStack; // holds the checkers on the pip
+    private int checkerCount; // holds the checkers on the pip
+    private Color color;
 
     /**
      * Create new pip.
      */
     public Pip() {
-        checkerStack = new Stack<Checker>();
+        checkerCount = 0;
+        color = null;
+    }
+
+    /**
+     * Set the color and number of checkers for a pip.
+     * Overwrites the current configuration.
+     *
+     * @param cc  The number of checkers
+     * @param col The color of the checkers
+     */
+    public void setCheckers(int cc, Color col) {
+        checkerCount = cc;
+        color = col;
     }
 
     /**
      * Add a checker to the pip.
      *
-     * @param checker The checker to be added
+     * @param col The color of checker to be added
      */
-    public void addChecker(Checker checker) {
-        checkerStack.push(checker);
+    public void addChecker(Color col) {
+        checkerCount++;
+        color = col;
+    }
+
+    /**
+     * TODO: ADD JAVADOC
+     *
+     * @param col
+     * @return
+     */
+    public boolean canAdd(Color col) {
+        return (checkerCount <= 1 || color == col);
     }
 
     /**
      * Remove a checker form the pip.
-     *
-     * @return The removed checker
      */
-    public Checker removeChecker() {
-        return checkerStack.pop();
+    public void removeChecker() {
+        checkerCount--;
+        if (checkerCount <= 0) {
+            checkerCount = 0;
+            color = null;
+        }
     }
 
     /**
-     * Check if pip is occupied.
+     * TODO: ADD JAVADOC
      *
-     * @return true if pip does not contain any checkers : else false
+     * @return
      */
-    public boolean isOccupied() {
-        return !checkerStack.isEmpty();
-    }
-
-    /**
-     * Check if pip contains more than 1 checker.
-     *
-     * @return true if pip contains more than 1 checker : else false
-     */
-    public boolean isStacked() {
-        return checkerStack.size() > 1;
+    public int getCheckerCount() {
+        return checkerCount;
     }
 
     /**
@@ -60,10 +78,7 @@ public class Pip {
      * @return Color of the checker stack
      */
     public Color getColor() {
-        if (checkerStack.isEmpty()) {
-            return null;
-        }
-        return checkerStack.peek().getColor();
+        return color;
     }
 
     /**
@@ -73,6 +88,6 @@ public class Pip {
      */
     @Override
     public String toString() {
-        return checkerStack.toString();
+        return checkerCount + ", " + String.valueOf(color);
     }
 }
