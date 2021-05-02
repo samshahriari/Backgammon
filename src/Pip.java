@@ -4,7 +4,7 @@ import java.util.Stack;
  * Class for board pips holding information about the color and number of checkers on a pip.
  * Allows for adding/removing checkers from pips.
  *
- * @author  Jordan & Sam
+ * @author Jordan & Sam
  * @version 2021-04-30
  */
 public class Pip {
@@ -24,7 +24,7 @@ public class Pip {
      * Set the color and number of checkers for a pip.
      * Overwrites the current configuration.
      *
-     * @param cc The number of checkers
+     * @param cc  The number of checkers
      * @param col The color of the checkers
      */
     public void setCheckers(int cc, Color col) {
@@ -37,36 +37,26 @@ public class Pip {
      *
      * @param checker The checker to be added
      */
-    public void addChecker(Checker checker) {
-        checkerStack.push(checker);
+    public void addChecker(Color col) {
+        checkerCount++;
+        color = col;
+    }
+
+    public boolean canAdd(Color col) {
+        return (checkerCount <= 1 || color == col || color == null);
     }
 
     /**
      * Remove a checker form the pip.
-     *
-     * @return The removed checker
      */
-    public Checker removeChecker() {
-        return checkerStack.pop();
+    public void removeChecker() {
+        checkerCount--;
+        if (checkerCount <= 0) {
+            checkerCount = 0;
+            color = null;
+        }
     }
 
-    /**
-     * Check if pip is occupied.
-     *
-     * @return true if pip does not contain any checkers : else false
-     */
-    public boolean isOccupied() {
-        return !checkerStack.isEmpty();
-    }
-
-    /**
-     * Check if pip contains more than 1 checker.
-     *
-     * @return true if pip contains more than 1 checker : else false
-     */
-    public boolean isStacked() {
-        return checkerStack.size() > 1;
-    }
 
     /**
      * Check if the stack is RED or WHITE.
@@ -74,10 +64,7 @@ public class Pip {
      * @return Color of the checker stack
      */
     public Color getColor() {
-        if (checkerStack.isEmpty()) {
-            return null;
-        }
-        return checkerStack.peek().getColor();
+        return color;
     }
 
     /**
