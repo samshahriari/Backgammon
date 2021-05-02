@@ -16,13 +16,11 @@ public class Move {
      * @param board The board on which the checker is moved
      * @return True if checker was moved successfully : false if unsuccessful move
      */
-    public boolean moveChecker(Checker checker, Color color, int distance, Board board) {
+    public boolean moveChecker(Pip currentPip, int distance, Board board) {
 
-        // Get pip position of current checker
-        Pip currentPip = checker.getPosition();
-
+        Color color = currentPip.getColor();
         // Find new pip
-        Pip newPip = findNewPip(checker.getDirection(), currentPip, distance, board);
+        Pip newPip = findNewPip(getDirection(color), currentPip, distance, board);
 
         // Don't move checker if new pip is null / movement is out of bounds
         if (newPip == null) {
@@ -33,7 +31,7 @@ public class Move {
         int newPipStatus = checkPip(newPip, color);
 
         // Don't move checker if new pip has enemy stack
-        if (newPipStatus == 1) {
+        if (newPip.getColor() !=) {
             return false;
         }
 
@@ -69,6 +67,7 @@ public class Move {
      */
     private Pip findNewPip(int direction, Pip currentPip, int distance, Board board) {
         int currentPipIndex = board.getPipIndex(currentPip);
+
         // Find new pip index, taking into account the direction of travel for the specific color of checker
         int newPipIndex = currentPipIndex + (direction * distance);
         if (outOfBounds(newPipIndex)) {
@@ -86,12 +85,24 @@ public class Move {
      * @return -1 if pip is empty or ally checker, 0 if lone enemy checker, 1 if blocked by enemy stack
      */
     private int checkPip(Pip pip, Color color) {
-        if (!pip.isOccupied() || pip.getColor() == color) {
+        if (!pip.isOccupied() || pip.getColor() == color) { // pip.canAdd
             return -1;
         } else if (!pip.isStacked()) {
             return 0; // is naked and afraid
         } else {
             return 1; // is stacked
         }
+    }
+
+    /**
+     * Get the movement direction associated with a checker color.
+     * @param col The color of the checker
+     * @return int 1 for WHITE direction and -1 for RED direction
+     */
+    public int getDirection(Color col) {
+        if (col == Color.WHITE) {
+            return 1;
+        }
+        return -1; // Direction for red
     }
 }
