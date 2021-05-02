@@ -21,6 +21,18 @@ public class Pip {
     }
 
     /**
+     * Set the color and number of checkers for a pip.
+     * Overwrites the current configuration.
+     *
+     * @param cc The number of checkers
+     * @param col The color of the checkers
+     */
+    public void setCheckers(int cc, Color col) {
+        checkerCount = cc;
+        color = col;
+    }
+
+    /**
      * Add a checker to the pip.
      *
      * @param checker The checker to be added
