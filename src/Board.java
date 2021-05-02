@@ -105,4 +105,17 @@ public class Board {
     public void increaseBar(Color color) {
         bar.put(color, bar.get(color) + 1);
     }
+
+    public String displayBoard() {
+
+        String board = pips.toString();
+
+        return board;
+    }
+
+    public static void main(String[] args) {
+        Board board = new Board();
+        board.setUpCheckers();
+        System.out.println(board.displayBoard());
+    }
 }
