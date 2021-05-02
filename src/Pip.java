@@ -49,7 +49,7 @@ public class Pip {
      * @return
      */
     public boolean canAdd(Color col) {
-        return (checkerCount <= 1 || color == col || color == null);
+        return (checkerCount <= 1 || color == col);
     }
 
     /**
@@ -88,6 +88,6 @@ public class Pip {
      */
     @Override
     public String toString() {
-        return checkerCount + color.toString();
+        return checkerCount + ", " + String.valueOf(color);
     }
 }
