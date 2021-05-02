@@ -34,9 +34,37 @@ public class Board {
 
     /**
      * Set up the checkers in their start configuration.
+     *
+     * Initial checker set up
+     *
+     *      11  10  9   8   7   6   |   5   4   3   2   1   0
+     *      W               R           R                   W
+     *      W               R           R                   W
+     *      W               R           R
+     *      W                           R
+     *      W                           R
+     *
+     *
+     *      R                           W
+     *      R                           W
+     *      R               W           W
+     *      R               W           W                   R
+     *      R               W           W                   R
+     *      12  13  14  15  16  17  |   18  19  20  21  22  23
      */
     public void setUpCheckers() {
 
+        // Set up the WHITE checkers
+        pips.get(0).setCheckers(2, Color.WHITE);
+        pips.get(11).setCheckers(5, Color.WHITE);
+        pips.get(16).setCheckers(3, Color.WHITE);
+        pips.get(18).setCheckers(5, Color.WHITE);
+
+        // Set up the RED checkers
+        pips.get(5).setCheckers(5, Color.RED);
+        pips.get(7).setCheckers(3, Color.RED);
+        pips.get(12).setCheckers(5, Color.RED);
+        pips.get(23).setCheckers(2, Color.RED);
     }
 
     /**
