@@ -5,7 +5,7 @@ import java.util.Stack;
  * Allows for adding/removing checkers from pips.
  *
  * @author Jordan & Sam
- * @version 2021-04-30
+ * @version 2021-05-02
  */
 public class Pip {
 
@@ -35,13 +35,19 @@ public class Pip {
     /**
      * Add a checker to the pip.
      *
-     * @param checker The checker to be added
+     * @param col The color of checker to be added
      */
     public void addChecker(Color col) {
         checkerCount++;
         color = col;
     }
 
+    /**
+     * TODO: ADD JAVADOC
+     *
+     * @param col
+     * @return
+     */
     public boolean canAdd(Color col) {
         return (checkerCount <= 1 || color == col || color == null);
     }
@@ -57,6 +63,14 @@ public class Pip {
         }
     }
 
+    /**
+     * TODO: ADD JAVADOC
+     *
+     * @return
+     */
+    public int getCheckerCount() {
+        return checkerCount;
+    }
 
     /**
      * Check if the stack is RED or WHITE.
@@ -74,6 +88,6 @@ public class Pip {
      */
     @Override
     public String toString() {
-        return checkerStack.toString();
+        return checkerCount + color.toString();
     }
 }
