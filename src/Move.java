@@ -8,10 +8,9 @@
 public class Move {
 
     /**
-     * Move a checker a given distance on the board.
+     * Move a checker from one pip to another using a given distance.
      *
-     * @param checker The checker to move
-     * @param color The color of the checker
+     * @param currentPip The pip from which to move
      * @param distance The distance to move the checker
      * @param board The board on which the checker is moved
      * @return True if checker was moved successfully : false if unsuccessful move
@@ -19,7 +18,6 @@ public class Move {
     public boolean moveChecker(Pip currentPip, int distance, Board board) {
 
         Color color = currentPip.getColor();
-        // Find new pip
         Pip newPip = findNewPip(getDirection(color), currentPip, distance, board);
 
         // Don't move checker if new pip is null / movement is out of bounds
@@ -27,23 +25,18 @@ public class Move {
             return false;
         }
 
-        // Check what kind of interaction the checker will have with the new pip
-        int newPipStatus = checkPip(newPip, color);
+        if (newPip.canAdd(color)) {
+            if (newPip.getCheckerCount() > 0 && newPip.getColor() != color) {
+                // Hit enemy checker and send to bar
+                board.increaseBar(newPip.getColor());
+                newPip.removeChecker();
+            }
+            // Move checker to new pip
+            newPip.addChecker(color);
 
-        // Don't move checker if new pip has enemy stack
-        if (newPip.getColor() !=) {
-            return false;
+            return true;
         }
-
-        // Hit enemy checker (send to bar)
-        if (newPipStatus == 0) {
-            Checker enemyChecker = newPip.removeChecker();
-            board.increaseBar(enemyChecker.getColor());
-        }
-
-        // Move checker to new pip
-        newPip.addChecker(currentPip.removeChecker());
-        return true;
+        return false;
     }
 
     /**
@@ -74,24 +67,6 @@ public class Move {
             return null;  // movement goes off board
         }
         return board.getPip(newPipIndex);
-    }
-
-    /**
-     * Check if pip is empty, occupied by 1 enemy checker, or occupied by more than 1 enemy checkers.
-     * If pip contains multiple ally checkers pip is a valid destination.
-     *
-     * @param pip The pip to check
-     * @param color Color of ally checkers
-     * @return -1 if pip is empty or ally checker, 0 if lone enemy checker, 1 if blocked by enemy stack
-     */
-    private int checkPip(Pip pip, Color color) {
-        if (!pip.isOccupied() || pip.getColor() == color) { // pip.canAdd
-            return -1;
-        } else if (!pip.isStacked()) {
-            return 0; // is naked and afraid
-        } else {
-            return 1; // is stacked
-        }
     }
 
     /**
