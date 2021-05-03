@@ -108,10 +108,33 @@ public class Board {
         bar.put(color, bar.get(color) + 1);
     }
 
-    public String displayBoard() {
+    public void displayBoard(Game game) {
+        System.out.println("\n12 11 10 09 08 07       06 05 04 03 02 01");
+        System.out.println("-- -- -- -- -- -- B A R -- -- -- -- -- --");
+        for (int i = 11; i >= 0; i--) {
+            System.out.print(pips.get(i) + " ");
+            if (i == 6) {
+                System.out.print(" <");
+                System.out.print(bar.get(Color.WHITE));
+                System.out.print(">  ");            }
+        }
+        System.out.println("\n\n\n");
+        for (int i = 12; i < 24; i++) {
+            System.out.print(pips.get(i) + " ");
+            if (i == 17) {
+                System.out.print(" <");
+                System.out.print(bar.get(Color.RED));
+                System.out.print(">  ");
+            }
+        }
+        System.out.println();
+        System.out.println("-- -- -- -- -- -- B A R -- -- -- -- -- --");
+        System.out.println("13 14 15 16 17 18       19 20 21 22 23 24\n");
 
-        String board = pips.toString();
-
-        return board;
+        System.out.println("White checkers left:  " + game.getWhiteCheckersLeft());
+        System.out.println("White bearing off:    " + game.getBearingOffStatus(Color.WHITE));
+        System.out.println();
+        System.out.println("Red checkers left:    " + game.getRedCheckersLeft());
+        System.out.println("Red bearing off:      " + game.getBearingOffStatus(Color.RED));
     }
 }
