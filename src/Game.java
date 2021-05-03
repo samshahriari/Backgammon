@@ -23,6 +23,7 @@ public class Game {
     public Game() {
         gameOver = false;
         board = new Board();
+        move = new Move();
         playerTurn = Color.WHITE;
         whiteCheckersLeft = 15;
         redCheckersLeft = 15;
@@ -104,7 +105,19 @@ public class Game {
         return false;
     }
 
-    // TODO: Implement DICE
+    public boolean getBearingOffStatus(Color col) {
+        if (col == Color.WHITE) {
+            return whiteBearingOff;
+        } else if (col == Color.RED) {
+            return redBearingOff;
+        }
+        return false;
+    }
+
+    public void updateGameStatus() {
+        gameOver = whiteCheckersLeft == 0 || redCheckersLeft == 0;
+    }
+
     // TODO: Bear-in/off
     // TODO: Player turns
     // TODO: Bar - hitting and entering
