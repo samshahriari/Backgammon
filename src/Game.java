@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  * Game class handles all the game logic.
@@ -11,11 +12,11 @@ public class Game {
 
     private boolean gameOver;
     private Board board;
-    private Color playerTurn;
+    private Move move;
     Random rand;
+    private Color playerTurn;
     private int whiteCheckersLeft;
     private int redCheckersLeft;
-
     private boolean whiteBearingOff;
     private boolean redBearingOff;
 
@@ -27,6 +28,14 @@ public class Game {
         redCheckersLeft = 15;
         whiteBearingOff = false;
         redBearingOff = false;
+    }
+
+    public int getWhiteCheckersLeft() {
+        return whiteCheckersLeft;
+    }
+
+    public int getRedCheckersLeft() {
+        return redCheckersLeft;
     }
 
     public void nextTurn() {
@@ -54,11 +63,6 @@ public class Game {
         }
 
         return diceValues;
-    }
-
-    public static void main(String[] args) {
-        Game game = new Game();
-
     }
 
     public void updateBearingOffStatus(Color col) {
