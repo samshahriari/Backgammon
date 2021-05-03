@@ -123,5 +123,31 @@ public class Game {
     // TODO: Bar - hitting and entering
     // TODO: win/lose state
 
+    public static void main(String[] args) {
+        Game game = new Game();
+        Move move = new Move();
+        game.board.setUpCheckers();
+        game.board.displayBoard(game);
+        Scanner input = new Scanner(System.in);
 
+
+        while (!game.gameOver) {
+            System.out.print("\n< Press enter to roll dice >");
+            input.nextLine();
+            ArrayList<Integer> diceCasts = game.rollDice();
+            System.out.println();
+            System.out.println(diceCasts.toString());
+            System.out.println();
+            for (int i = 0; i < diceCasts.size(); i++) {
+                System.out.print("Enter pip to move checker from: ");
+                int pipChoice = input.nextInt();
+                while(!game.move.moveChecker(game.board.getPip(pipChoice - 1), diceCasts.get(i),
+                                      game.getBearingOffStatus(game.playerTurn), game, game.board));
+            }
+            game.board.displayBoard(game);
+            game.nextTurn();
+            game.updateGameStatus();
+        }
+
+    }
 }
