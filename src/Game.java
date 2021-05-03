@@ -89,6 +89,17 @@ public class Game {
         }
     }
 
+    public boolean decreaseCheckersLeft(Color col) {
+        if (col == Color.WHITE) {
+            whiteCheckersLeft--;
+            return true;
+        } else if (col == Color.RED) {
+            redCheckersLeft--;
+            return true;
+        }
+        return false;
+    }
+
     // TODO: Implement DICE
     // TODO: Bear-in/off
     // TODO: Player turns
