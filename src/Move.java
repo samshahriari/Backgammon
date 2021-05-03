@@ -15,7 +15,7 @@ public class Move {
      * @param board      The board on which the checker is moved
      * @return True if checker was moved successfully : false if unsuccessful move
      */
-    public boolean moveChecker(Pip currentPip, int distance, boolean bearingOff, Board board, Game game) {
+    public boolean moveChecker(Pip currentPip, int distance, boolean bearingOff, Game game, Board board) {
 
         Color color = currentPip.getColor();
         Pip newPip = findNewPip(getDirection(color), currentPip, distance, board);
