@@ -2,7 +2,7 @@
  * Class for movement of checkers on the board.
  * Manages checker hits and blocks.
  *
- * @author  Jordan & Sam
+ * @author Jordan & Sam
  * @version 2021-04-30
  */
 public class Move {
@@ -11,18 +11,41 @@ public class Move {
      * Move a checker from one pip to another using a given distance.
      *
      * @param currentPip The pip from which to move
-     * @param distance The distance to move the checker
-     * @param board The board on which the checker is moved
+     * @param distance   The distance to move the checker
+     * @param board      The board on which the checker is moved
      * @return True if checker was moved successfully : false if unsuccessful move
      */
-    public boolean moveChecker(Pip currentPip, int distance, Board board) {
+    public boolean moveChecker(Pip currentPip, int distance, boolean bearingOff, Game game, Board board) {
 
         Color color = currentPip.getColor();
         Pip newPip = findNewPip(getDirection(color), currentPip, distance, board);
 
         // Don't move checker if new pip is null / movement is out of bounds
         if (newPip == null) {
-            return false;
+            if (!bearingOff) {
+                return false;
+            }
+            int currentPipIndex = board.getPipIndex(currentPip);
+            if (currentPipIndex == distance - 1 || currentPipIndex == 24 - distance) {
+                currentPip.removeChecker();
+                game.decreaseCheckersLeft(color);
+                return true;
+            } else if (currentPipIndex < distance - 1) {
+                for (int i = currentPipIndex + 1; i < 6; i++) {
+                    if (board.getPip(i).getCheckerCount() != 0) {
+                        return false;
+                    }
+                }
+            } else if (currentPipIndex > 24 - distance) {
+                for (int i = currentPipIndex - 1; i > 17; i--) {
+                    if (board.getPip(i).getCheckerCount() != 0) {
+                        return false;
+                    }
+                }
+            }
+            currentPip.removeChecker();
+            game.decreaseCheckersLeft(color);
+            return true;
         }
 
         if (newPip.canAdd(color)) {
@@ -32,8 +55,8 @@ public class Move {
                 newPip.removeChecker();
             }
             // Move checker to new pip
+            currentPip.removeChecker();
             newPip.addChecker(color);
-
             return true;
         }
         return false;
@@ -52,10 +75,10 @@ public class Move {
     /**
      * Find the new pip.
      *
-     * @param direction 1 for WHITE movement, -1 for RED movement
+     * @param direction  1 for WHITE movement, -1 for RED movement
      * @param currentPip Pip on which the checker currently stands
-     * @param distance Movement distance as specified by die cast
-     * @param board The board
+     * @param distance   Movement distance as specified by die cast
+     * @param board      The board
      * @return The new Pip
      */
     private Pip findNewPip(int direction, Pip currentPip, int distance, Board board) {
@@ -71,6 +94,7 @@ public class Move {
 
     /**
      * Get the movement direction associated with a checker color.
+     *
      * @param col The color of the checker
      * @return int 1 for WHITE direction and -1 for RED direction
      */
