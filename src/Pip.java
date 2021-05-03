@@ -94,6 +94,8 @@ public class Pip {
             sb.append("W");
         } else if (String.valueOf(color).equals("RED")) {
             sb.append("R");
+        } else {
+            sb.append(" ");
         }
         return sb.toString();
     }
