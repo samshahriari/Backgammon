@@ -124,6 +124,7 @@ public class Game {
     // TODO: win/lose state
 
     public static void main(String[] args) {
+
         Game game = new Game();
         Move move = new Move();
         game.board.setUpCheckers();
@@ -132,19 +133,27 @@ public class Game {
 
 
         while (!game.gameOver) {
-            System.out.print("\n< Press enter to roll dice >");
+
+            System.out.print("< Press enter to roll dice >");
             input.nextLine();
             ArrayList<Integer> diceCasts = game.rollDice();
-            System.out.println();
-            System.out.println(diceCasts.toString());
-            System.out.println();
+            System.out.println("\n" + diceCasts.toString());
+
+
             for (int i = 0; i < diceCasts.size(); i++) {
-                System.out.print("Enter pip to move checker from: ");
-                int pipChoice = input.nextInt();
-                while(!game.move.moveChecker(game.board.getPip(pipChoice - 1), diceCasts.get(i),
-                                      game.getBearingOffStatus(game.playerTurn), game, game.board));
+                System.out.println("\nPlayer turn: " + game.playerTurn);
+                System.out.println("Die value:   " + diceCasts.get(i));
+                boolean moveValid = false;
+                while (!moveValid) {
+                    System.out.print("\nEnter pip to move checker from: ");
+                    int pipChoice = input.nextInt();
+                    moveValid = game.move.moveChecker(game.board.getPip(pipChoice - 1), diceCasts.get(i),
+                                game.getBearingOffStatus(game.playerTurn), game, game.board);
+
+                    game.updateBearingOffStatus(game.playerTurn);
+                    game.board.displayBoard(game);
+                }
             }
-            game.board.displayBoard(game);
             game.nextTurn();
             game.updateGameStatus();
         }
