@@ -15,28 +15,35 @@ public class Move {
      * @param board      The board on which the checker is moved
      * @return True if checker was moved successfully : false if unsuccessful move
      */
-    public boolean moveChecker(Pip currentPip, int distance, boolean bearingOff, Game game, Board board) {
+    public boolean moveChecker(Color playerColor, Pip currentPip, int distance, boolean bearingOff, Game game, Board board) {
 
         Color color = currentPip.getColor();
         Pip newPip = findNewPip(getDirection(color), currentPip, distance, board);
 
         // Don't move checker if new pip is null / movement is out of bounds
         if (newPip == null) {
+
             if (!bearingOff) {
                 return false;
             }
+
             int currentPipIndex = board.getPipIndex(currentPip);
+
             if (currentPipIndex == distance - 1 || currentPipIndex == 24 - distance) {
                 currentPip.removeChecker();
                 game.decreaseCheckersLeft(color);
                 return true;
-            } else if (currentPipIndex < distance - 1) {
+            }
+
+            else if (currentPipIndex < distance - 1) {
                 for (int i = currentPipIndex + 1; i < 6; i++) {
                     if (board.getPip(i).getCheckerCount() != 0) {
                         return false;
                     }
                 }
-            } else if (currentPipIndex > 24 - distance) {
+            }
+
+            else if (currentPipIndex > 24 - distance) {
                 for (int i = currentPipIndex - 1; i > 17; i--) {
                     if (board.getPip(i).getCheckerCount() != 0) {
                         return false;
@@ -48,7 +55,16 @@ public class Move {
             return true;
         }
 
-        if (newPip.canAdd(color)) {
+        // Do not let WHITE move RED's checkers and vice versa
+        if (color != playerColor) {
+            return false;
+        }
+        // Do not let player move from pip with no checkers
+        else if (currentPip.getCheckerCount() <= 0) {
+            return false;
+        }
+        // Otherwise, check if checker can be added to the new pip
+        else if (newPip.canAdd(color)) {
             if (newPip.getCheckerCount() > 0 && newPip.getColor() != color) {
                 // Hit enemy checker and send to bar
                 board.increaseBar(newPip.getColor());
