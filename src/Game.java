@@ -148,6 +148,7 @@ public class Game {
                     System.out.print("\nEnter pip to move checker from: ");
                     int pipChoice = input.nextInt();
 
+                    // Check that pip being moved from exists
                     if (pipChoice < 1 || pipChoice > 24) {
                         System.out.println("\n    --- PIP OUT OF BOUNDS ---");
                     } else {
