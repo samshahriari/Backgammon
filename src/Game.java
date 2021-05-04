@@ -14,7 +14,7 @@ public class Game {
     private Board board;
     private Move move;
     Random rand;
-    private Color playerTurn;
+    private Color currentPlayerColor;
     private int whiteCheckersLeft;
     private int redCheckersLeft;
     private boolean whiteBearingOff;
@@ -24,7 +24,7 @@ public class Game {
         gameOver = false;
         board = new Board();
         move = new Move();
-        playerTurn = Color.WHITE;
+        currentPlayerColor = Color.WHITE;
         whiteCheckersLeft = 15;
         redCheckersLeft = 15;
         whiteBearingOff = false;
@@ -40,10 +40,10 @@ public class Game {
     }
 
     public void nextTurn() {
-        if (playerTurn == Color.WHITE) {
-            playerTurn = Color.RED;
+        if (currentPlayerColor == Color.WHITE) {
+            currentPlayerColor = Color.RED;
         } else {
-            playerTurn = Color.WHITE;
+            currentPlayerColor = Color.WHITE;
         }
     }
 
@@ -83,7 +83,9 @@ public class Game {
                 break;
         }
         for (int i = lowerBounds; i < upperBounds; i++) {
+            if (board.getPip(i).getColor() == col) {
             checkersLeft -= board.getPip(i).getCheckerCount();
+            }
         }
         boolean bearingOffStatus = (checkersLeft == 0);
 
@@ -118,11 +120,6 @@ public class Game {
         gameOver = whiteCheckersLeft == 0 || redCheckersLeft == 0;
     }
 
-    // TODO: Bear-in/off
-    // TODO: Player turns
-    // TODO: Bar - hitting and entering
-    // TODO: win/lose state
-
     public static void main(String[] args) {
 
         Game game = new Game();
@@ -134,38 +131,53 @@ public class Game {
 
         while (!game.gameOver) {
 
+            System.out.println("\nPlayer turn: " + game.currentPlayerColor);
             System.out.print("\n< Press enter to roll dice >");
             input.nextLine();
             ArrayList<Integer> diceCasts = game.rollDice();
-            System.out.println("\nDice Values: " + diceCasts.toString());
 
+            while (diceCasts.size() > 0) {
+                System.out.println("\nDice: " + diceCasts.toString());
 
-            for (int i = 0; i < diceCasts.size(); i++) {
                 boolean moveValid = false;
                 while (!moveValid) {
-                    System.out.println("\nPlayer turn: " + game.playerTurn);
-                    System.out.println("Die value:   " + diceCasts.get(i));
+
+                    int pipChoice;
+
                     System.out.print("\nEnter pip to move checker from: ");
-                    int pipChoice = input.nextInt();
+                    pipChoice = Integer.parseInt(input.nextLine());
 
                     // Check that pip being moved from exists
                     if (pipChoice < 1 || pipChoice > 24) {
                         System.out.println("\n    --- PIP OUT OF BOUNDS ---");
-                    } else {
-                        moveValid = game.move.moveChecker(game.playerTurn, game.board.getPip(pipChoice - 1), diceCasts.get(i),
-                                game.getBearingOffStatus(game.playerTurn), game, game.board);
-                        if (!moveValid) {
-                            System.out.println("\n    --- INVALID MOVE ---");
+                    }
+                    // Check that pip being moved from is owned
+                    if (game.board.getPip(pipChoice - 1).getColor() != game.currentPlayerColor) {
+                        System.out.println("\n    --- PIP NOT OWNED ---");
+                    }
+
+                    int dieChoice = -1;
+                    while (!diceCasts.contains(dieChoice)) {
+                        System.out.print("\nDie-value options: " + diceCasts.toString() + "\nWhich die value do you wish to use?\n> ");
+                        dieChoice = Integer.parseInt(input.nextLine());
+                        if (!diceCasts.contains(dieChoice)) {
+                            System.out.println("\n    --- NO SUCH DIE VALUE ---");
                         }
                     }
 
-                    game.updateBearingOffStatus(game.playerTurn);
-                    game.board.displayBoard(game);
+                    moveValid = game.move.moveChecker(game.currentPlayerColor, game.board.getPip(pipChoice - 1), dieChoice,
+                            game.getBearingOffStatus(game.currentPlayerColor), game, game.board);
+                    if (moveValid) {
+                        diceCasts.remove(Integer.valueOf(dieChoice));
+                        game.updateBearingOffStatus(game.currentPlayerColor);
+                        game.board.displayBoard(game);
+                    } else {
+                        System.out.println("\n    --- INVALID MOVE ---");
+                    }
                 }
             }
             game.nextTurn();
             game.updateGameStatus();
         }
-
     }
 }
