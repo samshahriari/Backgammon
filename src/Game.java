@@ -134,21 +134,29 @@ public class Game {
 
         while (!game.gameOver) {
 
-            System.out.print("< Press enter to roll dice >");
+            System.out.print("\n< Press enter to roll dice >");
             input.nextLine();
             ArrayList<Integer> diceCasts = game.rollDice();
-            System.out.println("\n" + diceCasts.toString());
+            System.out.println("\nDice Values: " + diceCasts.toString());
 
 
             for (int i = 0; i < diceCasts.size(); i++) {
-                System.out.println("\nPlayer turn: " + game.playerTurn);
-                System.out.println("Die value:   " + diceCasts.get(i));
                 boolean moveValid = false;
                 while (!moveValid) {
+                    System.out.println("\nPlayer turn: " + game.playerTurn);
+                    System.out.println("Die value:   " + diceCasts.get(i));
                     System.out.print("\nEnter pip to move checker from: ");
                     int pipChoice = input.nextInt();
-                    moveValid = game.move.moveChecker(game.board.getPip(pipChoice - 1), diceCasts.get(i),
+
+                    if (pipChoice < 1 || pipChoice > 24) {
+                        System.out.println("\n    --- PIP OUT OF BOUNDS ---");
+                    } else {
+                        moveValid = game.move.moveChecker(game.playerTurn, game.board.getPip(pipChoice - 1), diceCasts.get(i),
                                 game.getBearingOffStatus(game.playerTurn), game, game.board);
+                        if (!moveValid) {
+                            System.out.println("\n    --- INVALID MOVE ---");
+                        }
+                    }
 
                     game.updateBearingOffStatus(game.playerTurn);
                     game.board.displayBoard(game);
