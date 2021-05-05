@@ -67,7 +67,7 @@ public class Pip {
      * @return
      */
     public boolean canAdd(Color col) {
-        return (checkerCount <= 1 || color == col);
+        return (checkerCount < 2 || color == col);
     }
 
     /**
