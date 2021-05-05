@@ -31,14 +31,6 @@ public class Game {
         redBearingOff = false;
     }
 
-    public int getWhiteCheckersLeft() {
-        return whiteCheckersLeft;
-    }
-
-    public int getRedCheckersLeft() {
-        return redCheckersLeft;
-    }
-
     public void nextTurn() {
         if (currentPlayerColor == Color.WHITE) {
             currentPlayerColor = Color.RED;

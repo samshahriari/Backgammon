@@ -79,17 +79,6 @@ public class Board {
         return pips.indexOf(pip);
     }
 
-    // TODO: Remove method below
-
-    /**
-     * Get the list of all the pips.
-     *
-     * @return ArrayList containing pips
-     */
-    public ArrayList<Pip> getPips() {
-        return pips;
-    }
-
     /**
      * Get the pip at a given index.
      *
