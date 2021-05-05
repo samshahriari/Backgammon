@@ -30,7 +30,6 @@ public class Pip {
     public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
     public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
-
     /**
      * Create new pip.
      */

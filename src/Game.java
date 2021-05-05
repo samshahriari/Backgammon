@@ -128,7 +128,6 @@ public class Game {
         game.board.displayBoard(game);
         Scanner input = new Scanner(System.in);
 
-
         while (!game.gameOver) {
 
             System.out.println("\nPlayer turn: " + game.currentPlayerColor);
