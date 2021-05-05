@@ -8,17 +8,17 @@
 public class Move {
 
     /**
-     * Move a checker from one pip to another according to the given distance.
+     * Move a checker from one pip to another according to the given steps.
      *
      * @param playerColor The color of the player making the move
      * @param currentPip  The pip from which to move
-     * @param distance    The distance to move the checker
+     * @param steps       The number of steps to move the checker
      * @param bearingOff  Whether or not the player is currently bearing off or not
      * @param game        The active game
      * @param board       The board on which the checker is moved
      * @return True if checker was moved successfully : false if unsuccessful move
      */
-    public boolean moveChecker(Color playerColor, Pip currentPip, int distance, boolean bearingOff, Game game, Board board) {
+    public boolean moveChecker(Color playerColor, Pip currentPip, int steps, boolean bearingOff, Game game, Board board) {
 
         // Do not let WHITE move RED's checkers and vice versa
         if (playerColor != currentPip.getColor()) {
@@ -30,7 +30,7 @@ public class Move {
         }
 
         // Find the new pip
-        Pip newPip = findNewPip(getDirection(playerColor), currentPip, distance, board);
+        Pip newPip = findNewPip(getDirection(playerColor), currentPip, steps, board);
 
         if (newPip == null) {
             // If new pip is null/out of bounds and the player is not bearing off, disallow movement
@@ -40,16 +40,17 @@ public class Move {
             // Find the current pip index
             int currentPipIndex = board.getPipIndex(currentPip);
 
-            // Check if current pip matches dice throw/distance exactly
+            // Check if current pip matches dice throw/steps exactly
             // I.e. standing on the second pip from the edge of the board and rolling a 2
-            if (currentPipIndex == distance || currentPipIndex == 25 - distance) {
+            if (currentPipIndex == steps || currentPipIndex == 25 - steps) {
                 // Bear off the checker and decrease the counter of overall checkers for that player
                 currentPip.removeChecker();
                 game.decreaseCheckersLeft(playerColor);
                 return true;
             }
             // Check if there are any checkers behind the selected pip that might stop movement (for RED bear-off)
-            else if (currentPipIndex < distance) {
+            else if (currentPipIndex < steps) {
+                // Iterate over RED's 6 home quadrant pips/indices
                 for (int i = currentPipIndex + 1; i <= 6; i++) {
                     // If there is an owned checker behind the selected pip, return false to stop movement
                     if (board.getPip(i).getCheckerCount() != 0 && board.getPip(i).getColor() == playerColor) {
@@ -58,7 +59,8 @@ public class Move {
                 }
             }
             // Check if there any checkers behind the selected pip that might stop movement (for RED bear-off)
-            else if (currentPipIndex > 24 - distance) {
+            else if (currentPipIndex > 24 - steps) {
+                // Iterate over WHITE's 6 home quadrant pips/indices
                 for (int i = currentPipIndex - 1; i >= 19; i--) {
                     // If there is an owned checker behind the selected pip, return false to stop movement
                     if (board.getPip(i).getCheckerCount() != 0 && board.getPip(i).getColor() == playerColor) {
@@ -66,6 +68,7 @@ public class Move {
                     }
                 }
             }
+
             // Bear off the checker and decrease the counter of overall checkers for that player
             currentPip.removeChecker();
             game.decreaseCheckersLeft(playerColor);
@@ -109,20 +112,20 @@ public class Move {
      *
      * @param direction  1 for WHITE movement, -1 for RED movement
      * @param currentPip Pip on which the checker currently stands
-     * @param distance   Movement distance as specified by die cast
+     * @param steps      Movement steps as specified by die cast
      * @param board      The board
      * @return The new Pip
      */
-    private Pip findNewPip(int direction, Pip currentPip, int distance, Board board) {
+    private Pip findNewPip(int direction, Pip currentPip, int steps, Board board) {
         // Get index of current pip
         int currentPipIndex = board.getPipIndex(currentPip);
         // Find index of new pip, taking into account the direction of travel for the specific color of checker
-        int newPipIndex = currentPipIndex + (direction * distance);
+        int newPipIndex = currentPipIndex + (direction * steps);
         // Check if new pip is out of bounds
         if (outOfBounds(newPipIndex)) {
             return null;  // because movement goes off board
         }
-        // return the Pip object corresponding to the new pip index
+        // Return the Pip object corresponding to the new pip index
         return board.getPip(newPipIndex);
     }
 
