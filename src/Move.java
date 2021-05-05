@@ -71,8 +71,7 @@ public class Move {
             if (newPip.getCheckerCount() > 0 && newColor != playerColor) {
 
                 // Send enemy checker to bar
-                int barIndex = board.getBarIndex(newColor);
-                Pip bar = board.getPip(barIndex);
+                Pip bar = board.getBar(newColor);
                 bar.addChecker(newColor);
 
                 // Remove hit checker
