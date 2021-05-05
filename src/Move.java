@@ -7,8 +7,6 @@
  */
 public class Move {
 
-    // TODO: Fix for bars as pips
-
     /**
      * Move a checker from one pip to another using a given distance.
      *
@@ -19,8 +17,16 @@ public class Move {
      */
     public boolean moveChecker(Color playerColor, Pip currentPip, int distance, boolean bearingOff, Game game, Board board) {
 
-        Color color = currentPip.getColor();
-        Pip newPip = findNewPip(getDirection(color), currentPip, distance, board);
+        // Do not let WHITE move RED's checkers and vice versa
+        if (playerColor != currentPip.getColor()) {
+            return false;
+        }
+        // Do not let player move from pip with no checkers
+        else if (currentPip.getCheckerCount() <= 0) {
+            return false;
+        }
+
+        Pip newPip = findNewPip(getDirection(playerColor), currentPip, distance, board);
 
         // Don't move checker if new pip is null / movement is out of bounds
         if (newPip == null) {
@@ -31,50 +37,49 @@ public class Move {
 
             int currentPipIndex = board.getPipIndex(currentPip);
 
-            if (currentPipIndex == distance - 1 || currentPipIndex == 24 - distance) {
+            if (currentPipIndex == distance || currentPipIndex == 25 - distance) {
                 currentPip.removeChecker();
-                game.decreaseCheckersLeft(color);
+                game.decreaseCheckersLeft(playerColor);
                 return true;
             }
 
-            else if (currentPipIndex < distance - 1) {
-                for (int i = currentPipIndex + 1; i < 6; i++) {
-                    if (board.getPip(i).getCheckerCount() != 0) {
+            else if (currentPipIndex < distance) {
+                for (int i = currentPipIndex + 1; i <= 6; i++) {
+                    if (board.getPip(i).getCheckerCount() != 0 && board.getPip(i).getColor() == playerColor) {
                         return false;
                     }
                 }
             }
 
             else if (currentPipIndex > 24 - distance) {
-                for (int i = currentPipIndex - 1; i > 17; i--) {
-                    if (board.getPip(i).getCheckerCount() != 0) {
+                for (int i = currentPipIndex - 1; i >= 19; i--) {
+                    if (board.getPip(i).getCheckerCount() != 0 && board.getPip(i).getColor() == playerColor) {
                         return false;
                     }
                 }
             }
             currentPip.removeChecker();
-            game.decreaseCheckersLeft(color);
+            game.decreaseCheckersLeft(playerColor);
             return true;
         }
 
-        // Do not let WHITE move RED's checkers and vice versa
-        if (color != playerColor) {
-            return false;
-        }
-        // Do not let player move from pip with no checkers
-        else if (currentPip.getCheckerCount() <= 0) {
-            return false;
-        }
-        // Otherwise, check if checker can be added to the new pip
-        else if (newPip.canAdd(color)) {
-            if (newPip.getCheckerCount() > 0 && newPip.getColor() != color) {
-                // Hit enemy checker and send to bar
-                board.increaseBar(newPip.getColor());
+        // Check if checker can be added to the new pip
+        if (newPip.canAdd(playerColor)) {
+
+            Color newColor = newPip.getColor();
+
+            if (newPip.getCheckerCount() > 0 && newColor != playerColor) {
+
+                // Send enemy checker to bar
+                Pip bar = board.getBar(newColor);
+                bar.addChecker(newColor);
+
+                // Remove hit checker
                 newPip.removeChecker();
             }
             // Move checker to new pip
             currentPip.removeChecker();
-            newPip.addChecker(color);
+            newPip.addChecker(playerColor);
             return true;
         }
         return false;
@@ -87,7 +92,7 @@ public class Move {
      * @return True if new pip index is outside of the board (not within 0-23)
      */
     private boolean outOfBounds(int newPipIndex) {
-        return newPipIndex < 0 || newPipIndex > 23;
+        return newPipIndex < 1 || newPipIndex > 24;
     }
 
     /**
