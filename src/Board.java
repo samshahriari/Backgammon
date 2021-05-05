@@ -63,12 +63,32 @@ public class Board {
         pips.get(24).setCheckers(2, Color.RED);
     }
 
-    public int getBarIndex(Color color) {
+    public int getWhiteCheckerCount() {
+        int checkerCount = 0;
+        for (int i = 1; i < 25; i++) {
+            if (pips.get(i).getColor() == Color.WHITE) {
+            checkerCount += pips.get(i).getCheckerCount();
+            }
+        }
+        return checkerCount;
+    }
+
+    public int getRedCheckerCount() {
+        int checkerCount = 0;
+        for (int i = 1; i < 25; i++) {
+            if (pips.get(i).getColor() == Color.RED) {
+            checkerCount += pips.get(i).getCheckerCount();
+            }
+        }
+        return checkerCount;
+    }
+
+    public Pip getBar(Color color) {
         int barIndex = 0;  // zero if WHITE
         if (color == Color.RED) {
             barIndex = 25;  // otherwise 25 if RED
         }
-        return barIndex;
+        return pips.get(barIndex);
     }
 
     /**
