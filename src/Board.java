@@ -61,6 +61,14 @@ public class Board {
         pips.get(24).setCheckers(2, Color.RED);
     }
 
+    public int getBarIndex(Color color) {
+        int barIndex = 0;  // zero if WHITE
+        if (color == Color.RED) {
+            barIndex = 25;  // otherwise 25 if RED
+        }
+        return barIndex;
+    }
+
     /**
      * Get the index of a pip.
      *
