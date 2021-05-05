@@ -110,11 +110,10 @@ public class Board {
 
     public void displayBoard(Game game) {
 
-        System.out.println("\nWhite checkers left:  " + game.getWhiteCheckersLeft() +
-                " White bearing off:    " + game.getBearingOffStatus(Color.WHITE));
 
-        System.out.println("\nRed checkers left:    " + game.getRedCheckersLeft() +
-                " Red bearing off:      " + game.getBearingOffStatus(Color.RED));
+        System.out.println("\n    White bearing off:  " + game.getBearingOffStatus(Color.WHITE));
+        System.out.println("\n    Red bearing off:    " + game.getBearingOffStatus(Color.RED));
+
 
         System.out.println("\n12 11 10 09 08 07         06 05 04 03 02 01");
         System.out.println("-- -- -- -- -- --  B A R  -- -- -- -- -- --");
@@ -137,6 +136,6 @@ public class Board {
         }
         System.out.println();
         System.out.println("-- -- -- -- -- --  B A R  -- -- -- -- -- --");
-        System.out.println("13 14 15 16 17 18         19 20 21 22 23 24\n");
+        System.out.println("13 14 15 16 17 18         19 20 21 22 23 24");
     }
 }
