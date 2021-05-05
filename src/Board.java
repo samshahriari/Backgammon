@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class Board {
 
-    private ArrayList<Pip> pips; // pips 0-25, bars at 0 and 25
+    private final ArrayList<Pip> pips; // pips 0-25, bars at 0 and 25
 
     /**
      * Create new board.
