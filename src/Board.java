@@ -31,20 +31,22 @@ public class Board {
      *
      * Initial checker set up
      *
-     * 11  10  9   8   7   6   |   5   4   3   2   1   0
-     * W               R           R                   W
-     * W               R           R                   W
-     * W               R           R
-     * W                           R
-     * W                           R
+     * --  --  --  --  --  --           --  --  --  --  --  --
+     * 12  11  10  09  08  07   B A R   06  05  04  03  02  01
+     * W               R         < >    R                   W
+     * W               R                R                   W
+     * W               R                R
+     * W                                R
+     * W                                R
      *
      *
-     * R                           W
-     * R                           W
-     * R               W           W
-     * R               W           W                   R
-     * R               W           W                   R
-     * 12  13  14  15  16  17  |   18  19  20  21  22  23
+     * R                               W
+     * R                               W
+     * R               W               W
+     * R               W               W                   R
+     * R               W        < >    W                   R
+     * 13  14  15  16  17  18  B A R   19  20  21  22  23  24
+     * --  --  --  --  --  --          --  --  --  --  --  --
      */
     public void setUpCheckers() {
 
