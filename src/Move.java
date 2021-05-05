@@ -7,6 +7,8 @@
  */
 public class Move {
 
+    // TODO: Fix for bars as pips
+
     /**
      * Move a checker from one pip to another using a given distance.
      *

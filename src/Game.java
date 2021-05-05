@@ -84,7 +84,7 @@ public class Game {
         }
         for (int i = lowerBounds; i < upperBounds; i++) {
             if (board.getPip(i).getColor() == col) {
-            checkersLeft -= board.getPip(i).getCheckerCount();
+                checkersLeft -= board.getPip(i).getCheckerCount();
             }
         }
         boolean bearingOffStatus = (checkersLeft == 0);

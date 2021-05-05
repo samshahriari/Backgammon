@@ -13,6 +13,8 @@ public class Board {
 
     private ArrayList<Pip> pips; // pips 0-23
 
+    // TODO: Make bars pips at index 0 and 25
+
     private Map<Color, Integer> bar;
 
     /**
@@ -108,6 +110,7 @@ public class Board {
         bar.put(color, bar.get(color) + 1);
     }
 
+    // TODO: Fix bar display
     public void displayBoard(Game game) {
 
         System.out.println("\n    White bearing off:  " + game.getBearingOffStatus(Color.WHITE));
