@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -124,7 +125,13 @@ public class Game {
 
             System.out.println("\nPlayer turn: " + game.currentPlayerColor);
             System.out.print("\n< Press enter to roll dice >");
-            input.nextLine();
+
+            try {
+                System.in.read();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             ArrayList<Integer> diceCasts = game.rollDice();
 
             while (diceCasts.size() > 0) {
@@ -133,42 +140,56 @@ public class Game {
                 boolean moveValid = false;
                 while (!moveValid) {
 
-                    int pipChoice;
+                    int pipIndex;
+                    Pip chosenPip;
 
-                    System.out.print("\nEnter pip to move checker from: ");
-                    pipChoice = Integer.parseInt(input.nextLine());
+                    Pip bar = game.board.getBar(game.currentPlayerColor);
 
-                    // Check that pip being moved from exists
-                    if (pipChoice < 1 || pipChoice > 24) {
-                        System.out.println("\n    --- PIP OUT OF BOUNDS ---");
+                    if (bar.getCheckerCount() > 0) {
+                        chosenPip = bar;
                     }
-                    // Check that pip being moved from is owned
-                    if (game.board.getPip(pipChoice - 1).getColor() != game.currentPlayerColor) {
-                        System.out.println("\n    --- PIP NOT OWNED ---");
+                    else {
+                        System.out.print("\nEnter pip to move checker from: ");
+                        pipIndex = input.nextInt();
+
+                        // Check that pip being moved from exists
+                        if (pipIndex < 1 || pipIndex > 24) {
+                            System.out.println("\n    --- PIP OUT OF BOUNDS ---");
+                            continue;
+                        }
+
+                        chosenPip = game.board.getPip(pipIndex);
+
+                        // Check that pip being moved from is owned
+                        if (chosenPip.getColor() != game.currentPlayerColor) {
+                            System.out.println("\n    --- PIP NOT OWNED ---");
+                            continue;
+                        }
                     }
 
                     int dieChoice = -1;
                     while (!diceCasts.contains(dieChoice)) {
                         System.out.print("\nDie-value options: " + diceCasts.toString() + "\nWhich die value do you wish to use?\n> ");
-                        dieChoice = Integer.parseInt(input.nextLine());
+                        dieChoice = input.nextInt();
                         if (!diceCasts.contains(dieChoice)) {
                             System.out.println("\n    --- NO SUCH DIE VALUE ---");
                         }
                     }
 
-                    moveValid = game.move.moveChecker(game.currentPlayerColor, game.board.getPip(pipChoice - 1), dieChoice,
+                    moveValid = game.move.moveChecker(game.currentPlayerColor, chosenPip, dieChoice,
                             game.getBearingOffStatus(game.currentPlayerColor), game, game.board);
+
                     if (moveValid) {
                         diceCasts.remove(Integer.valueOf(dieChoice));
                         game.updateBearingOffStatus(game.currentPlayerColor);
                         game.board.displayBoard(game);
+                        game.updateGameStatus();
                     } else {
                         System.out.println("\n    --- INVALID MOVE ---");
                     }
                 }
             }
             game.nextTurn();
-            game.updateGameStatus();
         }
     }
 }
