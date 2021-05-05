@@ -1,18 +1,21 @@
 /**
- * Class for movement of checkers on the board.
+ * Class that manages checker movement between pips on a backgammon board.
  * Manages checker hits and blocks.
  *
- * @author Jordan & Sam
- * @version 2021-04-30
+ * @author  Jordan & Sam
+ * @version 2021-05-05
  */
 public class Move {
 
     /**
-     * Move a checker from one pip to another using a given distance.
+     * Move a checker from one pip to another according to the given distance.
      *
-     * @param currentPip The pip from which to move
-     * @param distance   The distance to move the checker
-     * @param board      The board on which the checker is moved
+     * @param playerColor The color of the player making the move
+     * @param currentPip  The pip from which to move
+     * @param distance    The distance to move the checker
+     * @param bearingOff  Whether or not the player is currently bearing off or not
+     * @param game        The active game
+     * @param board       The board on which the checker is moved
      * @return True if checker was moved successfully : false if unsuccessful move
      */
     public boolean moveChecker(Color playerColor, Pip currentPip, int distance, boolean bearingOff, Game game, Board board) {
@@ -26,44 +29,50 @@ public class Move {
             return false;
         }
 
+        // Find the new pip
         Pip newPip = findNewPip(getDirection(playerColor), currentPip, distance, board);
 
-        // Don't move checker if new pip is null / movement is out of bounds
         if (newPip == null) {
-
+            // If new pip is null/out of bounds and the player is not bearing off, disallow movement
             if (!bearingOff) {
                 return false;
             }
-
+            // Find the current pip index
             int currentPipIndex = board.getPipIndex(currentPip);
 
+            // Check if current pip matches dice throw/distance exactly
+            // I.e. standing on the second pip from the edge of the board and rolling a 2
             if (currentPipIndex == distance || currentPipIndex == 25 - distance) {
+                // Bear off the checker and decrease the counter of overall checkers for that player
                 currentPip.removeChecker();
                 game.decreaseCheckersLeft(playerColor);
                 return true;
             }
-
+            // Check if there are any checkers behind the selected pip that might stop movement (for RED bear-off)
             else if (currentPipIndex < distance) {
                 for (int i = currentPipIndex + 1; i <= 6; i++) {
+                    // If there is an owned checker behind the selected pip, return false to stop movement
                     if (board.getPip(i).getCheckerCount() != 0 && board.getPip(i).getColor() == playerColor) {
                         return false;
                     }
                 }
             }
-
+            // Check if there any checkers behind the selected pip that might stop movement (for RED bear-off)
             else if (currentPipIndex > 24 - distance) {
                 for (int i = currentPipIndex - 1; i >= 19; i--) {
+                    // If there is an owned checker behind the selected pip, return false to stop movement
                     if (board.getPip(i).getCheckerCount() != 0 && board.getPip(i).getColor() == playerColor) {
                         return false;
                     }
                 }
             }
+            // Bear off the checker and decrease the counter of overall checkers for that player
             currentPip.removeChecker();
             game.decreaseCheckersLeft(playerColor);
             return true;
         }
 
-        // Check if checker can be added to the new pip
+        // Check if a checker can be added to the new pip (compare colors)
         if (newPip.canAdd(playerColor)) {
 
             Color newColor = newPip.getColor();
@@ -92,7 +101,7 @@ public class Move {
      * @return True if new pip index is outside of the board (not within 0-23)
      */
     private boolean outOfBounds(int newPipIndex) {
-        return newPipIndex < 1 || newPipIndex > 24;
+        return newPipIndex < 1 || newPipIndex > 24;  // check if pip is outside of the interval 1-24
     }
 
     /**
@@ -105,13 +114,15 @@ public class Move {
      * @return The new Pip
      */
     private Pip findNewPip(int direction, Pip currentPip, int distance, Board board) {
+        // Get index of current pip
         int currentPipIndex = board.getPipIndex(currentPip);
-
-        // Find new pip index, taking into account the direction of travel for the specific color of checker
+        // Find index of new pip, taking into account the direction of travel for the specific color of checker
         int newPipIndex = currentPipIndex + (direction * distance);
+        // Check if new pip is out of bounds
         if (outOfBounds(newPipIndex)) {
-            return null;  // movement goes off board
+            return null;  // because movement goes off board
         }
+        // return the Pip object corresponding to the new pip index
         return board.getPip(newPipIndex);
     }
 
@@ -123,8 +134,8 @@ public class Move {
      */
     public int getDirection(Color col) {
         if (col == Color.WHITE) {
-            return 1;
+            return 1;  // WHITE has direction factor 1
         }
-        return -1; // Direction for red
+        return -1; // RED has direction factor -1
     }
 }
