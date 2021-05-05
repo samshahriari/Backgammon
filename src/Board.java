@@ -6,16 +6,12 @@ import java.util.Map;
  * Class for creating and initializing a backgammon board.
  * Contains information about pips, bars, [...]
  *
- * @author Jordan & Sam
+ * @author  Jordan & Sam
  * @version 2021-04-30
  */
 public class Board {
 
-    private ArrayList<Pip> pips; // pips 0-23
-
-    // TODO: Make bars pips at index 0 and 25
-
-    private Map<Color, Integer> bar;
+    private ArrayList<Pip> pips; // pips 0-25, bars at 0 and 25
 
     /**
      * Create new board.
@@ -23,32 +19,26 @@ public class Board {
     public Board() {
 
         // Create list of pips
-        pips = new ArrayList<>(24);
-        for (int i = 0; i < 24; i++) {
+        pips = new ArrayList<>(26);
+        for (int i = 0; i < 26; i++) {
             pips.add(i, new Pip());
         }
-
-        // Create bar and assign initial values 0 for RED and WHITE
-        bar = new HashMap<>();
-        bar.put(Color.WHITE, 0);
-        bar.put(Color.RED, 0);
-
         setUpCheckers();
     }
 
     /**
      * Set up the checkers in their start configuration.
-     * <p>
+     *
      * Initial checker set up
-     * <p>
+     *
      * 11  10  9   8   7   6   |   5   4   3   2   1   0
      * W               R           R                   W
      * W               R           R                   W
      * W               R           R
      * W                           R
      * W                           R
-     * <p>
-     * <p>
+     *
+     *
      * R                           W
      * R                           W
      * R               W           W
@@ -59,16 +49,16 @@ public class Board {
     public void setUpCheckers() {
 
         // Set up the WHITE checkers
-        pips.get(0).setCheckers(2, Color.WHITE);
-        pips.get(11).setCheckers(5, Color.WHITE);
-        pips.get(16).setCheckers(3, Color.WHITE);
-        pips.get(18).setCheckers(5, Color.WHITE);
+        pips.get(1).setCheckers(2, Color.WHITE);
+        pips.get(12).setCheckers(5, Color.WHITE);
+        pips.get(17).setCheckers(3, Color.WHITE);
+        pips.get(19).setCheckers(5, Color.WHITE);
 
         // Set up the RED checkers
-        pips.get(5).setCheckers(5, Color.RED);
-        pips.get(7).setCheckers(3, Color.RED);
-        pips.get(12).setCheckers(5, Color.RED);
-        pips.get(23).setCheckers(2, Color.RED);
+        pips.get(6).setCheckers(5, Color.RED);
+        pips.get(8).setCheckers(3, Color.RED);
+        pips.get(13).setCheckers(5, Color.RED);
+        pips.get(24).setCheckers(2, Color.RED);
     }
 
     /**
@@ -80,6 +70,8 @@ public class Board {
     public int getPipIndex(Pip pip) {
         return pips.indexOf(pip);
     }
+
+    // TODO: Remove method below
 
     /**
      * Get the list of all the pips.
@@ -100,17 +92,6 @@ public class Board {
         return pips.get(index);
     }
 
-    /**
-     * Indicate a checker being hit and ending up on the bar by increasing the count of the bar corresponding
-     * to the color of the checker that was hit.
-     *
-     * @param color The color of the hit checker
-     */
-    public void increaseBar(Color color) {
-        bar.put(color, bar.get(color) + 1);
-    }
-
-    // TODO: Fix bar display
     public void displayBoard(Game game) {
 
         System.out.println("\n    White bearing off:  " + game.getBearingOffStatus(Color.WHITE));
@@ -118,20 +99,20 @@ public class Board {
 
         System.out.println("\n12 11 10 09 08 07         06 05 04 03 02 01");
         System.out.println("-- -- -- -- -- --  B A R  -- -- -- -- -- --");
-        for (int i = 11; i >= 0; i--) {
+        for (int i = 12; i >= 1; i--) {
             System.out.print(pips.get(i) + " ");
-            if (i == 6) {
+            if (i == 7) {
                 System.out.print("  " + Pip.ANSI_WHITE_BACKGROUND + Pip.ANSI_BLACK + "<");
-                System.out.print(bar.get(Color.WHITE));
+                System.out.print(pips.get(0).getCheckerCount());
                 System.out.print(">"+ Pip.ANSI_RESET + "   ");
             }
         }
         System.out.println("\n\n\n");
-        for (int i = 12; i < 24; i++) {
+        for (int i = 13; i <= 24; i++) {
             System.out.print(pips.get(i) + " ");
-            if (i == 17) {
+            if (i == 18) {
                 System.out.print("  " + Pip.ANSI_RED_BACKGROUND + Pip.ANSI_BLACK + "<");
-                System.out.print(bar.get(Color.RED));
+                System.out.print(pips.get(25).getCheckerCount());
                 System.out.print(">"+ Pip.ANSI_RESET + "   ");
             }
         }
