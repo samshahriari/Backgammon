@@ -4,9 +4,9 @@ import java.util.Random;
 import java.util.Scanner;
 
 /**
- * Game class handles all the game logic.
+ * Class for playing backgammon games. Run main to play!
  *
- * @author Jordan & Sam
+ * @author  Jordan & Sam
  * @version 2021-05-02
  */
 public class Game {
@@ -21,6 +21,9 @@ public class Game {
     private boolean whiteBearingOff;
     private boolean redBearingOff;
 
+    /**
+     * TODO
+     */
     public Game() {
         gameOver = false;
         board = new Board();
@@ -32,6 +35,9 @@ public class Game {
         updateBearingOffStatus(Color.RED);
     }
 
+    /**
+     * TODO
+     */
     public void nextTurn() {
         if (currentPlayerColor == Color.WHITE) {
             currentPlayerColor = Color.RED;
@@ -40,6 +46,11 @@ public class Game {
         }
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     public ArrayList<Integer> rollDice() {
         rand = new Random();
 
@@ -59,6 +70,11 @@ public class Game {
         return diceValues;
     }
 
+    /**
+     * TODO
+     *
+     * @param col
+     */
     public void updateBearingOffStatus(Color col) {
         int lowerBounds = -1;
         int upperBounds = -1;
@@ -89,6 +105,12 @@ public class Game {
         }
     }
 
+    /**
+     * TODO
+     *
+     * @param col
+     * @return
+     */
     public boolean decreaseCheckersLeft(Color col) {
         if (col == Color.WHITE) {
             whiteCheckersLeft--;
@@ -100,6 +122,12 @@ public class Game {
         return false;
     }
 
+    /**
+     * TODO
+     *
+     * @param col
+     * @return
+     */
     public boolean getBearingOffStatus(Color col) {
         if (col == Color.WHITE) {
             return whiteBearingOff;
@@ -109,10 +137,18 @@ public class Game {
         return false;
     }
 
+    /**
+     * TODO
+     */
     public void updateGameStatus() {
         gameOver = whiteCheckersLeft == 0 || redCheckersLeft == 0;
     }
 
+    /**
+     * TODO
+     *
+     * @param args
+     */
     public static void main(String[] args) {
 
         Game game = new Game();
