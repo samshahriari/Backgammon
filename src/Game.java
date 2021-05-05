@@ -25,10 +25,10 @@ public class Game {
         board = new Board();
         move = new Move();
         currentPlayerColor = Color.WHITE;
-        whiteCheckersLeft = 15;
-        redCheckersLeft = 15;
-        whiteBearingOff = false;
-        redBearingOff = false;
+        whiteCheckersLeft = board.getWhiteCheckerCount();
+        redCheckersLeft = board.getRedCheckerCount();
+        updateBearingOffStatus(Color.WHITE);
+        updateBearingOffStatus(Color.RED);
     }
 
     public void nextTurn() {
@@ -61,16 +61,16 @@ public class Game {
     public void updateBearingOffStatus(Color col) {
         int lowerBounds = -1;
         int upperBounds = -1;
-        int checkersLeft = 15;
+        int checkersLeft = -1;
         switch (col) {
             case WHITE:
-                lowerBounds = 18;
-                upperBounds = 24;
+                lowerBounds = 19;
+                upperBounds = 25;
                 checkersLeft = whiteCheckersLeft;
                 break;
             case RED:
-                lowerBounds = 0;
-                upperBounds = 6;
+                lowerBounds = 1;
+                upperBounds = 7;
                 checkersLeft = redCheckersLeft;
                 break;
         }
