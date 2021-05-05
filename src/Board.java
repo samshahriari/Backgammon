@@ -6,7 +6,7 @@ import java.util.Map;
  * Class for creating and initializing a backgammon board.
  * Contains information about pips, bars, [...]
  *
- * @author  Jordan & Sam
+ * @author Jordan & Sam
  * @version 2021-04-30
  */
 public class Board {
@@ -36,23 +36,23 @@ public class Board {
 
     /**
      * Set up the checkers in their start configuration.
-     *
+     * <p>
      * Initial checker set up
-     *
-     *      11  10  9   8   7   6   |   5   4   3   2   1   0
-     *      W               R           R                   W
-     *      W               R           R                   W
-     *      W               R           R
-     *      W                           R
-     *      W                           R
-     *
-     *
-     *      R                           W
-     *      R                           W
-     *      R               W           W
-     *      R               W           W                   R
-     *      R               W           W                   R
-     *      12  13  14  15  16  17  |   18  19  20  21  22  23
+     * <p>
+     * 11  10  9   8   7   6   |   5   4   3   2   1   0
+     * W               R           R                   W
+     * W               R           R                   W
+     * W               R           R
+     * W                           R
+     * W                           R
+     * <p>
+     * <p>
+     * R                           W
+     * R                           W
+     * R               W           W
+     * R               W           W                   R
+     * R               W           W                   R
+     * 12  13  14  15  16  17  |   18  19  20  21  22  23
      */
     public void setUpCheckers() {
 
@@ -110,25 +110,28 @@ public class Board {
 
     public void displayBoard(Game game) {
 
+
         System.out.println("\n    White bearing off:  " + game.getBearingOffStatus(Color.WHITE));
         System.out.println("\n    Red bearing off:    " + game.getBearingOffStatus(Color.RED));
+
 
         System.out.println("\n12 11 10 09 08 07         06 05 04 03 02 01");
         System.out.println("-- -- -- -- -- --  B A R  -- -- -- -- -- --");
         for (int i = 11; i >= 0; i--) {
             System.out.print(pips.get(i) + " ");
             if (i == 6) {
-                System.out.print("  <");
+                System.out.print("  " + Pip.ANSI_WHITE_BACKGROUND + Pip.ANSI_BLACK + "<");
                 System.out.print(bar.get(Color.WHITE));
-                System.out.print(">   ");            }
+                System.out.print(">"+ Pip.ANSI_RESET + "   ");
+            }
         }
         System.out.println("\n\n\n");
         for (int i = 12; i < 24; i++) {
             System.out.print(pips.get(i) + " ");
             if (i == 17) {
-                System.out.print("  <");
+                System.out.print("  " + Pip.ANSI_RED_BACKGROUND + Pip.ANSI_BLACK + "<");
                 System.out.print(bar.get(Color.RED));
-                System.out.print(">   ");
+                System.out.print(">"+ Pip.ANSI_RESET + "   ");
             }
         }
         System.out.println();
