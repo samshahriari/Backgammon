@@ -1,5 +1,3 @@
-import java.util.Stack;
-
 /**
  * Class for board pips holding information about the color and number of checkers on a pip.
  * Allows for adding/removing checkers from pips.
