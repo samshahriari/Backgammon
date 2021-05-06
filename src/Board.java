@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 /**
  * Class for creating and initializing a backgammon board.
- * Contains information about pips, bars, [...]
+ * Contains information about pips and prints the board.
  *
  * @author  Jordan & Sam
  * @version 2021-05-06
