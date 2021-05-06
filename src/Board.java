@@ -113,8 +113,8 @@ public class Board {
 
     public void displayBoard(Game game) {
 
-        System.out.println("\n    WBO:  " + game.getBearingOffStatus(Color.WHITE));
-        System.out.println("    RBO:    " + game.getBearingOffStatus(Color.RED));
+        System.out.println("\nWBO: " + game.getBearingOffStatus(Color.WHITE));
+        System.out.println("RBO: " + game.getBearingOffStatus(Color.RED));
 
         System.out.println("\n12 11 10 09 08 07         06 05 04 03 02 01");
         System.out.println("-- -- -- -- -- --  B A R  -- -- -- -- -- --");
