@@ -3,13 +3,14 @@
  * Allows for adding/removing checkers from pips.
  *
  * @author Jordan & Sam
- * @version 2021-05-02
+ * @version 2021-05-05
  */
 public class Pip {
 
     private int checkerCount; // holds the checkers on the pip
     private Color color;
 
+    // Color codes for printing to the terminal
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
     public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
@@ -46,10 +47,15 @@ public class Pip {
     }
 
     /**
-     * TODO: ADD JAVADOC
+     * Check if a checker can be added to the pip.
      *
-     * @param col
-     * @return
+     * A checker can be added if one of these criterion is met:
+     *      - the pip is empty
+     *      - the pip contains one checker
+     *      - the pip contains checkers of the same color as the one to be added
+     *
+     * @param col The color of the checker to be moved
+     * @return True if the checker can be added to the pip : False otherwise
      */
     public boolean canAdd(Color col) {
         return (checkerCount < 2 || color == col);
@@ -67,9 +73,9 @@ public class Pip {
     }
 
     /**
-     * TODO: ADD JAVADOC
+     * Get the checker count of the pip.
      *
-     * @return
+     * @return the number of checkers in the pip
      */
     public int getCheckerCount() {
         return checkerCount;
@@ -85,26 +91,26 @@ public class Pip {
     }
 
     /**
-     * Print the checker stack.
+     * Print the number and color of checkers in the pip.
      *
-     * @return String representation of the checker stack
+     * @return String representation of the pip
      */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(checkerCount);
         if (String.valueOf(color).equals("WHITE")) {
-            sb.insert(0, ANSI_WHITE_BACKGROUND);
+            sb.insert(0, ANSI_WHITE_BACKGROUND); // change the background color to white
             sb.insert(0, ANSI_BLACK);
             sb.append("W");
             sb.append(ANSI_RESET);
         } else if (String.valueOf(color).equals("RED")) {
-            sb.insert(0, ANSI_RED_BACKGROUND);
+            sb.insert(0, ANSI_RED_BACKGROUND); // change the background color to red
             sb.insert(0, ANSI_BLACK);
             sb.append("R");
             sb.append(ANSI_RESET);
         } else {
-            return "  ";
+            return "  "; // return a string with whitespace if the pip is empty
         }
         return sb.toString();
     }
