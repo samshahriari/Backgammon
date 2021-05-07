@@ -1,9 +1,11 @@
+import java.util.ArrayList;
+
 /**
  * Class that manages checker movement between pips on a backgammon board.
  * Manages checker hits and blocks.
  *
  * @author  Jordan & Sam
- * @version 2021-05-05
+ * @version 2021-05-07
  */
 public class Move {
 
@@ -19,15 +21,68 @@ public class Move {
      * @return True if checker was moved successfully : false if unsuccessful move
      */
     public boolean moveChecker(Color playerColor, Pip currentPip, int steps, boolean bearingOff, Game game, Board board) {
+        // Get the movement type (-1, 0, 1, 2) to determine how the checker will interact with other checkers or the board
+        int moveType = checkMoveType(playerColor, currentPip, steps, bearingOff, board);
 
-        // Do not let WHITE move RED's checkers and vice versa
-        if (playerColor != currentPip.getColor()) {
-            return false;
+        // Find the new pip
+        Pip newPip = findNewPip(getDirection(playerColor), currentPip, steps, board);
+
+        switch (moveType) {
+            case 0:
+                // Move checker to new pip
+                currentPip.removeChecker();
+                newPip.addChecker(playerColor);
+                return true;
+            case 1:
+                Color newColor = newPip.getColor();
+                // Send enemy checker to bar
+                Pip bar = board.getBar(newColor);
+                bar.addChecker(newColor);
+                // Remove hit checker
+                newPip.removeChecker();
+                // Move checker to new pip
+                currentPip.removeChecker();
+                newPip.addChecker(playerColor);
+                return true;
+            case 2:
+                // Bear off the checker and decrease the counter of overall checkers for that player
+                currentPip.removeChecker();
+                game.decreaseCheckersLeft(playerColor);
+                return true;
         }
-        // Do not let player move from pip with no checkers
-        else if (currentPip.getCheckerCount() <= 0) {
-            return false;
+        return false;  // for moveType == -1
+    }
+
+    /**
+     * Check move types for all dice values (calls checkMoveType).
+     *
+     * @param playerColor The current player's color
+     * @param currentPip  The pip that a checker is being moved from
+     * @param diceValues  All dice values for a player
+     * @param bearingOff  Whether a player is bearing off or not
+     * @param board       The backgammon board being played on
+     * @return True if any of the dice values are playable : false if no moves are possible
+     */
+    public boolean canMove(Color playerColor, Pip currentPip, ArrayList<Integer> diceValues, boolean bearingOff, Board board) {
+        for (Integer die : diceValues) {
+            if (checkMoveType(playerColor, currentPip, die, bearingOff, board) != -1) {
+                return true;
+            }
         }
+        return false;
+    }
+
+    /**
+     * Identify the type of move being played (i.e. invalid move, regular move, hit, or bearing off).
+     *
+     * @param playerColor The current player's color
+     * @param currentPip  The pip that a checker is being moved from
+     * @param steps       The number of steps to move the checker
+     * @param bearingOff  Whether a player is bearing off or not
+     * @param board       The backgammon board being played on
+     * @return -1 if no movement possible, 0 for regular move, 1 for hit, and 2 for bearing off
+     */
+    private int checkMoveType(Color playerColor, Pip currentPip, int steps, boolean bearingOff, Board board) {
 
         // Find the new pip
         Pip newPip = findNewPip(getDirection(playerColor), currentPip, steps, board);
@@ -35,7 +90,7 @@ public class Move {
         if (newPip == null) {
             // If new pip is null/out of bounds and the player is not bearing off, disallow movement
             if (!bearingOff) {
-                return false;
+                return -1;  // no move possible
             }
             // Find the current pip index
             int currentPipIndex = board.getPipIndex(currentPip);
@@ -43,10 +98,7 @@ public class Move {
             // Check if current pip matches dice throw/steps exactly
             // I.e. standing on the second pip from the edge of the board and rolling a 2
             if (currentPipIndex == steps || currentPipIndex == 25 - steps) {
-                // Bear off the checker and decrease the counter of overall checkers for that player
-                currentPip.removeChecker();
-                game.decreaseCheckersLeft(playerColor);
-                return true;
+                return 2;  // move bears checker off
             }
             // Check if there are any checkers behind the selected pip that might stop movement (for RED bear-off)
             else if (currentPipIndex < steps) {
@@ -54,7 +106,7 @@ public class Move {
                 for (int i = currentPipIndex + 1; i <= 6; i++) {
                     // If there is an owned checker behind the selected pip, return false to stop movement
                     if (board.getPip(i).getCheckerCount() != 0 && board.getPip(i).getColor() == playerColor) {
-                        return false;
+                        return -1;  // no move possible
                     }
                 }
             }
@@ -64,15 +116,11 @@ public class Move {
                 for (int i = currentPipIndex - 1; i >= 19; i--) {
                     // If there is an owned checker behind the selected pip, return false to stop movement
                     if (board.getPip(i).getCheckerCount() != 0 && board.getPip(i).getColor() == playerColor) {
-                        return false;
+                        return -1;  // no move possible
                     }
                 }
             }
-
-            // Bear off the checker and decrease the counter of overall checkers for that player
-            currentPip.removeChecker();
-            game.decreaseCheckersLeft(playerColor);
-            return true;
+            return 2;  // move bears checker off
         }
 
         // Check if a checker can be added to the new pip (compare colors)
@@ -81,20 +129,11 @@ public class Move {
             Color newColor = newPip.getColor();
 
             if (newPip.getCheckerCount() > 0 && newColor != playerColor) {
-
-                // Send enemy checker to bar
-                Pip bar = board.getBar(newColor);
-                bar.addChecker(newColor);
-
-                // Remove hit checker
-                newPip.removeChecker();
+                return 1;  // move hits enemy
             }
-            // Move checker to new pip
-            currentPip.removeChecker();
-            newPip.addChecker(playerColor);
-            return true;
+            return 0;  // regular move *no hit*
         }
-        return false;
+        return -1;  // no move possible
     }
 
     /**

@@ -7,7 +7,7 @@ import java.util.Scanner;
  * Class for playing backgammon games. Run main to play!
  *
  * @author  Jordan & Sam
- * @version 2021-05-02
+ * @version 2021-05-07
  */
 public class Game {
 
@@ -176,7 +176,7 @@ public class Game {
             ArrayList<Integer> diceCasts = game.rollDice();
 
             // Loop as long as there are moves to make
-            while (diceCasts.size() > 0) {
+            while (diceCasts.size() > 0 && !game.gameOver) {
                 // Print dice values
                 System.out.println("\nDice: " + diceCasts.toString());
                 // Loop until the player has made a valid move
@@ -184,11 +184,13 @@ public class Game {
                 while (!moveValid) {
                     int pipIndex;
                     Pip chosenPip;
+                    boolean isBar = false;
                     // Get the bar for the current player
                     Pip bar = game.board.getBar(game.currentPlayerColor);
                     // If the bar has a checker on it, force the player to play that checker first
                     if (bar.getCheckerCount() > 0) {
                         chosenPip = bar;
+                        isBar = true;
                     }
                     else {
                         // Ask player to choose a pip to move a checker from
@@ -208,6 +210,24 @@ public class Game {
                             continue;
                         }
                     }
+                    // Check if checker can move
+                    if (!game.move.canMove(game.currentPlayerColor, chosenPip, diceCasts,
+                            game.getBearingOffStatus(game.currentPlayerColor), game.board)) {
+                        // End turn if checker is on bar and there are no valid moves
+                        if (isBar) {
+                            diceCasts.clear();
+                            moveValid = true;
+                        } else {
+                            System.out.println("No valid movement for pip. \nEnd turn? (y/n)");
+                            String turnChoice = input.next().toLowerCase().trim();
+                            // If player decides to end turn, the turn will end
+                            if (turnChoice.equals("y") || turnChoice.equals("yes")) {
+                                diceCasts.clear();
+                                moveValid = true;
+                            }
+                        }
+                        continue;
+                    }
                     // Loop until player makes a valid movement choice
                     int dieChoice = -1;
                     while (!diceCasts.contains(dieChoice)) {
@@ -224,7 +244,8 @@ public class Game {
                     // If the move is valid, remove the used dice value, and update the game/board
                     if (moveValid) {
                         diceCasts.remove(Integer.valueOf(dieChoice));
-                        game.updateBearingOffStatus(game.currentPlayerColor);
+                        game.updateBearingOffStatus(Color.WHITE);
+                        game.updateBearingOffStatus(Color.RED);
                         game.board.displayBoard(game);
                         game.updateGameStatus();
                     } else {
