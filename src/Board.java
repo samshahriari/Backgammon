@@ -69,7 +69,7 @@ public class Board {
      */
     public int getWhiteCheckerCount() {
         int checkerCount = 0;
-        for (int i = 1; i < 25; i++) {
+        for (int i = 0; i < 26; i++) {
             if (pips.get(i).getColor() == Color.WHITE) {
             checkerCount += pips.get(i).getCheckerCount();
             }
@@ -84,7 +84,7 @@ public class Board {
      */
     public int getRedCheckerCount() {
         int checkerCount = 0;
-        for (int i = 1; i < 25; i++) {
+        for (int i = 0; i < 26; i++) {
             if (pips.get(i).getColor() == Color.RED) {
             checkerCount += pips.get(i).getCheckerCount();
             }
