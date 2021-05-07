@@ -184,11 +184,13 @@ public class Game {
                 while (!moveValid) {
                     int pipIndex;
                     Pip chosenPip;
+                    boolean isBar = false;
                     // Get the bar for the current player
                     Pip bar = game.board.getBar(game.currentPlayerColor);
                     // If the bar has a checker on it, force the player to play that checker first
                     if (bar.getCheckerCount() > 0) {
                         chosenPip = bar;
+                        isBar = true;
                     }
                     else {
                         // Ask player to choose a pip to move a checker from
@@ -207,6 +209,24 @@ public class Game {
                             System.out.println("\n    --- PIP NOT OWNED ---");
                             continue;
                         }
+
+                    }
+                    // Check if checkers can move from chosen pip
+                    if (!game.move.canMove(chosenPip, diceCasts)) {
+                        // End turn if checker is on bar and there are no valid moves
+                        if (isBar) {
+                            diceCasts.clear();
+                            moveValid = true;
+                        } else {
+                            System.out.println("No valid movement for pip. \nEnd turn? (y/n)");
+                            String turnChoice = input.next().toLowerCase().trim();
+                            // If player decides to end turn, the turn will end
+                            if (turnChoice.equals("y") || turnChoice.equals("yes")) {
+                                diceCasts.clear();
+                                moveValid = true;
+                            }
+                        }
+                        continue;
                     }
                     // Loop until player makes a valid movement choice
                     int dieChoice = -1;
