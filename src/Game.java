@@ -212,7 +212,7 @@ public class Game {
 
                     }
                     // Check if checkers can move from chosen pip
-                    if (!game.move.canMove(chosenPip, diceCasts)) {
+                    if (!game.move.canMove(chosenPip, diceCasts, game.board)) {
                         // End turn if checker is on bar and there are no valid moves
                         if (isBar) {
                             diceCasts.clear();

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Class that manages checker movement between pips on a backgammon board.
  * Manages checker hits and blocks.
@@ -141,4 +143,13 @@ public class Move {
         }
         return -1; // RED has direction factor -1
     }
+
+    public boolean canMove(Pip chosenPip, ArrayList<Integer> diceCasts, Board board) {
+        Color col = chosenPip.getColor();
+        int direction = getDirection(col);
+        for (Integer die : diceCasts) {
+            Pip newPip = findNewPip(direction, chosenPip, die, board);
+        }
+    }
+
 }
