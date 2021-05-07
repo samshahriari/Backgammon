@@ -209,10 +209,10 @@ public class Game {
                             System.out.println("\n    --- PIP NOT OWNED ---");
                             continue;
                         }
-
                     }
-                    // Check if checkers can move from chosen pip
-                    if (!game.move.canMove(chosenPip, diceCasts, game.board)) {
+                    // Check if checker can move
+                    if (!game.move.canMove(game.currentPlayerColor, chosenPip, diceCasts,
+                            game.getBearingOffStatus(game.currentPlayerColor), game.board)) {
                         // End turn if checker is on bar and there are no valid moves
                         if (isBar) {
                             diceCasts.clear();
