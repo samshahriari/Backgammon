@@ -7,7 +7,7 @@ import java.util.Scanner;
  * Class for playing backgammon games. Run main to play!
  *
  * @author  Jordan & Sam
- * @version 2021-05-02
+ * @version 2021-05-07
  */
 public class Game {
 
@@ -244,7 +244,8 @@ public class Game {
                     // If the move is valid, remove the used dice value, and update the game/board
                     if (moveValid) {
                         diceCasts.remove(Integer.valueOf(dieChoice));
-                        game.updateBearingOffStatus(game.currentPlayerColor);
+                        game.updateBearingOffStatus(Color.WHITE);
+                        game.updateBearingOffStatus(Color.RED);
                         game.board.displayBoard(game);
                         game.updateGameStatus();
                     } else {
