@@ -176,7 +176,7 @@ public class Game {
             ArrayList<Integer> diceCasts = game.rollDice();
 
             // Loop as long as there are moves to make
-            while (diceCasts.size() > 0) {
+            while (diceCasts.size() > 0 && !game.gameOver) {
                 // Print dice values
                 System.out.println("\nDice: " + diceCasts.toString());
                 // Loop until the player has made a valid move
