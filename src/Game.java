@@ -257,5 +257,9 @@ public class Game {
             // Switch player at the end of the current players turn
             game.nextTurn();
         }
+
+        // Print the winner
+        game.nextTurn();
+        System.out.println("\n    --- GAME OVER --- \n\n" + "    "+game.currentPlayerColor + " player won!");
     }
 }
