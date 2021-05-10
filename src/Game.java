@@ -156,110 +156,110 @@ public class Game {
     /**
      * Run the game.
      */
-    public static void main(String[] args) {
-        // Start new game
-        Game game = new Game();
-        game.board.displayBoard(game);
-        Scanner input = new Scanner(System.in);
-
-        while (!game.gameOver) {
-
-            System.out.println("\nPlayer turn: " + game.currentPlayerColor);
-            System.out.print("\n< Press enter to roll dice >");
-            // Read in enter line
-            try {
-                System.in.read();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            // Get dice values for dice roll
-            ArrayList<Integer> diceCasts = game.rollDice();
-
-            // Loop as long as there are moves to make
-            while (diceCasts.size() > 0 && !game.gameOver) {
-                // Print dice values
-                System.out.println("\nDice: " + diceCasts.toString());
-                // Loop until the player has made a valid move
-                boolean moveValid = false;
-                while (!moveValid) {
-                    int pipIndex;
-                    Pip chosenPip;
-                    boolean isBar = false;
-                    // Get the bar for the current player
-                    Pip bar = game.board.getBar(game.currentPlayerColor);
-                    // If the bar has a checker on it, force the player to play that checker first
-                    if (bar.getCheckerCount() > 0) {
-                        chosenPip = bar;
-                        isBar = true;
-                    }
-                    else {
-                        // Ask player to choose a pip to move a checker from
-                        System.out.print("\nEnter pip to move checker from: ");
-                        pipIndex = input.nextInt();
-                        // Check that the pip being moved from is on the board
-                        if (pipIndex < 1 || pipIndex > 24) {
-                            System.out.println("\n    --- PIP OUT OF BOUNDS ---");
-                            continue;
-                        }
-                        // Use input as an index to retrieve the corresponding Pip object
-                        chosenPip = game.board.getPip(pipIndex);
-
-                        // Check that pip being moved from is owned
-                        if (chosenPip.getColor() != game.currentPlayerColor) {
-                            System.out.println("\n    --- PIP NOT OWNED ---");
-                            continue;
-                        }
-                    }
-                    // Check if checker can move
-                    if (!game.move.canMove(game.currentPlayerColor, chosenPip, diceCasts,
-                            game.getBearingOffStatus(game.currentPlayerColor), game.board)) {
-                        // End turn if checker is on bar and there are no valid moves
-                        if (isBar) {
-                            diceCasts.clear();
-                            moveValid = true;
-                        } else {
-                            System.out.println("No valid movement for pip. \nEnd turn? (y/n)");
-                            String turnChoice = input.next().toLowerCase().trim();
-                            // If player decides to end turn, the turn will end
-                            if (turnChoice.equals("y") || turnChoice.equals("yes")) {
-                                diceCasts.clear();
-                                moveValid = true;
-                            }
-                        }
-                        continue;
-                    }
-                    // Loop until player makes a valid movement choice
-                    int dieChoice = -1;
-                    while (!diceCasts.contains(dieChoice)) {
-                        System.out.print("\nDie-value options: " + diceCasts.toString() + "\nWhich die value do you wish to use?\n> ");
-                        dieChoice = input.nextInt();
-                        // If player makes invalid choice, print error message
-                        if (!diceCasts.contains(dieChoice)) {
-                            System.out.println("\n    --- NO SUCH DIE VALUE ---");
-                        }
-                    }
-                    // Retrieve verdict on whether the move is valid or not
-                    moveValid = game.move.moveChecker(game.currentPlayerColor, chosenPip, dieChoice,
-                            game.getBearingOffStatus(game.currentPlayerColor), game, game.board);
-                    // If the move is valid, remove the used dice value, and update the game/board
-                    if (moveValid) {
-                        diceCasts.remove(Integer.valueOf(dieChoice));
-                        game.updateBearingOffStatus(Color.WHITE);
-                        game.updateBearingOffStatus(Color.RED);
-                        game.board.displayBoard(game);
-                        game.updateGameStatus();
-                    } else {
-                        // If the move was invalid, print error message
-                        System.out.println("\n    --- INVALID MOVE ---");
-                    }
-                }
-            }
-            // Switch player at the end of the current players turn
-            game.nextTurn();
-        }
-
-        // Print the winner
-        game.nextTurn();
-        System.out.println("\n    --- GAME OVER --- \n\n" + "    "+game.currentPlayerColor + " player won!");
-    }
+//    public static void main(String[] args) {
+//        // Start new game
+//        Game game = new Game();
+//        game.board.displayBoard(game);
+//        Scanner input = new Scanner(System.in);
+//
+//        while (!game.gameOver) {
+//
+//            System.out.println("\nPlayer turn: " + game.currentPlayerColor);
+//            System.out.print("\n< Press enter to roll dice >");
+//            // Read in enter line
+//            try {
+//                System.in.read();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            // Get dice values for dice roll
+//            ArrayList<Integer> diceCasts = game.rollDice();
+//
+//            // Loop as long as there are moves to make
+//            while (diceCasts.size() > 0 && !game.gameOver) {
+//                // Print dice values
+//                System.out.println("\nDice: " + diceCasts.toString());
+//                // Loop until the player has made a valid move
+//                boolean moveValid = false;
+//                while (!moveValid) {
+//                    int pipIndex;
+//                    Pip chosenPip;
+//                    boolean isBar = false;
+//                    // Get the bar for the current player
+//                    Pip bar = game.board.getBar(game.currentPlayerColor);
+//                    // If the bar has a checker on it, force the player to play that checker first
+//                    if (bar.getCheckerCount() > 0) {
+//                        chosenPip = bar;
+//                        isBar = true;
+//                    }
+//                    else {
+//                        // Ask player to choose a pip to move a checker from
+//                        System.out.print("\nEnter pip to move checker from: ");
+//                        pipIndex = input.nextInt();
+//                        // Check that the pip being moved from is on the board
+//                        if (pipIndex < 1 || pipIndex > 24) {
+//                            System.out.println("\n    --- PIP OUT OF BOUNDS ---");
+//                            continue;
+//                        }
+//                        // Use input as an index to retrieve the corresponding Pip object
+//                        chosenPip = game.board.getPip(pipIndex);
+//
+//                        // Check that pip being moved from is owned
+//                        if (chosenPip.getColor() != game.currentPlayerColor) {
+//                            System.out.println("\n    --- PIP NOT OWNED ---");
+//                            continue;
+//                        }
+//                    }
+//                    // Check if checker can move
+//                    if (!game.move.canMove(game.currentPlayerColor, chosenPip, diceCasts,
+//                            game.getBearingOffStatus(game.currentPlayerColor), game.board)) {
+//                        // End turn if checker is on bar and there are no valid moves
+//                        if (isBar) {
+//                            diceCasts.clear();
+//                            moveValid = true;
+//                        } else {
+//                            System.out.println("No valid movement for pip. \nEnd turn? (y/n)");
+//                            String turnChoice = input.next().toLowerCase().trim();
+//                            // If player decides to end turn, the turn will end
+//                            if (turnChoice.equals("y") || turnChoice.equals("yes")) {
+//                                diceCasts.clear();
+//                                moveValid = true;
+//                            }
+//                        }
+//                        continue;
+//                    }
+//                    // Loop until player makes a valid movement choice
+//                    int dieChoice = -1;
+//                    while (!diceCasts.contains(dieChoice)) {
+//                        System.out.print("\nDie-value options: " + diceCasts.toString() + "\nWhich die value do you wish to use?\n> ");
+//                        dieChoice = input.nextInt();
+//                        // If player makes invalid choice, print error message
+//                        if (!diceCasts.contains(dieChoice)) {
+//                            System.out.println("\n    --- NO SUCH DIE VALUE ---");
+//                        }
+//                    }
+//                    // Retrieve verdict on whether the move is valid or not
+//                    moveValid = game.move.moveChecker(game.currentPlayerColor, chosenPip, dieChoice,
+//                            game.getBearingOffStatus(game.currentPlayerColor), game, game.board);
+//                    // If the move is valid, remove the used dice value, and update the game/board
+//                    if (moveValid) {
+//                        diceCasts.remove(Integer.valueOf(dieChoice));
+//                        game.updateBearingOffStatus(Color.WHITE);
+//                        game.updateBearingOffStatus(Color.RED);
+//                        game.board.displayBoard(game);
+//                        game.updateGameStatus();
+//                    } else {
+//                        // If the move was invalid, print error message
+//                        System.out.println("\n    --- INVALID MOVE ---");
+//                    }
+//                }
+//            }
+//            // Switch player at the end of the current players turn
+//            game.nextTurn();
+//        }
+//
+//        // Print the winner
+//        game.nextTurn();
+//        System.out.println("\n    --- GAME OVER --- \n\n" + "    "+game.currentPlayerColor + " player won!");
+//    }
 }
