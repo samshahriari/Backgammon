@@ -4,6 +4,24 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 public class GUI {
+
+    private final int BOARD_HEIGHT = 580;
+    private final int BOARD_WIDTH = 664;
+    private final int BEZEL = 10;
+    private final int OUTER_LEFT_EDGE = 308;
+    private final int OUTER_TOP_EDGE = 50;
+    private final int INNER_LEFT_EDGE = OUTER_LEFT_EDGE + BEZEL;
+    private final int INNER_TOP_EDGE = OUTER_TOP_EDGE + BEZEL;
+    private final int BOARD_X_AXIS = 640;
+    private final int BOARD_Y_AXIS = 340;
+    private final int PIP_LENGTH = 220;
+    private final int PIP_WIDTH = 48;
+    private final int CHECKER_DIAMETER = 44;
+    private final int BAR_WIDTH = 68;
+
+    private final java.awt.Color RED_PIP = new java.awt.Color(255, 44, 19);
+    private final java.awt.Color WHITE_PIP = new java.awt.Color(255, 221, 215);
+
     public static void main(String[] args) {
         GUI gui = new GUI();
     }
@@ -14,6 +32,7 @@ public class GUI {
         window.setTitle("Backgammon");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setLocationRelativeTo(null);
+        window.setResizable(false);
 
         // Create base pane for layering panels
         JLayeredPane base = new JLayeredPane();
@@ -21,9 +40,9 @@ public class GUI {
 
         BoardP board = new BoardP();
         BarP bar = new BarP();
-        PipP pip = new PipP(1,2,true);
+        PipsP pips = new PipsP();
 
-        base.add(pip,0,-1);
+        base.add(pips,0,-1);
         base.add(bar,0,-1);
         base.add(board,0,-1);
 
@@ -33,7 +52,7 @@ public class GUI {
 
     private class BoardP extends JPanel {
         public BoardP() {
-            setBounds(200,50,880,420);
+            setBounds( OUTER_LEFT_EDGE,  OUTER_TOP_EDGE,  BOARD_WIDTH,  BOARD_HEIGHT );
             setBackground(new java.awt.Color(213, 123, 77));
             setBorder(BorderFactory.createLineBorder(new java.awt.Color(147, 64, 24),10));
         }
@@ -41,41 +60,51 @@ public class GUI {
 
     private class BarP extends JPanel {
         public BarP() {
-            setBounds(600,50,80,420);
+            setBounds( BOARD_X_AXIS-(BAR_WIDTH/2),  OUTER_TOP_EDGE,  BAR_WIDTH,BOARD_HEIGHT );
             setBackground(new java.awt.Color(172, 76, 27));
             setBorder(BorderFactory.createLineBorder(new java.awt.Color(147, 64, 24),10));
         }
     }
 
-    private class PipP extends JPanel {
+    private class PipsP extends JPanel {
 
         private int[] xp;
         private int[] yp;
-        private int[] xpF;
-        private int[] ypF;
-        private boolean top;
-        private final int WIDTH = 1;
 
-        public PipP(int x, int y, boolean t) {
-            setBounds(200,50,880,420);
-            xp = new int[]{10,40,70};
-            yp = new int[]{10,190,10};
-            xpF = new int[]{10,40,70};
-            ypF = new int[]{410,230,410};
-            top = t;
+        public PipsP() {
+            setBounds( INNER_LEFT_EDGE,  INNER_TOP_EDGE,  BOARD_WIDTH,  BOARD_HEIGHT );
         }
 
         public void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
 
-            g2.setColor(new java.awt.Color(255, 44, 19));
-            g2.fillPolygon(xp,yp,3);
+            xp = new int[]{0,24,48};
+            yp = new int[]{0,220,0};
 
-            g2.setColor(new java.awt.Color(134, 19, 0));
-            g2.fillOval(20,10,40,40);
+            for (int i = 0; i < 24; i++) {
+                if (i==12) {
+                    xp = new int[]{0,24,48};
+                    yp = new int[]{560,340,560};
+                }
+                g2.setColor((i%2 == 0 && i < 12) || (i%2 == 1 && i >= 12) ? WHITE_PIP : RED_PIP);
+                g2.fillPolygon(xp,yp,3);
+                xp[0] += PIP_WIDTH;
+                xp[1] += PIP_WIDTH;
+                xp[2] += PIP_WIDTH;
 
-            g2.setColor(new java.awt.Color(255, 215, 197));
-            g2.fillPolygon(xpF,ypF,3);
+                if (i%12 == 5) {
+                    xp[0] += BAR_WIDTH;
+                    xp[1] += BAR_WIDTH;
+                    xp[2] += BAR_WIDTH;
+                }
+            }
         }
     }
 }
+
+//            g2.setColor(new java.awt.Color(134, 19, 0));
+//            g2.fillOval(2,0,44,44);
+//            g2.fillOval(2,44,44,44);
+//            g2.fillOval(2,88,44,44);
+//            g2.fillOval(2,132,44,44);
+//            g2.fillOval(2,176,44,44);
