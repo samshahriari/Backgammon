@@ -2,7 +2,7 @@
 
 ### Outline
 
-A backgammon game created in Java. The game has a GUI and can be played by two people using the same screen.   
+A backgammon game created in Java. The game has a BoardGUI and can be played by two people using the same screen.   
 Developed by Jordan Jass Olsson & Sam Shahriari as part of the course DD1349.
 
 ### Installation
