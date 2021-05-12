@@ -91,6 +91,15 @@ public class Pip {
     }
 
     /**
+     * Check if the pip has no checkers.
+     *
+     * @return True if there are no checkers on the pip : false if contains checkers
+     */
+    public boolean isEmpty() {
+        return checkerCount < 1;
+    }
+
+    /**
      * Print the number and color of checkers in the pip.
      *
      * @return String representation of the pip
