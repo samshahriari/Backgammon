@@ -192,6 +192,11 @@ public class Game {
     }
 
     /**
+     * TODO
+     */
+    public void decideStartingPlayer() {}
+
+    /**
      * Run the game.
      *
      * @throws MalformedURLException if URL links do not function properly
@@ -223,8 +228,16 @@ public class Game {
             while (diceCasts.size() > 0 && !game.gameOver) {
                 // Print dice values
                 System.out.println("\nDice: " + diceCasts.toString());
+
                 // Loop until the player has made a valid move
                 boolean moveValid = false;
+
+                // Check if the player can play
+                if (!game.move.canPlay(game.currentPlayerColor, diceCasts, game.getBearingOffStatus(game.currentPlayerColor), game.board)) {
+                    diceCasts.clear();
+                    moveValid = true;
+                }
+
                 while (!moveValid) {
                     int pipIndex;
                     Pip chosenPip;
@@ -254,7 +267,8 @@ public class Game {
                             continue;
                         }
                     }
-                    // Check if checker can move
+                    // TODO: Update code for new canPlay method
+                    // Check if player can move the checker
                     if (!game.move.canMove(game.currentPlayerColor, chosenPip, diceCasts,
                             game.getBearingOffStatus(game.currentPlayerColor), game.board)) {
                         // End turn if checker is on bar and there are no valid moves
