@@ -38,13 +38,13 @@ public class Board {
      *      W                                R
      *
      *
-     *      R                               W
-     *      R                               W
-     *      R               W               W
-     *      R               W               W                   R
-     *      R               W        < >    W                   R
-     *      13  14  15  16  17  18  B A R   19  20  21  22  23  24
-     *      --  --  --  --  --  --          --  --  --  --  --  --
+     *      R                                W
+     *      R                                W
+     *      R               W                W
+     *      R               W                W                   R
+     *      R               W         < >    W                   R
+     *      13  14  15  16  17  18   B A R   19  20  21  22  23  24
+     *      --  --  --  --  --  --           --  --  --  --  --  --
      *
      */
     public void setUpCheckers() {
