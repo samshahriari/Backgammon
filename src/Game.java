@@ -208,8 +208,6 @@ public class Game {
 
         while (!game.gameOver) {
 
-
-
             System.out.println("\nPlayer turn: " + game.currentPlayerColor);
             System.out.print("\n< Press enter to roll dice >");
             // Read in enter line
