@@ -3,7 +3,7 @@
 ### Future changes
 
 - The main method in [Game](src/Game.java) will be split up to different methods.
-- The game is now played in the terminal but will in the future be a seperate app with a GUI.
+- The game is now played in the terminal but will be a separate app with a GUI in the future.
 
 ### Outline
 
