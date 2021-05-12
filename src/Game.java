@@ -1,4 +1,6 @@
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -154,11 +156,49 @@ public class Game {
     }
 
     /**
-     * Run the game.
+     * Display the intro screen with title and instructions.
+     *
+     * @throws MalformedURLException if the URL link does not function properly
      */
-    public static void main(String[] args) {
+    public void startScreen() throws MalformedURLException {
+        URL link = new URL("https://en.wikipedia.org/wiki/Backgammon");
+        System.out.println("\n\n    -------------------------------------------");
+        System.out.println("    W E L C O M E    T O    B A C K G A M M O N");
+        System.out.println("    -------------------------------------------");
+        System.out.println("              A game by Jordan & Sam\n\n");
+        System.out.println("    INSTRUCTIONS:");
+        System.out.println("       * To learn how to play backgammon, click this link: " + link);
+        System.out.println("       * The current version of the game is played here in the terminal.");
+        System.out.println("       * The positions on which the checkers stand are called 'pips'.");
+        System.out.println("       * These are displayed as indices ranging from 1 to 24.");
+        System.out.println("       * The checkers are displayed on each pip as two-character combinations of their");
+        System.out.println("         number and color. Ex: '2R' means two red checkers are standing on this pip. The");
+        System.out.println("         checkers have also been colored in the terminal to make gameplay easier.");
+        System.out.println("       * The bar contains the hit checkers for respective color and the number of checkers");
+        System.out.println("         in a bar is given inside of the '< >' signs.");
+        System.out.println("       * Upon bearing off, the borne-off checkers are not displayed. Instead, they are simply");
+        System.out.println("         removed from the board and the number of checkers on the board are used to determine");
+        System.out.println("         who is winning.");
+
+        System.out.print("\n\n< Press enter to start the game >");
+        // Read in enter line
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Run the game.
+     *
+     * @throws MalformedURLException if URL links do not function properly
+     */
+    public static void main(String[] args) throws MalformedURLException {
         // Start new game
         Game game = new Game();
+        // Display start screen : continue to game upon enter press
+        game.startScreen();
         game.board.displayBoard(game);
         Scanner input = new Scanner(System.in);
 
