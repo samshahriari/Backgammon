@@ -61,12 +61,41 @@ public class Move {
      * @param diceValues  All dice values for a player
      * @param bearingOff  Whether a player is bearing off or not
      * @param board       The backgammon board being played on
-     * @return True if any of the dice values are playable : false if no moves are possible
+     * @return True if any of the dice values are playable for a GIVEN PIP : false if no moves are possible
      */
     public boolean canMove(Color playerColor, Pip currentPip, ArrayList<Integer> diceValues, boolean bearingOff, Board board) {
         for (Integer die : diceValues) {
             if (checkMoveType(playerColor, currentPip, die, bearingOff, board) != -1) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check if the player can move any of his checkers.
+     *
+     * @param playerColor The current player's color
+     * @param diceValues  All dice values for a player
+     * @param bearingOff  Whether a player is bearing off or not
+     * @param board       The backgammon board being played on
+     * @return True if any of the dice values are playable for AT LEAST ONE PIP ON THE BOARD : false if no moves are possible
+     */
+    public boolean canPlay(Color playerColor, ArrayList<Integer> diceValues, boolean bearingOff, Board board) {
+
+        Pip playerBar = board.getBar(playerColor);
+
+        // If the player's bar is not empty and he cannot move from the bar, return false to end turn
+        if (!playerBar.isEmpty()) {
+            return canMove(playerColor, playerBar, diceValues, bearingOff, board);
+        }
+        // Check every checker for possible movement, and if at least one checker can move, return true for continued play
+        for (int i = 1; i < 25; i++) {
+            Pip currentPip = board.getPip(i);
+            if (currentPip.getColor() == playerColor) {
+                if (canMove(playerColor, currentPip, diceValues, bearingOff, board)) {
+                    return true;
+                }
             }
         }
         return false;
