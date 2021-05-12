@@ -39,3 +39,7 @@ checkers from pips.
 
 
 [Work in progress: more info on class architecture, methods, libraries, etc. later]
+
+### Important documents
+
+- [Glossary](docs/Glossary.md)
