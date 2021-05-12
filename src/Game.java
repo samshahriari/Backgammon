@@ -41,11 +41,13 @@ public class Game {
      * Switch currentPlayerColor.
      */
     public void nextTurn() {
-        // Switch color
-        if (currentPlayerColor == Color.WHITE) {
-            currentPlayerColor = Color.RED;
-        } else {
-            currentPlayerColor = Color.WHITE;
+        // Switch color if the game is not over
+        if (!gameOver) {
+            if (currentPlayerColor == Color.WHITE) {
+                currentPlayerColor = Color.RED;
+            } else {
+                currentPlayerColor = Color.WHITE;
+            }
         }
     }
 
@@ -199,10 +201,14 @@ public class Game {
         Game game = new Game();
         // Display start screen : continue to game upon enter press
         game.startScreen();
+        // Display start screen
         game.board.displayBoard(game);
+
         Scanner input = new Scanner(System.in);
 
         while (!game.gameOver) {
+
+
 
             System.out.println("\nPlayer turn: " + game.currentPlayerColor);
             System.out.print("\n< Press enter to roll dice >");
@@ -299,7 +305,6 @@ public class Game {
         }
 
         // Print the winner
-        game.nextTurn();
         System.out.println("\n    --- GAME OVER --- \n\n" + "    "+game.currentPlayerColor + " player won!");
     }
 }
