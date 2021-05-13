@@ -32,9 +32,4 @@ Class that manages checker movement between pips on a backgammon board. Manages 
 Class for board pips holding information about the color and number of checkers on a pip. Allows for adding/removing 
 checkers from pips.
 
-#### [GUI](src/GUI.java)
-
-The GUI is made in Swing. All of the components (board, pips, checkers, bar) are there own sub-class of GUI and are 
-painted on the board using the method `paintComponent`.
-
 [Work in progress: more info on class architecture, methods, libraries, etc. later]
