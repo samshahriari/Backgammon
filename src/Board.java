@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * Contains information about pips and prints the board.
  *
  * @author  Jordan & Sam
- * @version 2021-05-06
+ * @version 2021-05-13
  */
 public class Board {
 
@@ -48,7 +48,6 @@ public class Board {
      *
      */
     public void setUpCheckers() {
-
         // Set up the WHITE checkers
         pips.get(1).setCheckers(2, Color.WHITE);
         pips.get(12).setCheckers(5, Color.WHITE);
@@ -95,12 +94,12 @@ public class Board {
     /**
      * Get the pip that symbolizes the bar for the given color.
      *
-     * @param color The color of the bar
+     * @param col The color of the bar
      * @return Bar Pip corresponding to the color.
      */
-    public Pip getBar(Color color) {
+    public Pip getBar(Color col) {
         int barIndex = 0;  // zero if WHITE
-        if (color == Color.RED) {
+        if (col == Color.RED) {
             barIndex = 25;  // otherwise 25 if RED
         }
         return pips.get(barIndex);
@@ -135,7 +134,6 @@ public class Board {
 
         System.out.println("\nWBO: " + game.getBearingOffStatus(Color.WHITE));
         System.out.println("RBO: " + game.getBearingOffStatus(Color.RED));
-
 
         // Upper half of the board
         System.out.println("\n12 11 10 09 08 07         06 05 04 03 02 01");
