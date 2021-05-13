@@ -31,8 +31,7 @@ public class Game {
         move = new Move();
         whiteCheckersLeft = board.getWhiteCheckerCount();  // reads the board for the number of WHITE checkers set
         redCheckersLeft = board.getRedCheckerCount();  // reads the board for the number of RED checkers set
-        updateBearingOffStatus(Color.WHITE);
-        updateBearingOffStatus(Color.RED);
+        updateGameStatus();
     }
 
     /**
@@ -91,49 +90,6 @@ public class Game {
     }
 
     /**
-     * Determine whether WHITE or RED is currently bearing off or not.
-     *
-     * @param col The Color of the current player
-     */
-    public void updateBearingOffStatus(Color col) {
-        int lowerBounds = -1;
-        int upperBounds = -1;
-        int checkersLeft = -1;
-        switch (col) {
-            case WHITE:
-                // Set the correct bounds for WHITE's home quadrant
-                lowerBounds = 19;
-                upperBounds = 25;
-                // Get the number of WHITE checkers left to look for
-                checkersLeft = whiteCheckersLeft;
-                break;
-            case RED:
-                // Set the correct bounds for RED's home quadrant
-                lowerBounds = 1;
-                upperBounds = 7;
-                // Get the number of RED checkers left to look for
-                checkersLeft = redCheckersLeft;
-                break;
-        }
-        // Iterate over home quadrant
-        for (int i = lowerBounds; i < upperBounds; i++) {
-            // If found pip of owned color
-            if (board.getPip(i).getColor() == col) {
-                // Subtract checker count of that pip from checkersLeft
-                checkersLeft -= board.getPip(i).getCheckerCount();
-            }
-        }
-        // If checkersLeft = 0, all the checkers are in the home quadrant
-        boolean bearingOffStatus = (checkersLeft == 0);
-        // Update the bearingOffStatus for the current player color
-        if (col == Color.WHITE) {
-            whiteBearingOff = bearingOffStatus;
-        } else if (col == Color.RED) {
-            redBearingOff = bearingOffStatus;
-        }
-    }
-
-    /**
      * Decrease the whiteCheckersLeft or the redCheckersLeft fields depending on current player color.
      * Used in Move.moveChecker when a checker is borne off.
      *
@@ -167,10 +123,31 @@ public class Game {
     }
 
     /**
-     * Verify if the game has ended by checking if either player has zero checkers left.
+     * Update game-over and bearing-off statuses.
      */
     public void updateGameStatus() {
+        // Update game-over status
         gameOver = whiteCheckersLeft == 0 || redCheckersLeft == 0;
+
+        // Update bearing-off statuses
+        int counterW = 0;
+        // Iterate over WHITE'S home quadrant
+        for (int i = 19; i < 25; i++) {
+            // If found WHITE pip
+            if (board.getPip(i).getColor() == Color.WHITE) {
+                counterW += board.getPip(i).getCheckerCount();
+            }
+        }
+        int counterR = 0;
+        // Iterate over RED'S home quadrant
+        for (int i = 1; i < 7; i++) {
+            // If found RED pip
+            if (board.getPip(i).getColor() == Color.RED) {
+                counterR += board.getPip(i).getCheckerCount();
+            }
+        }
+        whiteBearingOff = (counterW == whiteCheckersLeft);
+        redBearingOff = (counterR == redCheckersLeft);
     }
 
     /**
