@@ -5,27 +5,29 @@ import java.util.ArrayList;
  * Manages checker hits and blocks.
  *
  * @author  Jordan & Sam
- * @version 2021-05-07
+ * @version 2021-05-13
  */
 public class Move {
 
     /**
-     * Move a checker from one pip to another according to the given steps.
+     * Move a checker from one pip to another according to the given dieValue.
      *
-     * @param playerColor The color of the player making the move
-     * @param currentPip  The pip from which to move
-     * @param steps       The number of steps to move the checker
-     * @param bearingOff  Whether or not the player is currently bearing off or not
      * @param game        The active game
-     * @param board       The board on which the checker is moved
+     * @param currentPip  The pip from which to move
+     * @param dieValue    The die value to determine how many steps can be taken
      * @return True if checker was moved successfully : false if unsuccessful move
      */
-    public boolean moveChecker(Color playerColor, Pip currentPip, int steps, boolean bearingOff, Game game, Board board) {
+    public boolean moveChecker(Game game, Pip currentPip, int dieValue) {
+
+        // Unpack properties from game
+        Color playerColor = game.getCurrentPlayerColor();
+        Board board = game.getBoard();
+
         // Get the movement type (-1, 0, 1, 2) to determine how the checker will interact with other checkers or the board
-        int moveType = checkMoveType(playerColor, currentPip, steps, bearingOff, board);
+        int moveType = checkMoveType(game, currentPip, dieValue);
 
         // Find the new pip
-        Pip newPip = findNewPip(getDirection(playerColor), currentPip, steps, board);
+        Pip newPip = findNewPip(getDirection(playerColor), currentPip, dieValue, board);
 
         switch (moveType) {
             case 0:
@@ -56,17 +58,45 @@ public class Move {
     /**
      * Check move types for all dice values (calls checkMoveType).
      *
-     * @param playerColor The current player's color
+     * @param game        The active game
      * @param currentPip  The pip that a checker is being moved from
      * @param diceValues  All dice values for a player
-     * @param bearingOff  Whether a player is bearing off or not
-     * @param board       The backgammon board being played on
-     * @return True if any of the dice values are playable : false if no moves are possible
+     * @return True if any of the dice values are playable for a GIVEN PIP : false if no moves are possible
      */
-    public boolean canMove(Color playerColor, Pip currentPip, ArrayList<Integer> diceValues, boolean bearingOff, Board board) {
+    public boolean canMove(Game game, Pip currentPip, ArrayList<Integer> diceValues) {
         for (Integer die : diceValues) {
-            if (checkMoveType(playerColor, currentPip, die, bearingOff, board) != -1) {
+            if (checkMoveType(game, currentPip, die) != -1) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check if the player can move any of his checkers.
+     *
+     * @param game        The active game
+     * @param diceValues  All dice values for a player
+     * @return True if any of the dice values are playable for AT LEAST ONE PIP ON THE BOARD : false if no moves are possible
+     */
+    public boolean canPlay(Game game, ArrayList<Integer> diceValues) {
+
+        // Unpack properties from game
+        Color playerColor = game.getCurrentPlayerColor();
+        Board board = game.getBoard();
+        Pip playerBar = board.getBar(playerColor);
+
+        // If the player's bar is not empty and he cannot move from the bar, return false to end turn
+        if (playerBar.containsCheckers()) {
+            return canMove(game, playerBar, diceValues);
+        }
+        // Check every checker for possible movement, and if at least one checker can move, return true for continued play
+        for (int i = 1; i < 25; i++) {
+            Pip currentPip = board.getPip(i);
+            if (currentPip.getColor() == playerColor) {
+                if (canMove(game, currentPip, diceValues)) {
+                    return true;
+                }
             }
         }
         return false;
@@ -75,17 +105,20 @@ public class Move {
     /**
      * Identify the type of move being played (i.e. invalid move, regular move, hit, or bearing off).
      *
-     * @param playerColor The current player's color
-     * @param currentPip  The pip that a checker is being moved from
-     * @param steps       The number of steps to move the checker
-     * @param bearingOff  Whether a player is bearing off or not
-     * @param board       The backgammon board being played on
+     * @param game        The active game
+     * @param currentPip  The pip from which to move
+     * @param dieValue    The die value to determine how many steps can be taken
      * @return -1 if no movement possible, 0 for regular move, 1 for hit, and 2 for bearing off
      */
-    private int checkMoveType(Color playerColor, Pip currentPip, int steps, boolean bearingOff, Board board) {
+    private int checkMoveType(Game game, Pip currentPip, int dieValue) {
+
+        // Unpack properties from game
+        Color playerColor = game.getCurrentPlayerColor();
+        boolean bearingOff = game.getBearingOffStatus(playerColor);
+        Board board = game.getBoard();
 
         // Find the new pip
-        Pip newPip = findNewPip(getDirection(playerColor), currentPip, steps, board);
+        Pip newPip = findNewPip(getDirection(playerColor), currentPip, dieValue, board);
 
         if (newPip == null) {
             // If new pip is null/out of bounds and the player is not bearing off, disallow movement
@@ -97,11 +130,11 @@ public class Move {
 
             // Check if current pip matches dice throw/steps exactly
             // I.e. standing on the second pip from the edge of the board and rolling a 2
-            if (currentPipIndex == steps || currentPipIndex == 25 - steps) {
+            if (currentPipIndex == dieValue || currentPipIndex == 25 - dieValue) {
                 return 2;  // move bears checker off
             }
             // Check if there are any checkers behind the selected pip that might stop movement (for RED bear-off)
-            else if (currentPipIndex < steps) {
+            else if (currentPipIndex < dieValue) {
                 // Iterate over RED's 6 home quadrant pips/indices
                 for (int i = currentPipIndex + 1; i <= 6; i++) {
                     // If there is an owned checker behind the selected pip, return false to stop movement
@@ -111,7 +144,7 @@ public class Move {
                 }
             }
             // Check if there any checkers behind the selected pip that might stop movement (for RED bear-off)
-            else if (currentPipIndex > 24 - steps) {
+            else if (currentPipIndex > 24 - dieValue) {
                 // Iterate over WHITE's 6 home quadrant pips/indices
                 for (int i = currentPipIndex - 1; i >= 19; i--) {
                     // If there is an owned checker behind the selected pip, return false to stop movement
@@ -139,7 +172,7 @@ public class Move {
     /**
      * Check if new pip index is valid.
      *
-     * @param newPipIndex Index of new pip
+     * @param newPipIndex  Index of new pip
      * @return True if new pip index is outside of the board (not within 0-23)
      */
     private boolean outOfBounds(int newPipIndex) {
@@ -149,17 +182,17 @@ public class Move {
     /**
      * Find the new pip.
      *
-     * @param direction  1 for WHITE movement, -1 for RED movement
-     * @param currentPip Pip on which the checker currently stands
-     * @param steps      Movement steps as specified by die cast
-     * @param board      The board
+     * @param direction   1 for WHITE movement, -1 for RED movement
+     * @param currentPip  Pip on which the checker currently stands
+     * @param dieValue    The die value to determine how many steps can be taken
+     * @param board       The board
      * @return The new Pip
      */
-    private Pip findNewPip(int direction, Pip currentPip, int steps, Board board) {
+    private Pip findNewPip(int direction, Pip currentPip, int dieValue, Board board) {
         // Get index of current pip
         int currentPipIndex = board.getPipIndex(currentPip);
         // Find index of new pip, taking into account the direction of travel for the specific color of checker
-        int newPipIndex = currentPipIndex + (direction * steps);
+        int newPipIndex = currentPipIndex + (direction * dieValue);
         // Check if new pip is out of bounds
         if (outOfBounds(newPipIndex)) {
             return null;  // because movement goes off board
@@ -171,7 +204,7 @@ public class Move {
     /**
      * Get the movement direction associated with a checker color.
      *
-     * @param col The color of the checker
+     * @param col  The color of the checker
      * @return int 1 for WHITE direction and -1 for RED direction
      */
     public int getDirection(Color col) {

@@ -1,4 +1,6 @@
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -7,7 +9,7 @@ import java.util.Scanner;
  * Class for playing backgammon games. Run main to play!
  *
  * @author  Jordan & Sam
- * @version 2021-05-07
+ * @version 2021-05-13
  */
 public class Game {
 
@@ -27,24 +29,41 @@ public class Game {
     public Game() {
         board = new Board();
         move = new Move();
-        gameOver = false;
-        currentPlayerColor = Color.WHITE;  // WHITE starts the game
         whiteCheckersLeft = board.getWhiteCheckerCount();  // reads the board for the number of WHITE checkers set
         redCheckersLeft = board.getRedCheckerCount();  // reads the board for the number of RED checkers set
-        updateBearingOffStatus(Color.WHITE);
-        updateBearingOffStatus(Color.RED);
+        updateGameStatus();
     }
 
     /**
      * Switch currentPlayerColor.
      */
     public void nextTurn() {
-        // Switch color
-        if (currentPlayerColor == Color.WHITE) {
-            currentPlayerColor = Color.RED;
-        } else {
-            currentPlayerColor = Color.WHITE;
+        // Switch color if the game is not over
+        if (!gameOver) {
+            if (currentPlayerColor == Color.WHITE) {
+                currentPlayerColor = Color.RED;
+            } else {
+                currentPlayerColor = Color.WHITE;
+            }
         }
+    }
+
+    /**
+     * Get the current player.
+     *
+     * @return The current player's color
+     */
+    public Color getCurrentPlayerColor() {
+        return currentPlayerColor;
+    }
+
+    /**
+     * Get the board.
+     *
+     * @return The board
+     */
+    public Board getBoard() {
+        return board;
     }
 
     /**
@@ -68,49 +87,6 @@ public class Game {
             diceValues.add(dieCast2);
         }
         return diceValues;
-    }
-
-    /**
-     * Determine whether WHITE or RED is currently bearing off or not.
-     *
-     * @param col The Color of the current player
-     */
-    public void updateBearingOffStatus(Color col) {
-        int lowerBounds = -1;
-        int upperBounds = -1;
-        int checkersLeft = -1;
-        switch (col) {
-            case WHITE:
-                // Set the correct bounds for WHITE's home quadrant
-                lowerBounds = 19;
-                upperBounds = 25;
-                // Get the number of WHITE checkers left to look for
-                checkersLeft = whiteCheckersLeft;
-                break;
-            case RED:
-                // Set the correct bounds for RED's home quadrant
-                lowerBounds = 1;
-                upperBounds = 7;
-                // Get the number of RED checkers left to look for
-                checkersLeft = redCheckersLeft;
-                break;
-        }
-        // Iterate over home quadrant
-        for (int i = lowerBounds; i < upperBounds; i++) {
-            // If found pip of owned color
-            if (board.getPip(i).getColor() == col) {
-                // Subtract checker count of that pip from checkersLeft
-                checkersLeft -= board.getPip(i).getCheckerCount();
-            }
-        }
-        // If checkersLeft = 0, all the checkers are in the home quadrant
-        boolean bearingOffStatus = (checkersLeft == 0);
-        // Update the bearingOffStatus for the current player color
-        if (col == Color.WHITE) {
-            whiteBearingOff = bearingOffStatus;
-        } else if (col == Color.RED) {
-            redBearingOff = bearingOffStatus;
-        }
     }
 
     /**
@@ -147,21 +123,95 @@ public class Game {
     }
 
     /**
-     * Verify if the game has ended by checking if either player has zero checkers left.
+     * Update game-over and bearing-off statuses.
      */
     public void updateGameStatus() {
+        // Update game-over status
         gameOver = whiteCheckersLeft == 0 || redCheckersLeft == 0;
+
+        // Update bearing-off statuses
+        int counterW = 0;
+        // Iterate over WHITE'S home quadrant
+        for (int i = 19; i < 25; i++) {
+            // If found WHITE pip
+            if (board.getPip(i).getColor() == Color.WHITE) {
+                counterW += board.getPip(i).getCheckerCount();
+            }
+        }
+        int counterR = 0;
+        // Iterate over RED'S home quadrant
+        for (int i = 1; i < 7; i++) {
+            // If found RED pip
+            if (board.getPip(i).getColor() == Color.RED) {
+                counterR += board.getPip(i).getCheckerCount();
+            }
+        }
+        whiteBearingOff = (counterW == whiteCheckersLeft);
+        redBearingOff = (counterR == redCheckersLeft);
+    }
+
+    /**
+     * Display the intro screen with title and instructions.
+     *
+     * @throws MalformedURLException if the URL link does not function properly
+     */
+    public void startScreen() throws MalformedURLException {
+        URL link = new URL("https://en.wikipedia.org/wiki/Backgammon");
+        System.out.println("\n\n    -------------------------------------------");
+        System.out.println("    W E L C O M E    T O    B A C K G A M M O N");
+        System.out.println("    -------------------------------------------");
+        System.out.println("              A game by Jordan & Sam\n\n");
+        System.out.println("    INSTRUCTIONS:");
+        System.out.println("       * To learn how to play backgammon, click this link: " + link);
+        System.out.println("       * The current version of the game is played here in the terminal.");
+        System.out.println("       * The positions on which the checkers stand are called 'pips'.");
+        System.out.println("       * These are displayed as indices ranging from 1 to 24.");
+        System.out.println("       * The checkers are displayed on each pip as two-character combinations of their");
+        System.out.println("         number and color. Ex: '2R' means two red checkers are standing on this pip. The");
+        System.out.println("         checkers have also been colored in the terminal to make gameplay easier.");
+        System.out.println("       * The bar contains the hit checkers for respective color and the number of checkers");
+        System.out.println("         in a bar is given inside of the '< >' signs.");
+        System.out.println("       * Upon bearing off, the borne-off checkers are not displayed. Instead, they are simply");
+        System.out.println("         removed from the board and the number of checkers on the board are used to determine");
+        System.out.println("         who is winning.");
+
+        System.out.print("\n\n< Press enter to start the game >");
+        // Read in enter line
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Randomize player turn at game start.
+     */
+    public void decideStartingPlayer() {
+        rand = new Random();
+        int r = rand.nextInt(2);
+        currentPlayerColor = (r==0 ? Color.WHITE : Color.RED);
     }
 
     /**
      * Run the game.
+     *
+     * @throws MalformedURLException if URL links do not function properly
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MalformedURLException {
         // Start new game
         Game game = new Game();
+        // Display start screen : continue to game upon enter press
+        game.startScreen();
+        // Display start screen
         game.board.displayBoard(game);
+
         Scanner input = new Scanner(System.in);
 
+        // Randomize which player will play first
+        game.decideStartingPlayer();
+
+        // Loop until the game is over
         while (!game.gameOver) {
 
             System.out.println("\nPlayer turn: " + game.currentPlayerColor);
@@ -172,25 +222,32 @@ public class Game {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             // Get dice values for dice roll
             ArrayList<Integer> diceCasts = game.rollDice();
-
             // Loop as long as there are moves to make
             while (diceCasts.size() > 0 && !game.gameOver) {
+
                 // Print dice values
                 System.out.println("\nDice: " + diceCasts.toString());
-                // Loop until the player has made a valid move
-                boolean moveValid = false;
-                while (!moveValid) {
+
+                // Check if player can play
+                if (!game.move.canPlay(game, diceCasts)) {
+                    System.out.println("\n    --- NO MOVES POSSIBLE : ENDING TURN ---");
+                    break;
+                }
+                // Initialize chosenPip
+                Pip chosenPip = null;
+
+                boolean pipChoiceValid = false;
+                // Loop until the player has made a valid pip choice
+                while (!pipChoiceValid) {
                     int pipIndex;
-                    Pip chosenPip;
-                    boolean isBar = false;
-                    // Get the bar for the current player
-                    Pip bar = game.board.getBar(game.currentPlayerColor);
                     // If the bar has a checker on it, force the player to play that checker first
-                    if (bar.getCheckerCount() > 0) {
+                    Pip bar = game.board.getBar(game.currentPlayerColor);
+                    if (bar.containsCheckers()) {
+                        // Player forced to play the bar
                         chosenPip = bar;
-                        isBar = true;
                     }
                     else {
                         // Ask player to choose a pip to move a checker from
@@ -201,35 +258,27 @@ public class Game {
                             System.out.println("\n    --- PIP OUT OF BOUNDS ---");
                             continue;
                         }
-                        // Use input as an index to retrieve the corresponding Pip object
-                        chosenPip = game.board.getPip(pipIndex);
+
+                        chosenPip = game.board.getPip(pipIndex);  // after if-statement above to avoid indexOutOfBounds error
 
                         // Check that pip being moved from is owned
                         if (chosenPip.getColor() != game.currentPlayerColor) {
                             System.out.println("\n    --- PIP NOT OWNED ---");
                             continue;
                         }
-                    }
-                    // Check if checker can move
-                    if (!game.move.canMove(game.currentPlayerColor, chosenPip, diceCasts,
-                            game.getBearingOffStatus(game.currentPlayerColor), game.board)) {
-                        // End turn if checker is on bar and there are no valid moves
-                        if (isBar) {
-                            diceCasts.clear();
-                            moveValid = true;
-                        } else {
-                            System.out.println("No valid movement for pip. \nEnd turn? (y/n)");
-                            String turnChoice = input.next().toLowerCase().trim();
-                            // If player decides to end turn, the turn will end
-                            if (turnChoice.equals("y") || turnChoice.equals("yes")) {
-                                diceCasts.clear();
-                                moveValid = true;
-                            }
+                        // Check if player can play the chosen pip
+                        if (!game.move.canMove(game, chosenPip, diceCasts)) {
+                            System.out.println("\n    --- PIP NOT PLAYABLE ---");
+                            continue;
                         }
-                        continue;
                     }
-                    // Loop until player makes a valid movement choice
-                    int dieChoice = -1;
+                    pipChoiceValid = true;
+                }
+
+                boolean moveValid = false;
+                // Loop until player has made a valid move
+                while (!moveValid) {
+                    int dieChoice = -1;  // initialization
                     while (!diceCasts.contains(dieChoice)) {
                         System.out.print("\nDie-value options: " + diceCasts.toString() + "\nWhich die value do you wish to use?\n> ");
                         dieChoice = input.nextInt();
@@ -239,15 +288,12 @@ public class Game {
                         }
                     }
                     // Retrieve verdict on whether the move is valid or not
-                    moveValid = game.move.moveChecker(game.currentPlayerColor, chosenPip, dieChoice,
-                            game.getBearingOffStatus(game.currentPlayerColor), game, game.board);
+                    moveValid = game.move.moveChecker(game, chosenPip, dieChoice);
                     // If the move is valid, remove the used dice value, and update the game/board
                     if (moveValid) {
                         diceCasts.remove(Integer.valueOf(dieChoice));
-                        game.updateBearingOffStatus(Color.WHITE);
-                        game.updateBearingOffStatus(Color.RED);
-                        game.board.displayBoard(game);
                         game.updateGameStatus();
+                        game.board.displayBoard(game);
                     } else {
                         // If the move was invalid, print error message
                         System.out.println("\n    --- INVALID MOVE ---");
@@ -257,9 +303,7 @@ public class Game {
             // Switch player at the end of the current players turn
             game.nextTurn();
         }
-
         // Print the winner
-        game.nextTurn();
         System.out.println("\n    --- GAME OVER --- \n\n" + "    "+game.currentPlayerColor + " player won!");
     }
 }
