@@ -50,6 +50,24 @@ public class Game {
     }
 
     /**
+     * Get the current player.
+     *
+     * @return The current player's color
+     */
+    public Color getCurrentPlayerColor() {
+        return currentPlayerColor;
+    }
+
+    /**
+     * Get the board.
+     *
+     * @return The board
+     */
+    public Board getBoard() {
+        return board;
+    }
+
+    /**
      * Roll the dice and return die values to determine player movement.
      *
      * @return An ArrayList containing die values (2 or 4 values)
