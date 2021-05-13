@@ -9,7 +9,7 @@ import java.util.Scanner;
  * Class for playing backgammon games. Run main to play!
  *
  * @author  Jordan & Sam
- * @version 2021-05-07
+ * @version 2021-05-13
  */
 public class Game {
 
@@ -29,8 +29,6 @@ public class Game {
     public Game() {
         board = new Board();
         move = new Move();
-        gameOver = false;
-        currentPlayerColor = Color.WHITE;  // WHITE starts the game
         whiteCheckersLeft = board.getWhiteCheckerCount();  // reads the board for the number of WHITE checkers set
         redCheckersLeft = board.getRedCheckerCount();  // reads the board for the number of RED checkers set
         updateBearingOffStatus(Color.WHITE);
@@ -192,9 +190,13 @@ public class Game {
     }
 
     /**
-     * TODO
+     * Randomize player turn at game start.
      */
-    public void decideStartingPlayer() {}
+    public void decideStartingPlayer() {
+        rand = new Random();
+        int r = rand.nextInt(2);
+        currentPlayerColor = (r==0 ? Color.WHITE : Color.RED);
+    }
 
     /**
      * Run the game.
