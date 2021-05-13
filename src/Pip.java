@@ -3,12 +3,12 @@
  * Allows for adding/removing checkers from pips.
  *
  * @author Jordan & Sam
- * @version 2021-05-05
+ * @version 2021-05-13
  */
 public class Pip {
 
     private int checkerCount; // holds the checkers on the pip
-    private Color color;
+    private Color checkerColor;
 
     // Color codes for printing to the terminal
     public static final String ANSI_RESET = "\u001B[0m";
@@ -21,7 +21,7 @@ public class Pip {
      */
     public Pip() {
         checkerCount = 0;
-        color = null;
+        checkerColor = null;
     }
 
     /**
@@ -33,7 +33,7 @@ public class Pip {
      */
     public void setCheckers(int cc, Color col) {
         checkerCount = cc;
-        color = col;
+        checkerColor = col;
     }
 
     /**
@@ -43,7 +43,7 @@ public class Pip {
      */
     public void addChecker(Color col) {
         checkerCount++;
-        color = col;
+        checkerColor = col;
     }
 
     /**
@@ -58,7 +58,7 @@ public class Pip {
      * @return True if the checker can be added to the pip : False otherwise
      */
     public boolean canAdd(Color col) {
-        return (checkerCount < 2 || color == col);
+        return (checkerCount < 2 || checkerColor == col);
     }
 
     /**
@@ -68,7 +68,7 @@ public class Pip {
         checkerCount--;
         if (checkerCount <= 0) {
             checkerCount = 0;
-            color = null;
+            checkerColor = null;
         }
     }
 
@@ -87,7 +87,7 @@ public class Pip {
      * @return Color of the checker stack
      */
     public Color getColor() {
-        return color;
+        return checkerColor;
     }
 
     /**
@@ -95,8 +95,8 @@ public class Pip {
      *
      * @return True if there are no checkers on the pip : false if contains checkers
      */
-    public boolean isEmpty() {
-        return checkerCount < 1;
+    public boolean containsCheckers() {
+        return checkerCount > 0;
     }
 
     /**
@@ -108,12 +108,12 @@ public class Pip {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(checkerCount);
-        if (String.valueOf(color).equals("WHITE")) {
+        if (String.valueOf(checkerColor).equals("WHITE")) {
             sb.insert(0, ANSI_WHITE_BACKGROUND); // change the background color to white
             sb.insert(0, ANSI_BLACK);
             sb.append("W");
             sb.append(ANSI_RESET);
-        } else if (String.valueOf(color).equals("RED")) {
+        } else if (String.valueOf(checkerColor).equals("RED")) {
             sb.insert(0, ANSI_RED_BACKGROUND); // change the background color to red
             sb.insert(0, ANSI_BLACK);
             sb.append("R");
