@@ -21,6 +21,10 @@ public class GUI {
 
     private final java.awt.Color RED_PIP = new java.awt.Color(255, 44, 19);
     private final java.awt.Color WHITE_PIP = new java.awt.Color(255, 221, 215);
+    private final java.awt.Color BOARD_COLOR = new java.awt.Color(213, 123, 77);
+    private final java.awt.Color BORDER_COLOR = new java.awt.Color(147, 64, 24);
+    private final java.awt.Color BAR_COLOR = new java.awt.Color(172, 76, 27);
+
 
     public static void main(String[] args) {
         GUI gui = new GUI();
@@ -53,16 +57,16 @@ public class GUI {
     private class BoardP extends JPanel {
         public BoardP() {
             setBounds( OUTER_LEFT_EDGE,  OUTER_TOP_EDGE,  BOARD_WIDTH,  BOARD_HEIGHT );
-            setBackground(new java.awt.Color(213, 123, 77));
-            setBorder(BorderFactory.createLineBorder(new java.awt.Color(147, 64, 24),10));
+            setBackground(BOARD_COLOR);
+            setBorder(BorderFactory.createLineBorder(BORDER_COLOR,10));
         }
     }
 
     private class BarP extends JPanel {
         public BarP() {
             setBounds( BOARD_X_AXIS-(BAR_WIDTH/2),  OUTER_TOP_EDGE,  BAR_WIDTH,BOARD_HEIGHT );
-            setBackground(new java.awt.Color(172, 76, 27));
-            setBorder(BorderFactory.createLineBorder(new java.awt.Color(147, 64, 24),10));
+            setBackground(BAR_COLOR);
+            setBorder(BorderFactory.createLineBorder(BORDER_COLOR,10));
         }
     }
 
