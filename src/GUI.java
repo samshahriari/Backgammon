@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.Color;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.Border;
 
@@ -59,6 +60,8 @@ public class GUI {
         base.setOpaque(false);
 
         DiceTrayP diceTray = new DiceTrayP();
+        DiceFacesP diceFaces = new DiceFacesP(null);
+
         BoardP board = new BoardP();
         BarP bar = new BarP();
         PipsP pips = new PipsP();
@@ -66,6 +69,7 @@ public class GUI {
         base.add(pips,0,-1);
         base.add(bar,0,-1);
         base.add(board,0,-1);
+        base.add(diceFaces, 0, -1);
         base.add(diceTray, 0, -1);
 
         window.add(base);
@@ -122,12 +126,42 @@ public class GUI {
             }
         }
     }
+
     private class DiceTrayP extends JPanel {
         public DiceTrayP() {
             setBounds( DICE_TRAY_LEFT,  DICE_TRAY_TOP,  DICE_TRAY_WIDTH,  DICE_TRAY_HEIGHT );
             setBackground(BOARD_COLOR);
             setBorder(BorderFactory.createLineBorder(BORDER_COLOR,5));
             setOpaque(true);
+        }
+    }
+
+    private class DiceFacesP extends JPanel {
+
+        private ArrayList<Integer> diceValues;
+
+        public DiceFacesP(ArrayList<Integer> dv) {
+            setBounds( DICE_TRAY_LEFT,  DICE_TRAY_TOP,  DICE_TRAY_WIDTH,  DICE_TRAY_HEIGHT );
+            diceValues = dv;
+        }
+
+        @Override
+        public void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g;
+
+            g2.setColor(Color.white);
+            g2.fillRect(15, 15,  DICE_WIDTH,  DICE_WIDTH);
+            g2.setColor(Color.black);
+            g2.setStroke(new BasicStroke(3));
+            g2.drawRect(15, 15, DICE_WIDTH, DICE_WIDTH);
+            g2.fillRect(25,25,10,10);
+
+
+            g2.setColor(Color.white);
+            g2.fillRect(15, 15+ DICE_WIDTH + 10,  DICE_WIDTH,  DICE_WIDTH);
+            g2.setColor(Color.black);
+            g2.setStroke(new BasicStroke(3));
+            g2.drawRect(15, 15+ DICE_WIDTH + 10, DICE_WIDTH, DICE_WIDTH);
         }
     }
 }
