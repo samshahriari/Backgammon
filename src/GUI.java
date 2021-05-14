@@ -5,41 +5,41 @@ import javax.swing.border.Border;
 
 public class GUI {
 
-    private final int BOARD_HEIGHT = 580;
-    private final int BOARD_WIDTH = 664;
-    private final int BEZEL = 10;
-    private final int OUTER_LEFT_EDGE = 308;
-    private final int OUTER_TOP_EDGE = 50;
-    private final int INNER_LEFT_EDGE = OUTER_LEFT_EDGE + BEZEL;
-    private final int INNER_TOP_EDGE = OUTER_TOP_EDGE + BEZEL;
-    private final int BOARD_X_AXIS = 640;
-    private final int BOARD_Y_AXIS = 340;
-    private final int PIP_LENGTH = 220;
-    private final int PIP_WIDTH = 48;
-    private final int CHECKER_DIAMETER = 44;
-    private final int BAR_WIDTH = 68;
-    private final int BOARD_DICE_DISTANCE = 50;
-    private final int DICE_TRAY_WIDTH = 94;
-    private final int DICE_TRAY_HEIGHT = 168;
-    private final int DICE_WIDTH = 64;
-    private final int DICE_TRAY_LEFT = OUTER_LEFT_EDGE - BOARD_DICE_DISTANCE - DICE_TRAY_WIDTH;
-    private final int DICE_TRAY_TOP = BOARD_Y_AXIS - DICE_TRAY_HEIGHT/2;
-    private final int TITLE_BAR_HEIGHT = 30;
-    private final int OUTER_RIGHT_EDGE = OUTER_LEFT_EDGE + BOARD_WIDTH;
-    private final int OUTER_BOTTOM_EDGE = OUTER_TOP_EDGE + BOARD_HEIGHT;
-    private final int INNER_RIGHT_EDGE = OUTER_RIGHT_EDGE - BEZEL;
-    private final int INNER_BOTTOM_EDGE = OUTER_BOTTOM_EDGE - BEZEL;
+    private static final int BOARD_HEIGHT = 580;
+    private static final int BOARD_WIDTH = 664;
+    private static final int BEZEL = 10;
+    private static final int OUTER_LEFT_EDGE = 308;
+    private static final int OUTER_TOP_EDGE = 50;
+    private static final int INNER_LEFT_EDGE = OUTER_LEFT_EDGE + BEZEL;
+    private static final int INNER_TOP_EDGE = OUTER_TOP_EDGE + BEZEL;
+    private static final int BOARD_X_AXIS = 640;
+    private static final int BOARD_Y_AXIS = 340;
+    private static final int PIP_LENGTH = 220;
+    private static final int PIP_WIDTH = 48;
+    private static final int CHECKER_DIAMETER = 44;
+    private static final int BAR_WIDTH = 68;
+    private static final int BOARD_DICE_DISTANCE = 50;
+    private static final int DICE_TRAY_WIDTH = 94;
+    private static final int DICE_TRAY_HEIGHT = 168;
+    private static final int DICE_WIDTH = 64;
+    private static final int DICE_TRAY_LEFT = OUTER_LEFT_EDGE - BOARD_DICE_DISTANCE - DICE_TRAY_WIDTH;
+    private static final int DICE_TRAY_TOP = BOARD_Y_AXIS - DICE_TRAY_HEIGHT/2;
+    private static final int TITLE_BAR_HEIGHT = 30;
+    private static final int OUTER_RIGHT_EDGE = OUTER_LEFT_EDGE + BOARD_WIDTH;
+    private static final int OUTER_BOTTOM_EDGE = OUTER_TOP_EDGE + BOARD_HEIGHT;
+    private static final int INNER_RIGHT_EDGE = OUTER_RIGHT_EDGE - BEZEL;
+    private static final int INNER_BOTTOM_EDGE = OUTER_BOTTOM_EDGE - BEZEL;
 
-    private final java.awt.Color RED_PIP = new java.awt.Color(255, 44, 19);
-    private final java.awt.Color WHITE_PIP = new java.awt.Color(255, 221, 215);
-    private final java.awt.Color BOARD_COLOR = new java.awt.Color(213, 123, 77);
-    private final java.awt.Color BORDER_COLOR = new java.awt.Color(147, 64, 24);
-    private final java.awt.Color BAR_COLOR = new java.awt.Color(172, 76, 27);
-    private final java.awt.Color ROLL_DICE_COLOR = new java.awt.Color(241, 178, 70);
-    private final java.awt.Color RED_CHECKER = new java.awt.Color(134, 19, 0);
-    private final java.awt.Color RED_CHECKER_BORDER = new java.awt.Color(98, 4, 2);
-    private final java.awt.Color WHITE_CHECKER = new java.awt.Color(238, 225, 203);
-    private final java.awt.Color WHITE_CHECKER_BORDER = new java.awt.Color(196, 176, 159);
+    private static final java.awt.Color RED_PIP = new java.awt.Color(255, 44, 19);
+    private static final java.awt.Color WHITE_PIP = new java.awt.Color(255, 221, 215);
+    private static final java.awt.Color BOARD_COLOR = new java.awt.Color(213, 123, 77);
+    private static final java.awt.Color BORDER_COLOR = new java.awt.Color(147, 64, 24);
+    private static final java.awt.Color BAR_COLOR = new java.awt.Color(172, 76, 27);
+    private static final java.awt.Color ROLL_DICE_COLOR = new java.awt.Color(241, 178, 70);
+    private static final java.awt.Color RED_CHECKER = new java.awt.Color(134, 19, 0);
+    private static final java.awt.Color RED_CHECKER_BORDER = new java.awt.Color(98, 4, 2);
+    private static final java.awt.Color WHITE_CHECKER = new java.awt.Color(238, 225, 203);
+    private static final java.awt.Color WHITE_CHECKER_BORDER = new java.awt.Color(196, 176, 159);
 
 
     public static void main(String[] args) {
