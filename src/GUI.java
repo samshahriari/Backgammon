@@ -65,7 +65,9 @@ public class GUI {
         BoardP board = new BoardP();
         BarP bar = new BarP();
         PipsP pips = new PipsP();
+        CheckersP checkers = new CheckersP();
 
+        base.add(checkers, 0, -1);
         base.add(pips,0,-1);
         base.add(bar,0,-1);
         base.add(board,0,-1);
@@ -90,6 +92,103 @@ public class GUI {
             setBounds( BOARD_X_AXIS-(BAR_WIDTH/2),  OUTER_TOP_EDGE,  BAR_WIDTH,BOARD_HEIGHT );
             setBackground(BAR_COLOR);
             setBorder(BorderFactory.createLineBorder(BORDER_COLOR,10));
+        }
+    }
+
+    private class CheckersP extends JPanel {
+
+        ArrayList<Pip> pips;
+        public CheckersP() {
+            setBounds( INNER_LEFT_EDGE,  INNER_TOP_EDGE,  BOARD_WIDTH,  BOARD_HEIGHT );
+            setOpaque(false);
+            pips = new ArrayList<>(26);
+            for (int i = 0; i < 26; i++) {
+                pips.add(i, new Pip());
+            }
+            pips.get(1).setCheckers(2, Player.WHITE);
+            pips.get(12).setCheckers(5, Player.WHITE);
+            pips.get(17).setCheckers(3, Player.WHITE);
+            pips.get(19).setCheckers(5, Player.WHITE);
+
+            // Set up the RED checkers
+            pips.get(6).setCheckers(5, Player.RED);
+            pips.get(8).setCheckers(3, Player.RED);
+            pips.get(13).setCheckers(5, Player.RED);
+            pips.get(24).setCheckers(2, Player.RED);
+        }
+
+        public void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g;
+
+            int index = 12;
+            for (int x = 0; x < INNER_RIGHT_EDGE-INNER_LEFT_EDGE; x+= PIP_WIDTH) {
+                if (index == 6) {
+                    x += BAR_WIDTH;
+                }
+                int checkersOnPip = pips.get(index).getCheckerCount();
+                int checkersPlaced = 0;
+                Color checkerColor = pips.get(index).getColor() == Player.WHITE ? WHITE_CHECKER : RED_CHECKER;
+                Color checkerBorderColor = pips.get(index).getColor() == Player.WHITE ? WHITE_CHECKER_BORDER : RED_CHECKER_BORDER;
+                for (int y = 0; checkersPlaced < checkersOnPip; y+= PIP_WIDTH - 1) {
+                    switch (checkersPlaced) {
+                        case 5:
+                            y = PIP_WIDTH / 2;
+                            break;
+                        case 9:
+                            y = 2*PIP_WIDTH / 2;
+                            break;
+                        case 12:
+                            y = 3*PIP_WIDTH / 2;
+                            break;
+                        case 14:
+                            y = 4*PIP_WIDTH / 2;
+                            break;
+                    }
+                    g2.setColor(checkerColor);
+                    g2.fillOval(x, y, CHECKER_DIAMETER, CHECKER_DIAMETER);
+                    g2.setColor(checkerBorderColor);
+                    g2.setStroke(new BasicStroke(8));
+                    g2.drawOval(x + 4, y + 4, CHECKER_DIAMETER-4, CHECKER_DIAMETER-4);
+                    checkersPlaced++;
+                }
+                index--;
+            }
+
+            //Bottom
+            index = 13;
+            for (int x = 0; x < INNER_RIGHT_EDGE-INNER_LEFT_EDGE; x+= PIP_WIDTH) {
+                if (index == 19) {
+                    x += BAR_WIDTH;
+                }
+                int checkersOnPip = pips.get(index).getCheckerCount();
+                int checkersPlaced = 0;
+                Color checkerColor = pips.get(index).getColor() == Player.WHITE ? WHITE_CHECKER : RED_CHECKER;
+                Color checkerBorderColor = pips.get(index).getColor() == Player.WHITE ? WHITE_CHECKER_BORDER : RED_CHECKER_BORDER;
+                int startPos = BOARD_HEIGHT- 2*BEZEL-PIP_WIDTH;
+                for (int y = startPos; checkersPlaced < checkersOnPip; y-= PIP_WIDTH - 1) {
+                    switch (checkersPlaced) {
+                        case 5:
+                            y = startPos-PIP_WIDTH / 2;
+                            break;
+                        case 9:
+                            y = startPos-2*PIP_WIDTH / 2;
+                            break;
+                        case 12:
+                            y = startPos-3*PIP_WIDTH / 2;
+                            break;
+                        case 14:
+                            y = startPos-4*PIP_WIDTH / 2;
+                            break;
+                    }
+                    g2.setColor(checkerColor);
+                    g2.fillOval(x, y, CHECKER_DIAMETER, CHECKER_DIAMETER);
+                    g2.setColor(checkerBorderColor);
+                    g2.setStroke(new BasicStroke(8));
+                    g2.drawOval(x + 4, y + 4, CHECKER_DIAMETER-4, CHECKER_DIAMETER-4);
+                    checkersPlaced++;
+                }
+                index++;
+            }
         }
     }
 
@@ -188,10 +287,3 @@ public class GUI {
         }
     }
 }
-
-//            g2.setColor(new java.awt.Color(134, 19, 0));
-//            g2.fillOval(2,0,44,44);
-//            g2.fillOval(2,44,44,44);
-//            g2.fillOval(2,88,44,44);
-//            g2.fillOval(2,132,44,44);
-//            g2.fillOval(2,176,44,44);
