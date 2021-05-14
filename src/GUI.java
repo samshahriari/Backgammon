@@ -35,6 +35,11 @@ public class GUI {
     private final java.awt.Color BOARD_COLOR = new java.awt.Color(213, 123, 77);
     private final java.awt.Color BORDER_COLOR = new java.awt.Color(147, 64, 24);
     private final java.awt.Color BAR_COLOR = new java.awt.Color(172, 76, 27);
+    private final java.awt.Color ROLL_DICE_COLOR = new java.awt.Color(241, 178, 70);
+    private final java.awt.Color RED_CHECKER = new java.awt.Color(134, 19, 0);
+    private final java.awt.Color RED_CHECKER_BORDER = new java.awt.Color(98, 4, 2);
+    private final java.awt.Color WHITE_CHECKER = new java.awt.Color(238, 225, 203);
+    private final java.awt.Color WHITE_CHECKER_BORDER = new java.awt.Color(196, 176, 159);
 
 
     public static void main(String[] args) {
