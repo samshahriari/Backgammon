@@ -18,6 +18,17 @@ public class GUI {
     private final int PIP_WIDTH = 48;
     private final int CHECKER_DIAMETER = 44;
     private final int BAR_WIDTH = 68;
+    private final int BOARD_DICE_DISTANCE = 50;
+    private final int DICE_TRAY_WIDTH = 94;
+    private final int DICE_TRAY_HEIGHT = 168;
+    private final int DICE_WIDTH = 64;
+    private final int DICE_TRAY_LEFT = OUTER_LEFT_EDGE - BOARD_DICE_DISTANCE - DICE_TRAY_WIDTH;
+    private final int DICE_TRAY_TOP = BOARD_Y_AXIS - DICE_TRAY_HEIGHT/2;
+    private final int TITLE_BAR_HEIGHT = 30;
+    private final int OUTER_RIGHT_EDGE = OUTER_LEFT_EDGE + BOARD_WIDTH;
+    private final int OUTER_BOTTOM_EDGE = OUTER_TOP_EDGE + BOARD_HEIGHT;
+    private final int INNER_RIGHT_EDGE = OUTER_RIGHT_EDGE - BEZEL;
+    private final int INNER_BOTTOM_EDGE = OUTER_BOTTOM_EDGE - BEZEL;
 
     private final java.awt.Color RED_PIP = new java.awt.Color(255, 44, 19);
     private final java.awt.Color WHITE_PIP = new java.awt.Color(255, 221, 215);
