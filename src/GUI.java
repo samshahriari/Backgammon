@@ -91,7 +91,7 @@ public class GUI {
         public BarP() {
             setBounds( BOARD_X_AXIS-(BAR_WIDTH/2),  OUTER_TOP_EDGE,  BAR_WIDTH,BOARD_HEIGHT );
             setBackground(BAR_COLOR);
-            setBorder(BorderFactory.createLineBorder(BORDER_COLOR,10));
+            setBorder(BorderFactory.createLineBorder(BORDER_COLOR, 10));
         }
     }
 
@@ -101,6 +101,7 @@ public class GUI {
         public CheckersP() {
             setBounds( INNER_LEFT_EDGE,  INNER_TOP_EDGE,  BOARD_WIDTH,  BOARD_HEIGHT );
             setOpaque(false);
+
             pips = new ArrayList<>(26);
             for (int i = 0; i < 26; i++) {
                 pips.add(i, new Pip());
@@ -109,8 +110,6 @@ public class GUI {
             pips.get(12).setCheckers(5, Player.WHITE);
             pips.get(17).setCheckers(3, Player.WHITE);
             pips.get(19).setCheckers(5, Player.WHITE);
-
-            // Set up the RED checkers
             pips.get(6).setCheckers(5, Player.RED);
             pips.get(8).setCheckers(3, Player.RED);
             pips.get(13).setCheckers(5, Player.RED);
@@ -120,8 +119,9 @@ public class GUI {
         public void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
 
+            // Paint the checkers in upper quadrants
             int index = 12;
-            for (int x = 0; x < INNER_RIGHT_EDGE-INNER_LEFT_EDGE; x+= PIP_WIDTH) {
+            for (int x = 0; x < INNER_RIGHT_EDGE-INNER_LEFT_EDGE; x += PIP_WIDTH) {
                 if (index == 6) {
                     x += BAR_WIDTH;
                 }
@@ -129,19 +129,19 @@ public class GUI {
                 int checkersPlaced = 0;
                 Color checkerColor = pips.get(index).getColor() == Player.WHITE ? WHITE_CHECKER : RED_CHECKER;
                 Color checkerBorderColor = pips.get(index).getColor() == Player.WHITE ? WHITE_CHECKER_BORDER : RED_CHECKER_BORDER;
-                for (int y = 0; checkersPlaced < checkersOnPip; y+= PIP_WIDTH - 1) {
+                for (int y = 0; checkersPlaced < checkersOnPip; y += PIP_WIDTH - 1) {
                     switch (checkersPlaced) {
                         case 5:
-                            y = PIP_WIDTH / 2;
+                            y = PIP_WIDTH/2;
                             break;
                         case 9:
-                            y = 2*PIP_WIDTH / 2;
+                            y = 2*PIP_WIDTH/2;
                             break;
                         case 12:
-                            y = 3*PIP_WIDTH / 2;
+                            y = 3*PIP_WIDTH/2;
                             break;
                         case 14:
-                            y = 4*PIP_WIDTH / 2;
+                            y = 4*PIP_WIDTH/2;
                             break;
                     }
                     g2.setColor(checkerColor);
@@ -154,9 +154,9 @@ public class GUI {
                 index--;
             }
 
-            //Bottom
+            // Paint the checkers in upper quadrants
             index = 13;
-            for (int x = 0; x < INNER_RIGHT_EDGE-INNER_LEFT_EDGE; x+= PIP_WIDTH) {
+            for (int x = 0; x < INNER_RIGHT_EDGE-INNER_LEFT_EDGE; x += PIP_WIDTH) {
                 if (index == 19) {
                     x += BAR_WIDTH;
                 }
@@ -165,19 +165,19 @@ public class GUI {
                 Color checkerColor = pips.get(index).getColor() == Player.WHITE ? WHITE_CHECKER : RED_CHECKER;
                 Color checkerBorderColor = pips.get(index).getColor() == Player.WHITE ? WHITE_CHECKER_BORDER : RED_CHECKER_BORDER;
                 int startPos = BOARD_HEIGHT- 2*BEZEL-PIP_WIDTH;
-                for (int y = startPos; checkersPlaced < checkersOnPip; y-= PIP_WIDTH - 1) {
+                for (int y = startPos; checkersPlaced < checkersOnPip; y -= PIP_WIDTH - 1) {
                     switch (checkersPlaced) {
                         case 5:
-                            y = startPos-PIP_WIDTH / 2;
+                            y = startPos - PIP_WIDTH/2;
                             break;
                         case 9:
-                            y = startPos-2*PIP_WIDTH / 2;
+                            y = startPos - 2*PIP_WIDTH/2;
                             break;
                         case 12:
-                            y = startPos-3*PIP_WIDTH / 2;
+                            y = startPos - 3*PIP_WIDTH/2;
                             break;
                         case 14:
-                            y = startPos-4*PIP_WIDTH / 2;
+                            y = startPos - 4*PIP_WIDTH / 2;
                             break;
                     }
                     g2.setColor(checkerColor);
@@ -204,16 +204,16 @@ public class GUI {
         public void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
 
-            xp = new int[]{0,24,48};
-            yp = new int[]{0,220,0};
+            xp = new int[]{0, 24, 48};
+            yp = new int[]{0, 220, 0};
 
             for (int i = 0; i < 24; i++) {
                 if (i==12) {
-                    xp = new int[]{0,24,48};
-                    yp = new int[]{560,340,560};
+                    xp = new int[]{0, 24, 48};
+                    yp = new int[]{560, 340, 560};
                 }
                 g2.setColor((i%2 == 0 && i < 12) || (i%2 == 1 && i >= 12) ? WHITE_PIP : RED_PIP);
-                g2.fillPolygon(xp,yp,3);
+                g2.fillPolygon(xp, yp, 3);
                 xp[0] += PIP_WIDTH;
                 xp[1] += PIP_WIDTH;
                 xp[2] += PIP_WIDTH;
