@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * Contains information about pips and prints the board.
  *
  * @author  Jordan & Sam
- * @version 2021-05-13
+ * @version 2021-05-14
  */
 public class Board {
 
@@ -49,16 +49,16 @@ public class Board {
      */
     public void setUpCheckers() {
         // Set up the WHITE checkers
-        pips.get(1).setCheckers(2, Color.WHITE);
-        pips.get(12).setCheckers(5, Color.WHITE);
-        pips.get(17).setCheckers(3, Color.WHITE);
-        pips.get(19).setCheckers(5, Color.WHITE);
+        pips.get(1).setCheckers(2, Player.WHITE);
+        pips.get(12).setCheckers(5, Player.WHITE);
+        pips.get(17).setCheckers(3, Player.WHITE);
+        pips.get(19).setCheckers(5, Player.WHITE);
 
         // Set up the RED checkers
-        pips.get(6).setCheckers(5, Color.RED);
-        pips.get(8).setCheckers(3, Color.RED);
-        pips.get(13).setCheckers(5, Color.RED);
-        pips.get(24).setCheckers(2, Color.RED);
+        pips.get(6).setCheckers(5, Player.RED);
+        pips.get(8).setCheckers(3, Player.RED);
+        pips.get(13).setCheckers(5, Player.RED);
+        pips.get(24).setCheckers(2, Player.RED);
     }
 
     /**
@@ -69,7 +69,7 @@ public class Board {
     public int getWhiteCheckerCount() {
         int checkerCount = 0;
         for (int i = 0; i < 26; i++) {
-            if (pips.get(i).getColor() == Color.WHITE) {
+            if (pips.get(i).getColor() == Player.WHITE) {
             checkerCount += pips.get(i).getCheckerCount();
             }
         }
@@ -84,7 +84,7 @@ public class Board {
     public int getRedCheckerCount() {
         int checkerCount = 0;
         for (int i = 0; i < 26; i++) {
-            if (pips.get(i).getColor() == Color.RED) {
+            if (pips.get(i).getColor() == Player.RED) {
             checkerCount += pips.get(i).getCheckerCount();
             }
         }
@@ -97,9 +97,9 @@ public class Board {
      * @param col The color of the bar
      * @return Bar Pip corresponding to the color.
      */
-    public Pip getBar(Color col) {
+    public Pip getBar(Player col) {
         int barIndex = 0;  // zero if WHITE
-        if (col == Color.RED) {
+        if (col == Player.RED) {
             barIndex = 25;  // otherwise 25 if RED
         }
         return pips.get(barIndex);
@@ -132,8 +132,8 @@ public class Board {
      */
     public void displayBoard(Game game) {
 
-        System.out.println("\nWBO: " + game.getBearingOffStatus(Color.WHITE));
-        System.out.println("RBO: " + game.getBearingOffStatus(Color.RED));
+        System.out.println("\nWBO: " + game.getBearingOffStatus(Player.WHITE));
+        System.out.println("RBO: " + game.getBearingOffStatus(Player.RED));
 
         // Upper half of the board
         System.out.println("\n12 11 10 09 08 07         06 05 04 03 02 01");

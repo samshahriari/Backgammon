@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * Manages checker hits and blocks.
  *
  * @author  Jordan & Sam
- * @version 2021-05-13
+ * @version 2021-05-14
  */
 public class Move {
 
@@ -20,7 +20,7 @@ public class Move {
     public boolean moveChecker(Game game, Pip currentPip, int dieValue) {
 
         // Unpack properties from game
-        Color playerColor = game.getCurrentPlayerColor();
+        Player playerColor = game.getCurrentPlayerColor();
         Board board = game.getBoard();
 
         // Get the movement type (-1, 0, 1, 2) to determine how the checker will interact with other checkers or the board
@@ -36,7 +36,7 @@ public class Move {
                 newPip.addChecker(playerColor);
                 return true;
             case 1:
-                Color newColor = newPip.getColor();
+                Player newColor = newPip.getColor();
                 // Send enemy checker to bar
                 Pip bar = board.getBar(newColor);
                 bar.addChecker(newColor);
@@ -82,7 +82,7 @@ public class Move {
     public boolean canPlay(Game game, ArrayList<Integer> diceValues) {
 
         // Unpack properties from game
-        Color playerColor = game.getCurrentPlayerColor();
+        Player playerColor = game.getCurrentPlayerColor();
         Board board = game.getBoard();
         Pip playerBar = board.getBar(playerColor);
 
@@ -113,7 +113,7 @@ public class Move {
     private int checkMoveType(Game game, Pip currentPip, int dieValue) {
 
         // Unpack properties from game
-        Color playerColor = game.getCurrentPlayerColor();
+        Player playerColor = game.getCurrentPlayerColor();
         boolean bearingOff = game.getBearingOffStatus(playerColor);
         Board board = game.getBoard();
 
@@ -159,7 +159,7 @@ public class Move {
         // Check if a checker can be added to the new pip (compare colors)
         if (newPip.canAdd(playerColor)) {
 
-            Color newColor = newPip.getColor();
+            Player newColor = newPip.getColor();
 
             if (newPip.getCheckerCount() > 0 && newColor != playerColor) {
                 return 1;  // move hits enemy
@@ -207,8 +207,8 @@ public class Move {
      * @param col  The color of the checker
      * @return int 1 for WHITE direction and -1 for RED direction
      */
-    public int getDirection(Color col) {
-        if (col == Color.WHITE) {
+    public int getDirection(Player col) {
+        if (col == Player.WHITE) {
             return 1;  // WHITE has direction factor 1
         }
         return -1; // RED has direction factor -1

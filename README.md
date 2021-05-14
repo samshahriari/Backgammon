@@ -20,7 +20,7 @@ Developed by Jordan Jass Olsson & Sam Shahriari as part of the course DD1349.
 
 Class for creating and initializing a backgammon board. Contains information about pips and prints the board.
 
-#### [Color](src/Color.java)
+#### [Player](src/Player.java)
 
 Enum that keeps track of the different players/checker colors.
 

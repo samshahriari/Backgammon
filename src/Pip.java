@@ -3,12 +3,12 @@
  * Allows for adding/removing checkers from pips.
  *
  * @author Jordan & Sam
- * @version 2021-05-13
+ * @version 2021-05-14
  */
 public class Pip {
 
     private int checkerCount; // holds the checkers on the pip
-    private Color checkerColor;
+    private Player checkerColor;
 
     // Color codes for printing to the terminal
     public static final String ANSI_RESET = "\u001B[0m";
@@ -31,7 +31,7 @@ public class Pip {
      * @param cc  The number of checkers
      * @param col The color of the checkers
      */
-    public void setCheckers(int cc, Color col) {
+    public void setCheckers(int cc, Player col) {
         checkerCount = cc;
         checkerColor = col;
     }
@@ -41,7 +41,7 @@ public class Pip {
      *
      * @param col The color of checker to be added
      */
-    public void addChecker(Color col) {
+    public void addChecker(Player col) {
         checkerCount++;
         checkerColor = col;
     }
@@ -57,7 +57,7 @@ public class Pip {
      * @param col The color of the checker to be moved
      * @return True if the checker can be added to the pip : False otherwise
      */
-    public boolean canAdd(Color col) {
+    public boolean canAdd(Player col) {
         return (checkerCount < 2 || checkerColor == col);
     }
 
@@ -86,7 +86,7 @@ public class Pip {
      *
      * @return Color of the checker stack
      */
-    public Color getColor() {
+    public Player getColor() {
         return checkerColor;
     }
 

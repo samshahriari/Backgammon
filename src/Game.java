@@ -9,7 +9,7 @@ import java.util.Scanner;
  * Class for playing backgammon games. Run main to play!
  *
  * @author  Jordan & Sam
- * @version 2021-05-13
+ * @version 2021-05-14
  */
 public class Game {
 
@@ -17,7 +17,7 @@ public class Game {
     private Board board;
     private Move move;
     Random rand;
-    private Color currentPlayerColor;
+    private Player currentPlayerColor;
     private int whiteCheckersLeft;
     private int redCheckersLeft;
     private boolean whiteBearingOff;
@@ -40,10 +40,10 @@ public class Game {
     public void nextTurn() {
         // Switch color if the game is not over
         if (!gameOver) {
-            if (currentPlayerColor == Color.WHITE) {
-                currentPlayerColor = Color.RED;
+            if (currentPlayerColor == Player.WHITE) {
+                currentPlayerColor = Player.RED;
             } else {
-                currentPlayerColor = Color.WHITE;
+                currentPlayerColor = Player.WHITE;
             }
         }
     }
@@ -53,7 +53,7 @@ public class Game {
      *
      * @return The current player's color
      */
-    public Color getCurrentPlayerColor() {
+    public Player getCurrentPlayerColor() {
         return currentPlayerColor;
     }
 
@@ -96,11 +96,11 @@ public class Game {
      * @param col The Color of the current player
      * @return True if checkers were successfully decreased or return false if current player is not WHITE or RED
      */
-    public boolean decreaseCheckersLeft(Color col) {
-        if (col == Color.WHITE) {
+    public boolean decreaseCheckersLeft(Player col) {
+        if (col == Player.WHITE) {
             whiteCheckersLeft--;
             return true;
-        } else if (col == Color.RED) {
+        } else if (col == Player.RED) {
             redCheckersLeft--;
             return true;
         }
@@ -113,10 +113,10 @@ public class Game {
      * @param col The current player color
      * @return True if the current player is bearing off and false if they are not currently bearing off
      */
-    public boolean getBearingOffStatus(Color col) {
-        if (col == Color.WHITE) {
+    public boolean getBearingOffStatus(Player col) {
+        if (col == Player.WHITE) {
             return whiteBearingOff;
-        } else if (col == Color.RED) {
+        } else if (col == Player.RED) {
             return redBearingOff;
         }
         return false;
@@ -134,7 +134,7 @@ public class Game {
         // Iterate over WHITE'S home quadrant
         for (int i = 19; i < 25; i++) {
             // If found WHITE pip
-            if (board.getPip(i).getColor() == Color.WHITE) {
+            if (board.getPip(i).getColor() == Player.WHITE) {
                 counterW += board.getPip(i).getCheckerCount();
             }
         }
@@ -142,7 +142,7 @@ public class Game {
         // Iterate over RED'S home quadrant
         for (int i = 1; i < 7; i++) {
             // If found RED pip
-            if (board.getPip(i).getColor() == Color.RED) {
+            if (board.getPip(i).getColor() == Player.RED) {
                 counterR += board.getPip(i).getCheckerCount();
             }
         }
@@ -190,7 +190,7 @@ public class Game {
     public void decideStartingPlayer() {
         rand = new Random();
         int r = rand.nextInt(2);
-        currentPlayerColor = (r==0 ? Color.WHITE : Color.RED);
+        currentPlayerColor = (r==0 ? Player.WHITE : Player.RED);
     }
 
     /**
