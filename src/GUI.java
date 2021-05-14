@@ -58,6 +58,7 @@ public class GUI {
         JLayeredPane base = new JLayeredPane();
         base.setOpaque(false);
 
+        DiceTrayP diceTray = new DiceTrayP();
         BoardP board = new BoardP();
         BarP bar = new BarP();
         PipsP pips = new PipsP();
@@ -65,6 +66,7 @@ public class GUI {
         base.add(pips,0,-1);
         base.add(bar,0,-1);
         base.add(board,0,-1);
+        base.add(diceTray, 0, -1);
 
         window.add(base);
         window.setVisible(true);
@@ -118,6 +120,14 @@ public class GUI {
                     xp[2] += BAR_WIDTH;
                 }
             }
+        }
+    }
+    private class DiceTrayP extends JPanel {
+        public DiceTrayP() {
+            setBounds( DICE_TRAY_LEFT,  DICE_TRAY_TOP,  DICE_TRAY_WIDTH,  DICE_TRAY_HEIGHT );
+            setBackground(BOARD_COLOR);
+            setBorder(BorderFactory.createLineBorder(BORDER_COLOR,5));
+            setOpaque(true);
         }
     }
 }
