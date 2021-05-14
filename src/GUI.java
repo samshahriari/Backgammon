@@ -61,7 +61,7 @@ public class GUI {
 
         DiceTrayP diceTray = new DiceTrayP();
         DiceFacesP diceFaces = new DiceFacesP(null);
-
+        RollDiceP rollDice = new RollDiceP();
         BoardP board = new BoardP();
         BarP bar = new BarP();
         PipsP pips = new PipsP();
@@ -69,6 +69,7 @@ public class GUI {
         base.add(pips,0,-1);
         base.add(bar,0,-1);
         base.add(board,0,-1);
+        base.add(rollDice, 0, -1);
         base.add(diceFaces, 0, -1);
         base.add(diceTray, 0, -1);
 
@@ -162,6 +163,28 @@ public class GUI {
             g2.setColor(Color.black);
             g2.setStroke(new BasicStroke(3));
             g2.drawRect(15, 15+ DICE_WIDTH + 10, DICE_WIDTH, DICE_WIDTH);
+        }
+    }
+
+    private class RollDiceP extends JPanel {
+        public RollDiceP() {
+            setBounds( DICE_TRAY_LEFT,  DICE_TRAY_TOP + DICE_TRAY_HEIGHT + 20,  DICE_TRAY_WIDTH,  DICE_TRAY_WIDTH );
+            setBackground(ROLL_DICE_COLOR);
+            setBorder(BorderFactory.createLineBorder(BORDER_COLOR,5));
+            setOpaque(true);
+
+            JLabel textRoll = new JLabel("<html><br><h1>ROLL</h1></html>");
+            textRoll.setSize(DICE_TRAY_WIDTH-20, DICE_TRAY_WIDTH-20);
+            JLabel textDice = new JLabel("<html><h1>DICE</h1><br><br></html>");
+            this.setLayout(new GridBagLayout());
+
+            GridBagConstraints c = new GridBagConstraints();
+            c.gridx = 0;
+            c.gridy = 0;
+            c.gridy = 1;
+            this.add(textRoll, c);
+            c.gridy = 2;
+            this.add(textDice, c);
         }
     }
 }
