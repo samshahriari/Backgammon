@@ -37,7 +37,7 @@ public class GUI {
     private static final java.awt.Color BOARD_COLOR = new java.awt.Color(213, 123, 77);
     private static final java.awt.Color BORDER_COLOR = new java.awt.Color(147, 64, 24);
     private static final java.awt.Color BAR_COLOR = new java.awt.Color(172, 76, 27);
-    private static final java.awt.Color ROLL_DICE_COLOR = new java.awt.Color(241, 178, 70);
+    private static final java.awt.Color ROLL_DICE_COLOR = new java.awt.Color(253, 113, 41);
     private static final java.awt.Color RED_CHECKER = new java.awt.Color(134, 19, 0);
     private static final java.awt.Color RED_CHECKER_BORDER = new java.awt.Color(98, 4, 2);
     private static final java.awt.Color WHITE_CHECKER = new java.awt.Color(238, 225, 203);
@@ -65,10 +65,14 @@ public class GUI {
         RollDiceP rollDice = new RollDiceP();
         BoardP board = new BoardP();
         BarP bar = new BarP();
+        GoalP goal = new GoalP();
         PipsP pips = new PipsP();
         CheckersP checkers = new CheckersP();
+        CheckersInGoalP chkInGoal = new CheckersInGoalP();
 
+        base.add(chkInGoal, 0, -1);
         base.add(checkers, 0, -1);
+        base.add(goal, 0, -1);
         base.add(pips,0,-1);
         base.add(bar,0,-1);
         base.add(board,0,-1);
@@ -93,6 +97,58 @@ public class GUI {
             setBounds( BOARD_X_AXIS-(BAR_WIDTH/2),  OUTER_TOP_EDGE,  BAR_WIDTH,BOARD_HEIGHT );
             setBackground(BAR_COLOR);
             setBorder(BorderFactory.createLineBorder(BORDER_COLOR, 10));
+        }
+    }
+
+    private class GoalP extends JPanel {
+        public GoalP() {
+            setBounds(OUTER_RIGHT_EDGE + BOARD_DICE_DISTANCE / 2, OUTER_TOP_EDGE, CHECKER_DIAMETER + 30, BOARD_HEIGHT);
+            setBackground(BOARD_COLOR);
+            setBorder(BorderFactory.createLineBorder(BORDER_COLOR, 10));
+        }
+
+    }
+    private class CheckersInGoalP extends JPanel {
+
+        int whiteCheckersAtStart = 15;
+        int whiteCheckersLeft = 0;
+        int redCheckersAtStart = 15;
+        int redCheckersLeft = 0;
+        int whiteCheckersInGoal = whiteCheckersAtStart - whiteCheckersLeft;
+        int redCheckersInGoal = redCheckersAtStart - redCheckersLeft;
+
+        public CheckersInGoalP() {
+            setBounds(OUTER_RIGHT_EDGE + BOARD_DICE_DISTANCE / 2, OUTER_TOP_EDGE, CHECKER_DIAMETER + 30, BOARD_HEIGHT);
+            setOpaque(false);
+        }
+
+        public void drawCheckersInGoal(Graphics2D g2) {
+            g2.setColor(RED_CHECKER);
+            int checkerThickness = 14;
+            int checkerSpacing = 3;
+            int initialPadding = 11;
+            int xp = BEZEL+5;
+            int yp = BEZEL+initialPadding;
+            for (int i = 0; i < redCheckersInGoal; i++) {
+                g2.fillRect(xp,yp, CHECKER_DIAMETER, checkerThickness);
+                yp += checkerThickness + checkerSpacing;
+            }
+            g2.setColor(WHITE_CHECKER);
+            yp = BOARD_HEIGHT - BEZEL - checkerThickness - initialPadding;
+            for (int i = 0; i < whiteCheckersInGoal; i++) {
+                g2.fillRect(xp,yp, CHECKER_DIAMETER, checkerThickness);
+                yp -= checkerThickness + checkerSpacing;
+            }
+        }
+
+        public void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g;
+            // Draw the goal divider
+            g2.setColor(BORDER_COLOR);
+            g2.setStroke(new BasicStroke(10));
+            g2.drawLine(0, BOARD_Y_AXIS-OUTER_TOP_EDGE, CHECKER_DIAMETER+30, BOARD_Y_AXIS-OUTER_TOP_EDGE);
+            // Draw checkers in goal
+            drawCheckersInGoal(g2);
         }
     }
 
@@ -311,9 +367,9 @@ public class GUI {
             setBorder(BorderFactory.createLineBorder(BORDER_COLOR,5));
             setOpaque(true);
 
-            JLabel textRoll = new JLabel("<html><br><h1>ROLL</h1></html>");
+            JLabel textRoll = new JLabel("<html><br><h2>ROLL</h2></html>");
             textRoll.setSize(DICE_TRAY_WIDTH-20, DICE_TRAY_WIDTH-20);
-            JLabel textDice = new JLabel("<html><h1>DICE</h1><br><br></html>");
+            JLabel textDice = new JLabel("<html><h2>DICE</h2><br><br></html>");
             this.setLayout(new GridBagLayout());
 
             GridBagConstraints c = new GridBagConstraints();
