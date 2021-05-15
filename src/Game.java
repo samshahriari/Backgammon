@@ -20,6 +20,10 @@ public class Game {
     private Player currentPlayerColor;
     private int whiteCheckersLeft;
     private int redCheckersLeft;
+    private final int whiteCheckersAtStart;
+    private final int redCheckersAtStart;
+    private int whiteCheckersInGoal;
+    private int redCheckersInGoal;
     private boolean whiteBearingOff;
     private boolean redBearingOff;
 
@@ -29,8 +33,10 @@ public class Game {
     public Game() {
         board = new Board();
         move = new Move();
-        whiteCheckersLeft = board.getWhiteCheckerCount();  // reads the board for the number of WHITE checkers set
-        redCheckersLeft = board.getRedCheckerCount();  // reads the board for the number of RED checkers set
+        whiteCheckersAtStart = board.getWhiteCheckerCount();  // reads the board for the number of WHITE checkers set
+        redCheckersAtStart = board.getRedCheckerCount();  // reads the board for the number of RED checkers set
+        whiteCheckersLeft = whiteCheckersAtStart;
+        redCheckersLeft = redCheckersAtStart;
         updateGameStatus();
     }
 
@@ -146,6 +152,8 @@ public class Game {
                 counterR += board.getPip(i).getCheckerCount();
             }
         }
+        whiteCheckersInGoal = whiteCheckersAtStart - whiteCheckersLeft;
+        redCheckersInGoal = redCheckersAtStart - redCheckersLeft;
         whiteBearingOff = (counterW == whiteCheckersLeft);
         redBearingOff = (counterR == redCheckersLeft);
     }
