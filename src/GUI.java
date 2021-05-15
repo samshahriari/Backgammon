@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.*;
 import javax.swing.border.Border;
 
@@ -238,30 +239,68 @@ public class GUI {
 
     private class DiceFacesP extends JPanel {
 
-        private ArrayList<Integer> diceValues;
+        ArrayList<Integer> diceValues = new ArrayList<>(Arrays.asList(6,6,6,6));
+
+        int spotSize = 8;
+        int spotLeft = (DICE_TRAY_WIDTH - DICE_WIDTH)/2 + spotSize + 4;
+        int D1SpotTop = spotLeft;
+        int D2SpotTop = D1SpotTop + DICE_WIDTH + 10;
 
         public DiceFacesP(ArrayList<Integer> dv) {
             setBounds( DICE_TRAY_LEFT,  DICE_TRAY_TOP,  DICE_TRAY_WIDTH,  DICE_TRAY_HEIGHT );
-            diceValues = dv;
+            //diceValues = dv;
+        }
+
+        public void drawSpots(Graphics2D g2) {
+
+            int spotTop = D1SpotTop;
+            int tr = 2*spotSize;
+            for (int numSpots : diceValues) {
+                switch (numSpots) {
+                    case 5:
+                        g2.fillRect(spotLeft, spotTop, spotSize, spotSize);
+                        g2.fillRect(spotLeft + 2*tr, spotTop + 2*tr, spotSize, spotSize);
+                    case 3:
+                        g2.fillRect(spotLeft, spotTop + 2*tr, spotSize, spotSize);
+                        g2.fillRect(spotLeft + 2*tr, spotTop, spotSize, spotSize);
+                    case 1:
+                        g2.fillRect(spotLeft + tr, spotTop + 2 * spotSize, spotSize, spotSize);
+                        break;
+                    case 6:
+                        g2.fillRect(spotLeft, spotTop + tr, spotSize, spotSize);
+                        g2.fillRect(spotLeft + 2*tr, spotTop + tr, spotSize, spotSize);
+                    case 4:
+                        g2.fillRect(spotLeft, spotTop, spotSize, spotSize);
+                        g2.fillRect(spotLeft + 2*tr, spotTop + 2*tr, spotSize, spotSize);
+                    case 2:
+                        g2.fillRect(spotLeft, spotTop + 2*tr, spotSize, spotSize);
+                        g2.fillRect(spotLeft + 2*tr, spotTop, spotSize, spotSize);
+                        break;
+                }
+                spotTop = D2SpotTop;
+            }
         }
 
         @Override
         public void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
 
+            // Draw first dice
             g2.setColor(Color.white);
             g2.fillRect(15, 15,  DICE_WIDTH,  DICE_WIDTH);
             g2.setColor(Color.black);
-            g2.setStroke(new BasicStroke(3));
+            g2.setStroke(new BasicStroke(4));
             g2.drawRect(15, 15, DICE_WIDTH, DICE_WIDTH);
-            g2.fillRect(25,25,10,10);
 
-
+            // Draw second dice
             g2.setColor(Color.white);
-            g2.fillRect(15, 15+ DICE_WIDTH + 10,  DICE_WIDTH,  DICE_WIDTH);
+            g2.fillRect(15, 15 + DICE_WIDTH + 10,  DICE_WIDTH,  DICE_WIDTH);
             g2.setColor(Color.black);
-            g2.setStroke(new BasicStroke(3));
-            g2.drawRect(15, 15+ DICE_WIDTH + 10, DICE_WIDTH, DICE_WIDTH);
+            g2.setStroke(new BasicStroke(4));
+            g2.drawRect(15, 15 + DICE_WIDTH + 10, DICE_WIDTH, DICE_WIDTH);
+
+            // Draw spots
+            drawSpots(g2);
         }
     }
 
