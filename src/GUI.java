@@ -268,6 +268,36 @@ public class GUI {
             setBounds( INNER_LEFT_EDGE,  INNER_TOP_EDGE,  BOARD_WIDTH,  BOARD_HEIGHT );
         }
 
+        public int mouseOnPipIndex(int x, int y) {
+            int pipIndex = -1;
+            x -= INNER_LEFT_EDGE;
+            if (y > INNER_TOP_EDGE && y < INNER_TOP_EDGE + PIP_LENGTH) {
+                if (x > 0 && x < 6*PIP_WIDTH) {
+                    pipIndex = 12-x/PIP_WIDTH;
+                }
+                else if (x > 6*PIP_WIDTH && x < 6*PIP_WIDTH + BAR_WIDTH) {
+                    pipIndex = 0;
+                }
+                else if (x > 6*PIP_WIDTH + BAR_WIDTH && x < 12*PIP_WIDTH + BAR_WIDTH) {
+                    x -= 6*PIP_WIDTH + BAR_WIDTH;
+                    pipIndex = 6-x/PIP_WIDTH;
+                }
+            }
+            else if (y > INNER_BOTTOM_EDGE - PIP_LENGTH && y < INNER_BOTTOM_EDGE) {
+                if (x > 0 && x < 6*PIP_WIDTH) {
+                    pipIndex = 13+x/PIP_WIDTH;
+                }
+                else if (x > 6*PIP_WIDTH && x < 6*PIP_WIDTH + BAR_WIDTH) {
+                    pipIndex = 25;
+                }
+                else if (x > 6*PIP_WIDTH + BAR_WIDTH && x < 12*PIP_WIDTH + BAR_WIDTH) {
+                    x -= 6*PIP_WIDTH + BAR_WIDTH;
+                    pipIndex = 19+x/PIP_WIDTH;
+                }
+            }
+            return pipIndex;
+        }
+
         public void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
 
