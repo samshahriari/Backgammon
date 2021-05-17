@@ -5,13 +5,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
 /**
  * Class for playing backgammon games. Run main to play!
  *
  * @author  Jordan & Sam
- * @version 2021-05-14
+ * @version 2021-05-17
  */
 public class Game implements MouseListener {
 
@@ -47,6 +46,8 @@ public class Game implements MouseListener {
         redCheckersAtStart = board.getRedCheckerCount();  // reads the board for the number of RED checkers set
         whiteCheckersLeft = whiteCheckersAtStart;
         redCheckersLeft = redCheckersAtStart;
+        diceValues = new ArrayList<>();
+        decideStartingPlayer();
         updateGameStatus();
     }
 
@@ -166,6 +167,12 @@ public class Game implements MouseListener {
         redCheckersInGoal = redCheckersAtStart - redCheckersLeft;
         whiteBearingOff = (counterW == whiteCheckersLeft);
         redBearingOff = (counterR == redCheckersLeft);
+
+        if (!move.canPlay(this, diceValues)) {
+            nextTurn();
+        }
+        gui.activePlayerPanel.updateText(currentPlayerColor);
+        gui.checkersPanel.updatePips(board.getPips());
     }
 
     /**
