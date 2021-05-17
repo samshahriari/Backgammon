@@ -352,6 +352,11 @@ public class GUI {
             //diceValues = dv;
         }
 
+        public void updateDiceValues(ArrayList<Integer> dv) {
+            diceValues = dv;
+            repaint();
+        }
+
         public void drawSpots(Graphics2D g2) {
 
             int spotTop = D1SpotTop;
