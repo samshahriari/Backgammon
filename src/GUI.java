@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -26,6 +27,7 @@ public class GUI {
     public static final int DICE_TRAY_HEIGHT = 168;
     public static final int DICE_WIDTH = 64;
     public static final int DICE_TRAY_LEFT = OUTER_LEFT_EDGE - BOARD_DICE_DISTANCE - DICE_TRAY_WIDTH;
+    public static final int DICE_TRAY_RIGHT = DICE_TRAY_LEFT + DICE_TRAY_WIDTH;
     public static final int DICE_TRAY_TOP = BOARD_Y_AXIS - DICE_TRAY_HEIGHT/2;
     public static final int TITLE_BAR_HEIGHT = 30;
     public static final int OUTER_RIGHT_EDGE = OUTER_LEFT_EDGE + BOARD_WIDTH;
@@ -45,16 +47,16 @@ public class GUI {
     private static final java.awt.Color WHITE_CHECKER_BORDER = new java.awt.Color(196, 176, 159);
 
     JFrame window;
-    DiceTrayP diceTray;
-    DiceFacesP diceFaces;
-    RollDiceP rollDice;
-    BoardP board;
-    BarP bar;
-    GoalP goal;
-    PipsP pips;
-    CheckersP checkers;
-    CheckersInGoalP chkInGoal;
-    ActivePlayerP activePlayer;
+    DiceTrayP diceTrayPanel;
+    DiceFacesP diceFacesPanel;
+    RollDiceP rollDicePanel;
+    BoardP boardPanel;
+    BarP barPanel;
+    GoalP goalPanel;
+    PipsP pipsPanel;
+    CheckersP checkersPanel;
+    CheckersInGoalP chkInGoalPanel;
+    ActivePlayerP activePlayerPanel;
 
     public GUI() {
         window = new JFrame();
@@ -68,27 +70,27 @@ public class GUI {
         JLayeredPane base = new JLayeredPane();
         base.setOpaque(false);
 
-        diceTray = new DiceTrayP();
-        diceFaces = new DiceFacesP(null);
-        rollDice = new RollDiceP();
-        board = new BoardP();
-        bar = new BarP();
-        goal = new GoalP();
-        pips = new PipsP();
-        checkers = new CheckersP();
-        chkInGoal = new CheckersInGoalP();
-        activePlayer = new ActivePlayerP();
+        diceTrayPanel = new DiceTrayP();
+        diceFacesPanel = new DiceFacesP();
+        rollDicePanel = new RollDiceP();
+        boardPanel = new BoardP();
+        barPanel = new BarP();
+        goalPanel = new GoalP();
+        pipsPanel = new PipsP();
+        checkersPanel = new CheckersP();
+        chkInGoalPanel = new CheckersInGoalP();
+        activePlayerPanel = new ActivePlayerP();
 
-        base.add(activePlayer, 0, -1);
-        base.add(chkInGoal, 0, -1);
-        base.add(checkers, 0, -1);
-        base.add(goal, 0, -1);
-        base.add(pips,0,-1);
-        base.add(bar,0,-1);
-        base.add(board,0,-1);
-        base.add(rollDice, 0, -1);
-        base.add(diceFaces, 0, -1);
-        base.add(diceTray, 0, -1);
+        base.add(activePlayerPanel, 0, -1);
+        base.add(chkInGoalPanel, 0, -1);
+        base.add(checkersPanel, 0, -1);
+        base.add(goalPanel, 0, -1);
+        base.add(pipsPanel,0,-1);
+        base.add(barPanel,0,-1);
+        base.add(boardPanel,0,-1);
+        base.add(rollDicePanel, 0, -1);
+        base.add(diceFacesPanel, 0, -1);
+        base.add(diceTrayPanel, 0, -1);
 
         window.add(base);
         window.setVisible(true);
@@ -116,9 +118,18 @@ public class GUI {
             setBackground(BOARD_COLOR);
             setBorder(BorderFactory.createLineBorder(BORDER_COLOR, 10));
         }
-
     }
-    private class CheckersInGoalP extends JPanel {
+
+    private class DiceTrayP extends JPanel {
+        public DiceTrayP() {
+            setBounds( DICE_TRAY_LEFT,  DICE_TRAY_TOP,  DICE_TRAY_WIDTH,  DICE_TRAY_HEIGHT );
+            setBackground(BOARD_COLOR);
+            setBorder(BorderFactory.createLineBorder(BORDER_COLOR,5));
+            setOpaque(true);
+        }
+    }
+
+    public class CheckersInGoalP extends JPanel {
 
         int whiteCheckersAtStart = 15;
         int whiteCheckersLeft = 0;
@@ -162,25 +173,13 @@ public class GUI {
         }
     }
 
-    private class CheckersP extends JPanel {
+    public class CheckersP extends JPanel {
 
         ArrayList<Pip> pips;
+
         public CheckersP() {
             setBounds( INNER_LEFT_EDGE,  INNER_TOP_EDGE,  BOARD_WIDTH,  BOARD_HEIGHT );
             setOpaque(false);
-
-            pips = new ArrayList<>(26);
-            for (int i = 0; i < 26; i++) {
-                pips.add(i, new Pip());
-            }
-            pips.get(1).setCheckers(2, Player.WHITE);
-            pips.get(12).setCheckers(5, Player.WHITE);
-            pips.get(17).setCheckers(3, Player.WHITE);
-            pips.get(19).setCheckers(5, Player.WHITE);
-            pips.get(6).setCheckers(5, Player.RED);
-            pips.get(8).setCheckers(3, Player.RED);
-            pips.get(13).setCheckers(5, Player.RED);
-            pips.get(24).setCheckers(2, Player.RED);
         }
 
         public void updatePips(ArrayList<Pip> newPips) {
@@ -264,7 +263,7 @@ public class GUI {
         }
     }
 
-    private class PipsP extends JPanel {
+    public class PipsP extends JPanel {
 
         private int[] xp;
         private int[] yp;
@@ -329,27 +328,18 @@ public class GUI {
         }
     }
 
-    private class DiceTrayP extends JPanel {
-        public DiceTrayP() {
-            setBounds( DICE_TRAY_LEFT,  DICE_TRAY_TOP,  DICE_TRAY_WIDTH,  DICE_TRAY_HEIGHT );
-            setBackground(BOARD_COLOR);
-            setBorder(BorderFactory.createLineBorder(BORDER_COLOR,5));
-            setOpaque(true);
-        }
-    }
+    public class DiceFacesP extends JPanel {
 
-    private class DiceFacesP extends JPanel {
-
-        ArrayList<Integer> diceValues = new ArrayList<>(Arrays.asList(6,6,6,6));
+        ArrayList<Integer> diceValues = new ArrayList<>(Arrays.asList(1,1));
 
         int spotSize = 8;
         int spotLeft = (DICE_TRAY_WIDTH - DICE_WIDTH)/2 + spotSize + 4;
         int D1SpotTop = spotLeft;
         int D2SpotTop = D1SpotTop + DICE_WIDTH + 10;
 
-        public DiceFacesP(ArrayList<Integer> dv) {
+        public DiceFacesP() {
             setBounds( DICE_TRAY_LEFT,  DICE_TRAY_TOP,  DICE_TRAY_WIDTH,  DICE_TRAY_HEIGHT );
-            //diceValues = dv;
+            setOpaque(false);
         }
 
         public void updateDiceValues(ArrayList<Integer> dv) {
@@ -410,7 +400,7 @@ public class GUI {
         }
     }
 
-    private class RollDiceP extends JPanel {
+    public class RollDiceP extends JPanel {
         public RollDiceP() {
             setBounds( DICE_TRAY_LEFT,  DICE_TRAY_TOP + DICE_TRAY_HEIGHT + 20,  DICE_TRAY_WIDTH,  DICE_TRAY_WIDTH );
             setBackground(ROLL_DICE_COLOR);
@@ -439,9 +429,9 @@ public class GUI {
         }
     }
 
-    private class ActivePlayerP extends JPanel {
+    public class ActivePlayerP extends JPanel {
 
-        JLabel textRoll;
+        JLabel currentPlayer;
 
         public ActivePlayerP() {
             setBounds( DICE_TRAY_LEFT,  DICE_TRAY_TOP - DICE_TRAY_WIDTH - 20,  DICE_TRAY_WIDTH,  DICE_TRAY_WIDTH );
@@ -449,16 +439,16 @@ public class GUI {
             setBorder(BorderFactory.createLineBorder(BORDER_COLOR,5));
             setOpaque(true);
 
-            textRoll = new JLabel("<html><br><h2>WHITE</h2></html>");
-            textRoll.setSize(DICE_TRAY_WIDTH-20, DICE_TRAY_WIDTH-20);
-            this.add(textRoll);
+            currentPlayer = new JLabel("<html><br><h2>WHITE</h2></html>");
+            currentPlayer.setSize(DICE_TRAY_WIDTH-20, DICE_TRAY_WIDTH-20);
+            this.add(currentPlayer);
         }
 
-        public void updateText() {
-            if (textRoll.getText().equals("<html><br><h2>WHITE</h2></html>")) {
-                textRoll.setText("<html><br><h2>RED</h2></html>");
+        public void updateText(Player p) {
+            if (p == Player.WHITE) {
+                currentPlayer.setText("<html><br><h2>WHITE</h2></html>");
             } else {
-                textRoll.setText("<html><br><h2>WHITE</h2></html>");
+                currentPlayer.setText("<html><br><h2>RED</h2></html>");
             }
         }
     }
