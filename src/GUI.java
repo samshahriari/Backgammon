@@ -390,6 +390,13 @@ public class GUI {
             c.gridy = 2;
             this.add(textDice, c);
         }
+
+        public boolean isMouseOn(int xp, int yp) {
+            if (xp > DICE_TRAY_LEFT && xp < DICE_TRAY_RIGHT && yp > DICE_TRAY_TOP + DICE_TRAY_HEIGHT + 20 && yp < DICE_TRAY_TOP + DICE_TRAY_HEIGHT + DICE_TRAY_WIDTH) {
+                return true;
+            }
+            return false;
+        }
     }
 
     private class ActivePlayerP extends JPanel {
