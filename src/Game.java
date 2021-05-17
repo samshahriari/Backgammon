@@ -30,7 +30,11 @@ public class Game implements MouseListener {
     private boolean redBearingOff;
     private GUI gui;
 
-    private boolean canRollDice;
+    // Gameplay fields
+    ArrayList<Integer> diceValues;
+    int selection1 = -1;
+    int selection2 = -1;
+
 
     /**
      * Set up a new game and initialize its properties.
@@ -207,142 +211,47 @@ public class Game implements MouseListener {
         currentPlayerColor = (r==0 ? Player.WHITE : Player.RED);
     }
 
-    /**
-     * Run the game.
-     *
-     * @throws MalformedURLException if URL links do not function properly
-     */
-    public static void main(String[] args) throws MalformedURLException {
-
-
-        // Start new game
+    public static void main(String[] args) {
         Game game = new Game();
-        // Display start screen : continue to game upon enter press
-        game.startScreen();
-        // Display start screen
-        game.board.displayBoard(game);
-        // Create mouse listener
         game.gui.window.addMouseListener(game);
+    }
 
-        Scanner input = new Scanner(System.in);
-
-        // Randomize which player will play first
-        game.decideStartingPlayer();
-
-        // Loop until the game is over
-        while (!game.gameOver) {
-
-            System.out.println("\nPlayer turn: " + game.currentPlayerColor);
-            System.out.print("\n< Press enter to roll dice >");
-            game.canRollDice = true;
-
-
-            // Get dice values for dice roll
-            ArrayList<Integer> diceCasts = game.rollDice();
-            // Loop as long as there are moves to make
-            while (diceCasts.size() > 0 && !game.gameOver) {
-
-                // Print dice values
-                System.out.println("\nDice: " + diceCasts.toString());
-
-                // Check if player can play
-                if (!game.move.canPlay(game, diceCasts)) {
-                    System.out.println("\n    --- NO MOVES POSSIBLE : ENDING TURN ---");
-                    break;
+    public void eventHandler(int xp, int yp) {
+        // Check if click is on roll-dice button
+        if (gui.rollDicePanel.isMouseOn(xp,yp) && diceValues.size() == 0) {
+            diceValues = rollDice();
+            gui.diceFacesPanel.updateDiceValues(diceValues);
+            // Check if click is on pip
+            updateGameStatus();
+        }
+        int clickedPipIndex = gui.pipsPanel.mouseOnPipIndex(xp,yp);
+        if (clickedPipIndex > -1 && clickedPipIndex < 26) {
+            if (selection1 == -1) {
+                if (move.canMove(this, board.getPip(clickedPipIndex), diceValues)) {
+                    selection1 = clickedPipIndex;
+                    System.out.println("Selection1 index: " + clickedPipIndex);
                 }
-                // Initialize chosenPip
-                Pip chosenPip = null;
-
-                boolean pipChoiceValid = false;
-                // Loop until the player has made a valid pip choice
-                while (!pipChoiceValid) {
-                    int pipIndex;
-                    // If the bar has a checker on it, force the player to play that checker first
-                    Pip bar = game.board.getBar(game.currentPlayerColor);
-                    if (bar.containsCheckers()) {
-                        // Player forced to play the bar
-                        chosenPip = bar;
-                    }
-                    else {
-                        // Ask player to choose a pip to move a checker from
-                        System.out.print("\nEnter pip to move checker from: ");
-                        pipIndex = input.nextInt();
-                        // Check that the pip being moved from is on the board
-                        if (pipIndex < 1 || pipIndex > 24) {
-                            System.out.println("\n    --- PIP OUT OF BOUNDS ---");
-                            continue;
-                        }
-
-                        chosenPip = game.board.getPip(pipIndex);  // after if-statement above to avoid indexOutOfBounds error
-
-                        // Check that pip being moved from is owned
-                        if (chosenPip.getColor() != game.currentPlayerColor) {
-                            System.out.println("\n    --- PIP NOT OWNED ---");
-                            continue;
-                        }
-                        // Check if player can play the chosen pip
-                        if (!game.move.canMove(game, chosenPip, diceCasts)) {
-                            System.out.println("\n    --- PIP NOT PLAYABLE ---");
-                            continue;
-                        }
-                    }
-                    pipChoiceValid = true;
-                }
-
-                boolean moveValid = false;
-                // Loop until player has made a valid move
-                while (!moveValid) {
-                    int dieChoice = -1;  // initialization
-                    while (!diceCasts.contains(dieChoice)) {
-                        System.out.print("\nDie-value options: " + diceCasts.toString() + "\nWhich die value do you wish to use?\n> ");
-                        dieChoice = input.nextInt();
-                        // If player makes invalid choice, print error message
-                        if (!diceCasts.contains(dieChoice)) {
-                            System.out.println("\n    --- NO SUCH DIE VALUE ---");
-                        }
-                    }
-                    // Retrieve verdict on whether the move is valid or not
-                    moveValid = game.move.moveChecker(game, chosenPip, dieChoice);
-                    // If the move is valid, remove the used dice value, and update the game/board
-                    if (moveValid) {
-                        diceCasts.remove(Integer.valueOf(dieChoice));
-                        game.updateGameStatus();
-                        game.board.displayBoard(game);
-                    } else {
-                        // If the move was invalid, print error message
-                        System.out.println("\n    --- INVALID MOVE ---");
+            } else {
+                int moveDist = (clickedPipIndex - selection1)*move.getDirection(currentPlayerColor);
+                if (moveDist > 0) {
+                    selection2 = clickedPipIndex;
+                    System.out.println("Selection2 index: " + clickedPipIndex);
+                    if (move.moveChecker(this, board.getPip(selection1), moveDist)) {
+                        diceValues.remove(Integer.valueOf(moveDist));
+                        selection1 = -1;
+                        selection2 = -1;
+                        // Check if click is on pip
+                        updateGameStatus();
                     }
                 }
             }
-            // Switch player at the end of the current players turn
-            game.nextTurn();
         }
-        // Print the winner
-        System.out.println("\n    --- GAME OVER --- \n\n" + "    "+game.currentPlayerColor + " player won!");
-    }
 
-    public int getPipIndexFromCoordinates(int xp, int yp) {
-
-        if (xp > GUI.DICE_TRAY_LEFT && xp < GUI.DICE_TRAY_LEFT + GUI.DICE_TRAY_WIDTH
-            && yp > GUI.DICE_TRAY_TOP + GUI.DICE_TRAY_HEIGHT + 20 && yp < GUI.DICE_TRAY_TOP + GUI.DICE_TRAY_HEIGHT + GUI.DICE_TRAY_WIDTH) {
-
-
-
-            //setBounds( DICE_TRAY_LEFT,  DICE_TRAY_TOP + DICE_TRAY_HEIGHT + 20,  DICE_TRAY_WIDTH,  DICE_TRAY_WIDTH );
-
-
-        }
-        return 0;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
 
-        int xp = e.getX();
-        int yp = e.getY() - gui.TITLE_BAR_HEIGHT;
-        int pipIndex = getPipIndexFromCoordinates(xp, yp);
-
-        System.out.println(e.getX() + " " + e.getY());
     }
 
     @Override
@@ -352,7 +261,8 @@ public class Game implements MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        System.out.println(e.getX() + " " + (e.getY()-30));
+        eventHandler(e.getX(), e.getY()-30);
     }
 
     @Override
