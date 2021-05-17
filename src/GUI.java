@@ -183,6 +183,11 @@ public class GUI {
             pips.get(24).setCheckers(2, Player.RED);
         }
 
+        public void updatePips(ArrayList<Pip> newPips) {
+            pips = newPips;
+            repaint();
+        }
+
         public void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
 
