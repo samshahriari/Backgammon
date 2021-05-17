@@ -1,3 +1,5 @@
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -11,7 +13,7 @@ import java.util.Scanner;
  * @author  Jordan & Sam
  * @version 2021-05-14
  */
-public class Game {
+public class Game implements MouseListener {
 
     private boolean gameOver;
     private Board board;
@@ -26,6 +28,9 @@ public class Game {
     private int redCheckersInGoal;
     private boolean whiteBearingOff;
     private boolean redBearingOff;
+    private GUI gui;
+
+    private boolean canRollDice;
 
     /**
      * Set up a new game and initialize its properties.
@@ -33,6 +38,7 @@ public class Game {
     public Game() {
         board = new Board();
         move = new Move();
+        gui = new GUI();
         whiteCheckersAtStart = board.getWhiteCheckerCount();  // reads the board for the number of WHITE checkers set
         redCheckersAtStart = board.getRedCheckerCount();  // reads the board for the number of RED checkers set
         whiteCheckersLeft = whiteCheckersAtStart;
@@ -207,12 +213,16 @@ public class Game {
      * @throws MalformedURLException if URL links do not function properly
      */
     public static void main(String[] args) throws MalformedURLException {
+
+
         // Start new game
         Game game = new Game();
         // Display start screen : continue to game upon enter press
         game.startScreen();
         // Display start screen
         game.board.displayBoard(game);
+        // Create mouse listener
+        game.gui.window.addMouseListener(game);
 
         Scanner input = new Scanner(System.in);
 
@@ -224,12 +234,8 @@ public class Game {
 
             System.out.println("\nPlayer turn: " + game.currentPlayerColor);
             System.out.print("\n< Press enter to roll dice >");
-            // Read in enter line
-            try {
-                System.in.read();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            game.canRollDice = true;
+
 
             // Get dice values for dice roll
             ArrayList<Integer> diceCasts = game.rollDice();
@@ -313,5 +319,49 @@ public class Game {
         }
         // Print the winner
         System.out.println("\n    --- GAME OVER --- \n\n" + "    "+game.currentPlayerColor + " player won!");
+    }
+
+    public int getPipIndexFromCoordinates(int xp, int yp) {
+
+        if (xp > GUI.DICE_TRAY_LEFT && xp < GUI.DICE_TRAY_LEFT + GUI.DICE_TRAY_WIDTH
+            && yp > GUI.DICE_TRAY_TOP + GUI.DICE_TRAY_HEIGHT + 20 && yp < GUI.DICE_TRAY_TOP + GUI.DICE_TRAY_HEIGHT + GUI.DICE_TRAY_WIDTH) {
+
+
+
+            //setBounds( DICE_TRAY_LEFT,  DICE_TRAY_TOP + DICE_TRAY_HEIGHT + 20,  DICE_TRAY_WIDTH,  DICE_TRAY_WIDTH );
+
+
+        }
+        return 0;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+        int xp = e.getX();
+        int yp = e.getY() - gui.TITLE_BAR_HEIGHT;
+        int pipIndex = getPipIndexFromCoordinates(xp, yp);
+
+        System.out.println(e.getX() + " " + e.getY());
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }
