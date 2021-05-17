@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * Manages checker hits and blocks.
  *
  * @author  Jordan & Sam
- * @version 2021-05-14
+ * @version 2021-05-17
  */
 public class Move {
 
