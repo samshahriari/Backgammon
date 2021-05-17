@@ -2,35 +2,36 @@ import java.awt.*;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 import javax.swing.border.Border;
 
 public class GUI {
 
-    private static final int BOARD_HEIGHT = 580;
-    private static final int BOARD_WIDTH = 664;
-    private static final int BEZEL = 10;
-    private static final int OUTER_LEFT_EDGE = 308;
-    private static final int OUTER_TOP_EDGE = 50;
-    private static final int INNER_LEFT_EDGE = OUTER_LEFT_EDGE + BEZEL;
-    private static final int INNER_TOP_EDGE = OUTER_TOP_EDGE + BEZEL;
-    private static final int BOARD_X_AXIS = 640;
-    private static final int BOARD_Y_AXIS = 340;
-    private static final int PIP_LENGTH = 220;
-    private static final int PIP_WIDTH = 48;
-    private static final int CHECKER_DIAMETER = 44;
-    private static final int BAR_WIDTH = 68;
-    private static final int BOARD_DICE_DISTANCE = 50;
-    private static final int DICE_TRAY_WIDTH = 94;
-    private static final int DICE_TRAY_HEIGHT = 168;
-    private static final int DICE_WIDTH = 64;
-    private static final int DICE_TRAY_LEFT = OUTER_LEFT_EDGE - BOARD_DICE_DISTANCE - DICE_TRAY_WIDTH;
-    private static final int DICE_TRAY_TOP = BOARD_Y_AXIS - DICE_TRAY_HEIGHT/2;
-    private static final int TITLE_BAR_HEIGHT = 30;
-    private static final int OUTER_RIGHT_EDGE = OUTER_LEFT_EDGE + BOARD_WIDTH;
-    private static final int OUTER_BOTTOM_EDGE = OUTER_TOP_EDGE + BOARD_HEIGHT;
-    private static final int INNER_RIGHT_EDGE = OUTER_RIGHT_EDGE - BEZEL;
-    private static final int INNER_BOTTOM_EDGE = OUTER_BOTTOM_EDGE - BEZEL;
+    public static final int BOARD_HEIGHT = 580;
+    public static final int BOARD_WIDTH = 664;
+    public static final int BEZEL = 10;
+    public static final int OUTER_LEFT_EDGE = 308;
+    public static final int OUTER_TOP_EDGE = 50;
+    public static final int INNER_LEFT_EDGE = OUTER_LEFT_EDGE + BEZEL;
+    public static final int INNER_TOP_EDGE = OUTER_TOP_EDGE + BEZEL;
+    public static final int BOARD_X_AXIS = 640;
+    public static final int BOARD_Y_AXIS = 340;
+    public static final int PIP_LENGTH = 220;
+    public static final int PIP_WIDTH = 48;
+    public static final int CHECKER_DIAMETER = 44;
+    public static final int BAR_WIDTH = 68;
+    public static final int BOARD_DICE_DISTANCE = 50;
+    public static final int DICE_TRAY_WIDTH = 94;
+    public static final int DICE_TRAY_HEIGHT = 168;
+    public static final int DICE_WIDTH = 64;
+    public static final int DICE_TRAY_LEFT = OUTER_LEFT_EDGE - BOARD_DICE_DISTANCE - DICE_TRAY_WIDTH;
+    public static final int DICE_TRAY_TOP = BOARD_Y_AXIS - DICE_TRAY_HEIGHT/2;
+    public static final int TITLE_BAR_HEIGHT = 30;
+    public static final int OUTER_RIGHT_EDGE = OUTER_LEFT_EDGE + BOARD_WIDTH;
+    public static final int OUTER_BOTTOM_EDGE = OUTER_TOP_EDGE + BOARD_HEIGHT;
+    public static final int INNER_RIGHT_EDGE = OUTER_RIGHT_EDGE - BEZEL;
+    public static final int INNER_BOTTOM_EDGE = OUTER_BOTTOM_EDGE - BEZEL;
 
     private static final java.awt.Color RED_PIP = new java.awt.Color(255, 44, 19);
     private static final java.awt.Color WHITE_PIP = new java.awt.Color(255, 221, 215);
@@ -43,13 +44,20 @@ public class GUI {
     private static final java.awt.Color WHITE_CHECKER = new java.awt.Color(238, 225, 203);
     private static final java.awt.Color WHITE_CHECKER_BORDER = new java.awt.Color(196, 176, 159);
 
-
-    public static void main(String[] args) {
-        GUI gui = new GUI();
-    }
+    JFrame window;
+    DiceTrayP diceTray;
+    DiceFacesP diceFaces;
+    RollDiceP rollDice;
+    BoardP board;
+    BarP bar;
+    GoalP goal;
+    PipsP pips;
+    CheckersP checkers;
+    CheckersInGoalP chkInGoal;
+    ActivePlayerP activePlayer;
 
     public GUI() {
-        JFrame window = new JFrame();
+        window = new JFrame();
         window.setSize(1280, 720);
         window.setTitle("Backgammon");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,16 +68,18 @@ public class GUI {
         JLayeredPane base = new JLayeredPane();
         base.setOpaque(false);
 
-        DiceTrayP diceTray = new DiceTrayP();
-        DiceFacesP diceFaces = new DiceFacesP(null);
-        RollDiceP rollDice = new RollDiceP();
-        BoardP board = new BoardP();
-        BarP bar = new BarP();
-        GoalP goal = new GoalP();
-        PipsP pips = new PipsP();
-        CheckersP checkers = new CheckersP();
-        CheckersInGoalP chkInGoal = new CheckersInGoalP();
+        diceTray = new DiceTrayP();
+        diceFaces = new DiceFacesP(null);
+        rollDice = new RollDiceP();
+        board = new BoardP();
+        bar = new BarP();
+        goal = new GoalP();
+        pips = new PipsP();
+        checkers = new CheckersP();
+        chkInGoal = new CheckersInGoalP();
+        activePlayer = new ActivePlayerP();
 
+        base.add(activePlayer, 0, -1);
         base.add(chkInGoal, 0, -1);
         base.add(checkers, 0, -1);
         base.add(goal, 0, -1);
@@ -379,6 +389,30 @@ public class GUI {
             this.add(textRoll, c);
             c.gridy = 2;
             this.add(textDice, c);
+        }
+    }
+
+    private class ActivePlayerP extends JPanel {
+
+        JLabel textRoll;
+
+        public ActivePlayerP() {
+            setBounds( DICE_TRAY_LEFT,  DICE_TRAY_TOP - DICE_TRAY_WIDTH - 20,  DICE_TRAY_WIDTH,  DICE_TRAY_WIDTH );
+            setBackground(ROLL_DICE_COLOR);
+            setBorder(BorderFactory.createLineBorder(BORDER_COLOR,5));
+            setOpaque(true);
+
+            textRoll = new JLabel("<html><br><h2>WHITE</h2></html>");
+            textRoll.setSize(DICE_TRAY_WIDTH-20, DICE_TRAY_WIDTH-20);
+            this.add(textRoll);
+        }
+
+        public void updateText() {
+            if (textRoll.getText().equals("<html><br><h2>WHITE</h2></html>")) {
+                textRoll.setText("<html><br><h2>RED</h2></html>");
+            } else {
+                textRoll.setText("<html><br><h2>WHITE</h2></html>");
+            }
         }
     }
 }
