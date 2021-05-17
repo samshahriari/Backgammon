@@ -120,6 +120,11 @@ public class Move {
         // Find the new pip
         Pip newPip = findNewPip(getDirection(playerColor), currentPip, dieValue, board);
 
+        // Check that pip being moved from is owned
+        if (currentPip.getColor() != playerColor) {
+            return -1;
+        }
+
         if (newPip == null) {
             // If new pip is null/out of bounds and the player is not bearing off, disallow movement
             if (!bearingOff) {
