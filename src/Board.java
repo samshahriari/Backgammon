@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * Contains information about pips and prints the board.
  *
  * @author  Jordan & Sam
- * @version 2021-05-14
+ * @version 2021-05-17
  */
 public class Board {
 
@@ -59,6 +59,10 @@ public class Board {
         pips.get(8).setCheckers(3, Player.RED);
         pips.get(13).setCheckers(5, Player.RED);
         pips.get(24).setCheckers(2, Player.RED);
+    }
+
+    public ArrayList<Pip> getPips() {
+        return pips;
     }
 
     /**
