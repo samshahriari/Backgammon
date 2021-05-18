@@ -57,7 +57,7 @@ public class GUI {
     CheckersP checkersPanel;
     CheckersInGoalP chkInGoalPanel;
     ActivePlayerP activePlayerPanel;
-    CheckersinBarP chkInBarPanel;
+    CheckersOnBarP chkOnBarPanel;
 
     public GUI() {
         window = new JFrame();
@@ -80,11 +80,11 @@ public class GUI {
         pipsPanel = new PipsP();
         checkersPanel = new CheckersP();
         chkInGoalPanel = new CheckersInGoalP();
-        chkInBarPanel = new CheckersinBarP();
+        chkOnBarPanel = new CheckersOnBarP();
         activePlayerPanel = new ActivePlayerP();
 
         base.add(activePlayerPanel, 0, -1);
-        base.add(chkInBarPanel, 0, -1);
+        base.add(chkOnBarPanel, 0, -1);
         base.add(chkInGoalPanel, 0, -1);
         base.add(checkersPanel, 0, -1);
         base.add(goalPanel, 0, -1);
@@ -455,11 +455,11 @@ public class GUI {
             }
         }
     }
-    public class CheckersinBarP extends JPanel {
+    public class CheckersOnBarP extends JPanel {
 
         ArrayList<Pip> pips;
 
-        public CheckersinBarP() {
+        public CheckersOnBarP() {
             setBounds( BOARD_X_AXIS-(BAR_WIDTH/2),  INNER_TOP_EDGE,  BAR_WIDTH,BOARD_HEIGHT );
             setOpaque(false);
         }
