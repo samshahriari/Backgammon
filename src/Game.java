@@ -240,13 +240,14 @@ public class Game implements MouseListener {
                 }
             } else {
                 int moveDist = (clickedPipIndex - selection1)*move.getDirection(currentPlayerColor);
-                if (moveDist > 0) {
+                if (moveDist > 0 && diceValues.contains(moveDist)) {
                     selection2 = clickedPipIndex;
                     System.out.println("Selection2 index: " + clickedPipIndex);
                     if (move.moveChecker(this, board.getPip(selection1), moveDist)) {
-                        diceValues.remove(Integer.valueOf(moveDist));
+                        diceValues.remove((Integer) moveDist);
                         selection1 = -1;
                         selection2 = -1;
+                        System.out.println(diceValues);
                         // Check if click is on pip
                         updateGameStatus();
                     }
