@@ -173,6 +173,7 @@ public class Game implements MouseListener {
         }
         gui.activePlayerPanel.updateText(currentPlayerColor);
         gui.checkersPanel.updatePips(board.getPips());
+        gui.chkInBarPanel.updatePips(board.getPips());
     }
 
     /**

@@ -57,6 +57,7 @@ public class GUI {
     CheckersP checkersPanel;
     CheckersInGoalP chkInGoalPanel;
     ActivePlayerP activePlayerPanel;
+    CheckersinBarP chkInBarPanel;
 
     public GUI() {
         window = new JFrame();
@@ -79,9 +80,11 @@ public class GUI {
         pipsPanel = new PipsP();
         checkersPanel = new CheckersP();
         chkInGoalPanel = new CheckersInGoalP();
+        chkInBarPanel = new CheckersinBarP();
         activePlayerPanel = new ActivePlayerP();
 
         base.add(activePlayerPanel, 0, -1);
+        base.add(chkInBarPanel, 0, -1);
         base.add(chkInGoalPanel, 0, -1);
         base.add(checkersPanel, 0, -1);
         base.add(goalPanel, 0, -1);
@@ -225,7 +228,7 @@ public class GUI {
                 index--;
             }
 
-            // Paint the checkers in upper quadrants
+            // Paint the checkers in lower quadrants
             index = 13;
             for (int x = 0; x < INNER_RIGHT_EDGE-INNER_LEFT_EDGE; x += PIP_WIDTH) {
                 if (index == 19) {
@@ -450,6 +453,80 @@ public class GUI {
             } else {
                 currentPlayer.setText("<html><br><h2>RED</h2></html>");
             }
+        }
+    }
+    public class CheckersinBarP extends JPanel {
+
+        ArrayList<Pip> pips;
+
+        public CheckersinBarP() {
+            setBounds( BOARD_X_AXIS-(BAR_WIDTH/2),  INNER_TOP_EDGE,  BAR_WIDTH,BOARD_HEIGHT );
+            setOpaque(false);
+        }
+
+        public void updatePips(ArrayList<Pip> newPips) {
+            pips = newPips;
+            repaint();
+        }
+
+        public void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g;
+
+            // Paint the checkers in upper quadrants
+            int x = (BAR_WIDTH-CHECKER_DIAMETER)/2-2;
+            int checkersOnPip = pips.get(0).getCheckerCount();
+            int checkersPlaced = 0;
+            for (int y = 0; checkersPlaced < checkersOnPip; y += PIP_WIDTH - 1) {
+                switch (checkersPlaced) {
+                    case 5:
+                        y = PIP_WIDTH/2;
+                        break;
+                    case 9:
+                        y = 2*PIP_WIDTH/2;
+                        break;
+                    case 12:
+                        y = 3*PIP_WIDTH/2;
+                        break;
+                    case 14:
+                        y = 4*PIP_WIDTH/2;
+                        break;
+                }
+                g2.setColor(WHITE_CHECKER);
+                g2.fillOval(x, y, CHECKER_DIAMETER, CHECKER_DIAMETER);
+                g2.setColor(WHITE_CHECKER_BORDER);
+                g2.setStroke(new BasicStroke(8));
+                g2.drawOval(x + 4, y + 4, CHECKER_DIAMETER-4, CHECKER_DIAMETER-4);
+                checkersPlaced++;
+            }
+
+            // Paint the checkers in lower bar
+
+            checkersOnPip = pips.get(25).getCheckerCount();
+            checkersPlaced = 0;
+            int startPos = BOARD_HEIGHT- 2*BEZEL-PIP_WIDTH;
+            for (int y = startPos; checkersPlaced < checkersOnPip; y -= PIP_WIDTH - 1) {
+                switch (checkersPlaced) {
+                    case 5:
+                        y = startPos - PIP_WIDTH/2;
+                        break;
+                    case 9:
+                        y = startPos - 2*PIP_WIDTH/2;
+                        break;
+                    case 12:
+                        y = startPos - 3*PIP_WIDTH/2;
+                        break;
+                    case 14:
+                        y = startPos - 4*PIP_WIDTH / 2;
+                        break;
+                }
+                g2.setColor(RED_CHECKER);
+                g2.fillOval(x, y, CHECKER_DIAMETER, CHECKER_DIAMETER);
+                g2.setColor(RED_CHECKER_BORDER);
+                g2.setStroke(new BasicStroke(8));
+                g2.drawOval(x + 4, y + 4, CHECKER_DIAMETER-4, CHECKER_DIAMETER-4);
+                checkersPlaced++;
+            }
+
         }
     }
 }
