@@ -173,6 +173,7 @@ public class Game implements MouseListener {
             diceValues.clear();
         }
         gui.activePlayerPanel.updateText(currentPlayerColor);
+        gui.activePlayerPanel.updateBackground(currentPlayerColor);
         gui.checkersPanel.updatePips(board.getPips());
         gui.chkOnBarPanel.updatePips(board.getPips());
         gui.chkInGoalPanel.updateCheckers(whiteCheckersInGoal, redCheckersInGoal);

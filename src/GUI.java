@@ -471,6 +471,10 @@ public class GUI {
             this.add(currentPlayer);
         }
 
+        public void updateBackground(Player col) {
+            setBackground(col == Player.WHITE ? WHITE_CHECKER : RED_CHECKER);
+        }
+
         public void updateText(Player p) {
             if (p == Player.WHITE) {
                 currentPlayer.setText("<html><br><h2>WHITE</h2></html>");
