@@ -227,6 +227,8 @@ public class Game implements MouseListener {
         game.gui.window.addMouseListener(game);
     }
 
+
+
     public void eventHandler(int xp, int yp) {
         // Check if click is on roll-dice button
         if (gui.rollDicePanel.isMouseOn(xp,yp) && diceValues.size() == 0) {
@@ -244,12 +246,13 @@ public class Game implements MouseListener {
         }
 
         if (clickedPipIndex > -1 && clickedPipIndex < 26) {
-            // If you click on your currently selected pip, it deselects
 
-            if (selection1 == -1 && ((currentPlayerColor == Player.RED && board.getBar(Player.RED).containsCheckers() && clickedPipIndex != 25) ||
-                    (currentPlayerColor == Player.WHITE && board.getBar(Player.WHITE).containsCheckers() && clickedPipIndex != 0))) {
+
+            if (selection1 == -1 && isNotBarMoveWhenBarHasCheckers(clickedPipIndex)) {
                 return;
             }
+
+            // If you click on your currently selected pip, it deselects
             if (clickedPipIndex == selection1) {
                 selection1 = -1;
                 gui.checkersPanel.resetHighlight();
@@ -268,10 +271,13 @@ public class Game implements MouseListener {
                 for (int dieValue : diceValues) {
                     if (moveDist <= dieValue) {
                         validMoveDist = true;
+                        break;
                     }
                 }
 
-                if (moveDist > 0 && (diceValues.contains(moveDist) || ((clickedPipIndex == 0 || clickedPipIndex == 25) && getBearingOffStatus(currentPlayerColor) && validMoveDist))) {
+                boolean isBearingOffMove = (clickedPipIndex == 0 || clickedPipIndex == 25)
+                        && getBearingOffStatus(currentPlayerColor) && validMoveDist;
+                if (moveDist > 0 && (diceValues.contains(moveDist) || isBearingOffMove)) {
                     selection2 = clickedPipIndex;
                     System.out.println("Selection2 index: " + clickedPipIndex);
                     if (move.moveChecker(this, board.getPip(selection1), moveDist)) {
@@ -282,7 +288,6 @@ public class Game implements MouseListener {
                         selection1 = -1;
                         selection2 = -1;
                         System.out.println(diceValues);
-                        // Check if click is on pip
                         updateGameStatus();
                     }
                 }
@@ -303,14 +308,10 @@ public class Game implements MouseListener {
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
+    public void mouseClicked(MouseEvent e) {}
 
     @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
+    public void mousePressed(MouseEvent e) {}
 
     @Override
     public void mouseReleased(MouseEvent e) {
@@ -319,12 +320,8 @@ public class Game implements MouseListener {
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
+    public void mouseEntered(MouseEvent e) {}
 
     @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
+    public void mouseExited(MouseEvent e) {}
 }
