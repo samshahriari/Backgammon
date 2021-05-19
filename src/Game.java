@@ -170,6 +170,7 @@ public class Game implements MouseListener {
 
         if (!move.canPlay(this, diceValues)) {
             nextTurn();
+            diceValues.clear();
         }
         gui.activePlayerPanel.updateText(currentPlayerColor);
         gui.checkersPanel.updatePips(board.getPips());

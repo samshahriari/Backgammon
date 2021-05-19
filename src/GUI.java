@@ -370,7 +370,7 @@ public class GUI {
         }
 
         public void updateDiceValues(ArrayList<Integer> dv) {
-            diceValues = dv;
+            diceValues = new ArrayList<>(dv);
             repaint();
         }
 
