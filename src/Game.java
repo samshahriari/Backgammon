@@ -237,6 +237,11 @@ public class Game implements MouseListener {
         int clickedPipIndex = gui.pipsPanel.mouseOnPipIndex(xp,yp);
         if (clickedPipIndex > -1 && clickedPipIndex < 26) {
             // If you click on your currently selected pip, it deselects
+
+            if (selection1 == -1 && ((currentPlayerColor == Player.RED && board.getBar(Player.RED).containsCheckers() && clickedPipIndex != 25) ||
+                    (currentPlayerColor == Player.WHITE && board.getBar(Player.WHITE).containsCheckers() && clickedPipIndex != 0))) {
+                return;
+            }
             if (clickedPipIndex == selection1) {
                 selection1 = -1;
                 gui.checkersPanel.resetHighlight();
