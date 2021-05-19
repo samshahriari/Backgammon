@@ -179,6 +179,7 @@ public class GUI {
     public class CheckersP extends JPanel {
 
         ArrayList<Pip> pips;
+        int highlightPipIndex = -1;
 
         public CheckersP() {
             setBounds( INNER_LEFT_EDGE,  INNER_TOP_EDGE,  BOARD_WIDTH,  BOARD_HEIGHT );
@@ -188,6 +189,15 @@ public class GUI {
         public void updatePips(ArrayList<Pip> newPips) {
             pips = newPips;
             repaint();
+        }
+
+        public void highlightChecker(int pipIndex) {
+            highlightPipIndex = pipIndex;
+            repaint();
+        }
+
+        public void resetHighlight() {
+            highlightPipIndex = -1;
         }
 
         public void paintComponent(Graphics g) {
@@ -224,6 +234,13 @@ public class GUI {
                     g2.setStroke(new BasicStroke(8));
                     g2.drawOval(x + 4, y + 4, CHECKER_DIAMETER-4, CHECKER_DIAMETER-4);
                     checkersPlaced++;
+
+                    // paint highlight
+                    if (index == highlightPipIndex && checkersPlaced == checkersOnPip) {
+                        g2.setColor(new Color(253, 172, 12));
+                        g2.setStroke(new BasicStroke(4));
+                        g2.drawOval(x + 1, y + 1, CHECKER_DIAMETER + 2, CHECKER_DIAMETER + 2);
+                    }
                 }
                 index--;
             }
@@ -260,6 +277,13 @@ public class GUI {
                     g2.setStroke(new BasicStroke(8));
                     g2.drawOval(x + 4, y + 4, CHECKER_DIAMETER-4, CHECKER_DIAMETER-4);
                     checkersPlaced++;
+
+                    // paint highlight
+                    if (index == highlightPipIndex && checkersPlaced == checkersOnPip) {
+                        g2.setColor(new Color(253, 172, 12));
+                        g2.setStroke(new BasicStroke(4));
+                        g2.drawOval(x + 1, y + 1, CHECKER_DIAMETER + 2, CHECKER_DIAMETER + 2);
+                    }
                 }
                 index++;
             }
