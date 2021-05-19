@@ -2,10 +2,7 @@ import java.awt.*;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.concurrent.TimeUnit;
 import javax.swing.*;
-import javax.swing.border.Border;
 
 public class GUI {
 
