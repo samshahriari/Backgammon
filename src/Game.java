@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
@@ -146,6 +147,7 @@ public class Game implements MouseListener {
         // Update game-over status
         gameOver = whiteCheckersLeft == 0 || redCheckersLeft == 0;
 
+
         // Update bearing-off statuses
         int counterW = 0;
         // Iterate over WHITE'S home quadrant
@@ -176,6 +178,11 @@ public class Game implements MouseListener {
         gui.activePlayerPanel.updateBackground(currentPlayerColor);
         gui.checkersPanel.updatePips(board.getPips());
         gui.chkInGoalPanel.updateCheckers(whiteCheckersInGoal, redCheckersInGoal);
+
+        if (gameOver) {
+            String message = currentPlayerColor + " won the game!";
+            JOptionPane.showMessageDialog(gui.window, message);
+        }
     }
 
     /**
