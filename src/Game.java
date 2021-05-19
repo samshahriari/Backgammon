@@ -187,36 +187,16 @@ public class Game implements MouseListener {
 
     /**
      * Display the intro screen with title and instructions.
-     *
-     * @throws MalformedURLException if the URL link does not function properly
      */
-    public void startScreen() throws MalformedURLException {
-        URL link = new URL("https://en.wikipedia.org/wiki/Backgammon");
-        System.out.println("\n\n    -------------------------------------------");
-        System.out.println("    W E L C O M E    T O    B A C K G A M M O N");
-        System.out.println("    -------------------------------------------");
-        System.out.println("              A game by Jordan & Sam\n\n");
-        System.out.println("    INSTRUCTIONS:");
-        System.out.println("       * To learn how to play backgammon, click this link: " + link);
-        System.out.println("       * The current version of the game is played here in the terminal.");
-        System.out.println("       * The positions on which the checkers stand are called 'pips'.");
-        System.out.println("       * These are displayed as indices ranging from 1 to 24.");
-        System.out.println("       * The checkers are displayed on each pip as two-character combinations of their");
-        System.out.println("         number and color. Ex: '2R' means two red checkers are standing on this pip. The");
-        System.out.println("         checkers have also been colored in the terminal to make gameplay easier.");
-        System.out.println("       * The bar contains the hit checkers for respective color and the number of checkers");
-        System.out.println("         in a bar is given inside of the '< >' signs.");
-        System.out.println("       * Upon bearing off, the borne-off checkers are not displayed. Instead, they are simply");
-        System.out.println("         removed from the board and the number of checkers on the board are used to determine");
-        System.out.println("         who is winning.");
+    public void startScreen() {
+        JLabel message = new JLabel("<html><body>    ------------------------------------------" +
+        "<br>   ⠀⠀ W E L C O M E ⠀⠀   T O ⠀⠀   B A C K G A M M O N"+
+        "<br>------------------------------------------"+
+        "<br><br> A game by Jordan & Sam</body></html>");
 
-        System.out.print("\n\n< Press enter to start the game >");
-        // Read in enter line
-        try {
-            System.in.read();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        message.setHorizontalAlignment(SwingConstants.CENTER);
+        JOptionPane.showMessageDialog(gui.window, message);
     }
 
     /**
@@ -231,6 +211,7 @@ public class Game implements MouseListener {
     public static void main(String[] args) {
         Game game = new Game();
         game.gui.window.addMouseListener(game);
+        game.startScreen();
     }
 
 
