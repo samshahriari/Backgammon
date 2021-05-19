@@ -115,14 +115,6 @@ public class GUI {
         }
     }
 
-    private class GoalP extends JPanel {
-        public GoalP() {
-            setBounds(OUTER_RIGHT_EDGE + BOARD_DICE_DISTANCE / 2, OUTER_TOP_EDGE, CHECKER_DIAMETER + 30, BOARD_HEIGHT);
-            setBackground(BOARD_COLOR);
-            setBorder(BorderFactory.createLineBorder(BORDER_COLOR, 10));
-        }
-    }
-
     private class DiceTrayP extends JPanel {
         public DiceTrayP() {
             setBounds( DICE_TRAY_LEFT,  DICE_TRAY_TOP,  DICE_TRAY_WIDTH,  DICE_TRAY_HEIGHT );
@@ -287,6 +279,28 @@ public class GUI {
                 }
                 index++;
             }
+        }
+    }
+
+    public class GoalP extends JPanel {
+        public GoalP() {
+            setBounds(OUTER_RIGHT_EDGE + BOARD_DICE_DISTANCE / 2, OUTER_TOP_EDGE, CHECKER_DIAMETER + 30, BOARD_HEIGHT);
+            setBackground(BOARD_COLOR);
+            setBorder(BorderFactory.createLineBorder(BORDER_COLOR, BEZEL));
+        }
+
+        public int mouseOnGoalIndex(int x, int y) {
+            int pipIndex = -1;
+            x -= OUTER_RIGHT_EDGE + BOARD_DICE_DISTANCE / 2;
+            y -= OUTER_TOP_EDGE;
+            if (x > BEZEL && x < CHECKER_DIAMETER + 30 - BEZEL) {
+                if (y > BEZEL && y < BOARD_HEIGHT / 2 - 5) {
+                    pipIndex = 0;
+                } else if (y > INNER_BOTTOM_EDGE - BOARD_HEIGHT / 2 + 5 && y < INNER_BOTTOM_EDGE) {
+                    pipIndex = 25;
+                }
+            }
+            return pipIndex;
         }
     }
 
