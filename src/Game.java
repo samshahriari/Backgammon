@@ -234,7 +234,10 @@ public class Game implements MouseListener {
         }
         int clickedPipIndex = gui.pipsPanel.mouseOnPipIndex(xp,yp);
         if (clickedPipIndex > -1 && clickedPipIndex < 26) {
-            if (selection1 == -1) {
+            // If you click on your currently selected pip, it deselects
+            if (clickedPipIndex == selection1) {
+                selection1 = -1;
+            } else if (selection1 == -1) {
                 if (move.canMove(this, board.getPip(clickedPipIndex), diceValues)) {
                     selection1 = clickedPipIndex;
                     System.out.println("Selection1 index: " + clickedPipIndex);
