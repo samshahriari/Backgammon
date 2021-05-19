@@ -290,6 +290,18 @@ public class Game implements MouseListener {
         }
     }
 
+    /**
+     * Check if the current player tries to make a move from a pip that is not the bar when the player has checkers on bar.
+     *
+     * @param clickedPipIndex The index of the pip that the player want to move from
+     * @return True if the bar has checkers AND the clicked pip is NOT the bar, otherwise false.
+     */
+    private boolean isNotBarMoveWhenBarHasCheckers(int clickedPipIndex) {
+
+        boolean hasCheckersInBar = board.getBar(currentPlayerColor).containsCheckers();
+        return hasCheckersInBar && clickedPipIndex != (currentPlayerColor == Player.RED ? 25 : 0);
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
 
