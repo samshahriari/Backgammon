@@ -236,6 +236,13 @@ public class Game implements MouseListener {
             updateGameStatus();
         }
         int clickedPipIndex = gui.pipsPanel.mouseOnPipIndex(xp,yp);
+
+        int clickedGoalIndex = gui.goalPanel.mouseOnGoalIndex(xp,yp);
+        System.out.println(clickedGoalIndex);
+        if (clickedGoalIndex == 0 || clickedGoalIndex == 25) {
+            clickedPipIndex = clickedGoalIndex;
+        }
+
         if (clickedPipIndex > -1 && clickedPipIndex < 26) {
             // If you click on your currently selected pip, it deselects
 
@@ -256,12 +263,22 @@ public class Game implements MouseListener {
                 }
             } else {
                 int moveDist = (clickedPipIndex - selection1)*move.getDirection(currentPlayerColor);
-                if (moveDist > 0 && diceValues.contains(moveDist)) {
+
+                boolean validMoveDist = false;
+                for (int dieValue : diceValues) {
+                    if (moveDist <= dieValue) {
+                        validMoveDist = true;
+                    }
+                }
+
+                if (moveDist > 0 && (diceValues.contains(moveDist) || ((clickedPipIndex == 0 || clickedPipIndex == 25) && getBearingOffStatus(currentPlayerColor) && validMoveDist))) {
                     selection2 = clickedPipIndex;
                     System.out.println("Selection2 index: " + clickedPipIndex);
                     if (move.moveChecker(this, board.getPip(selection1), moveDist)) {
                         gui.checkersPanel.resetHighlight();
-                        diceValues.remove((Integer) moveDist);
+                        while (!diceValues.remove((Integer) moveDist)) {
+                            moveDist++;
+                        }
                         selection1 = -1;
                         selection2 = -1;
                         System.out.println(diceValues);
