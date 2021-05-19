@@ -486,7 +486,7 @@ public class GUI {
         }
 
         public void updateBackground(Player col) {
-            setBackground(col == Player.WHITE ? WHITE_CHECKER : RED_CHECKER);
+            setBackground(col == Player.WHITE ? WHITE_PIP : RED_PIP);
         }
 
         public void updateText(Player p) {
