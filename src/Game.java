@@ -237,9 +237,13 @@ public class Game implements MouseListener {
             // If you click on your currently selected pip, it deselects
             if (clickedPipIndex == selection1) {
                 selection1 = -1;
+                gui.checkersPanel.resetHighlight();
+                // Check if click is on pip
+                updateGameStatus();
             } else if (selection1 == -1) {
                 if (move.canMove(this, board.getPip(clickedPipIndex), diceValues)) {
                     selection1 = clickedPipIndex;
+                    gui.checkersPanel.highlightChecker(selection1);
                     System.out.println("Selection1 index: " + clickedPipIndex);
                 }
             } else {
@@ -248,6 +252,7 @@ public class Game implements MouseListener {
                     selection2 = clickedPipIndex;
                     System.out.println("Selection2 index: " + clickedPipIndex);
                     if (move.moveChecker(this, board.getPip(selection1), moveDist)) {
+                        gui.checkersPanel.resetHighlight();
                         diceValues.remove((Integer) moveDist);
                         selection1 = -1;
                         selection2 = -1;
@@ -258,7 +263,6 @@ public class Game implements MouseListener {
                 }
             }
         }
-
     }
 
     @Override
