@@ -13,9 +13,9 @@ import java.util.Random;
 public class Game implements MouseListener {
 
     private boolean gameOver;
-    private Board board;
-    private Move move;
-    Random rand;
+    private final Board board;
+    private final Move move;
+    private final GUI gui;
     private Player currentPlayerColor;
     private int whiteCheckersLeft;
     private int redCheckersLeft;
@@ -25,7 +25,6 @@ public class Game implements MouseListener {
     private int redCheckersInGoal;
     private boolean whiteBearingOff;
     private boolean redBearingOff;
-    private GUI gui;
 
     // Declare diceValues variable
     ArrayList<Integer> diceValues;
@@ -33,6 +32,7 @@ public class Game implements MouseListener {
     int selection1 = -1;
     int selection2 = -1;
     boolean gameStarted = false;
+    Random rand;
 
     /**
      * Set up a new game and initialize its properties.
@@ -147,7 +147,6 @@ public class Game implements MouseListener {
     public void updateGameStatus() {
         // Update game-over status
         gameOver = whiteCheckersLeft == 0 || redCheckersLeft == 0;
-
 
         // Update bearing-off statuses
         int counterW = 0;
