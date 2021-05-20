@@ -186,11 +186,8 @@ public class Game implements MouseListener {
      * Display the intro screen with title and instructions.
      */
     public void startScreen() {
-        JLabel message = new JLabel("<html><body>    ------------------------------------------" +
-        "<br>   ⠀⠀ W E L C O M E ⠀⠀   T O ⠀⠀   B A C K G A M M O N"+
-        "<br>------------------------------------------"+
-        "<br><br> A game by Jordan & Sam</body></html>");
-
+        JLabel message = new JLabel("<html><body>" +
+        "<br>Welcome to BACKGAMMON!<br><br>A Jordan & Sam production</body></html>");
 
         message.setHorizontalAlignment(SwingConstants.CENTER);
         JOptionPane.showMessageDialog(gui.window, message);
@@ -261,6 +258,7 @@ public class Game implements MouseListener {
 
                 boolean isBearingOffMove = (clickedPipIndex == 0 || clickedPipIndex == 25)
                         && getBearingOffStatus(currentPlayerColor) && validMoveDist;
+
                 if (moveDist > 0 && (diceValues.contains(moveDist) || isBearingOffMove)) {
                     selection2 = clickedPipIndex;
                     System.out.println("Selection2 index: " + clickedPipIndex);
