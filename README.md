@@ -1,18 +1,15 @@
 # Backgammon Project Description
 
-### Future changes
-
-- The main method in [Game](src/Game.java) will be split up to different methods.
-- The game is now played in the terminal but will be a separate app with a GUI in the future.
-
 ### Outline
 
-A backgammon game created in Java. The game has a GUI and can be played by two people using the same screen.   
+A backgammon game created in Java. The game has a graphical interface and can be played by two people using the same screen.   
 Developed by Jordan Jass Olsson & Sam Shahriari as part of the course DD1349.
+
+For instructions on how to play backgammon, check out https://www.bkgm.com/rules.html.
 
 ### Installation
 
-[Work in progress] Compile all files in `src/` using `javac *.java` and start the game with `java Game`.
+Compile all files in `src/` using `javac *.java` and start the game with `java Game`.
 
 ### Information
 
@@ -20,13 +17,13 @@ Developed by Jordan Jass Olsson & Sam Shahriari as part of the course DD1349.
 
 Class for creating and initializing a backgammon board. Contains information about pips and prints the board.
 
-#### [Color](src/Color.java)
-
-Enum that keeps track of the different players/checker colors.
-
 #### [Game](src/Game.java)
 
-Class for playing backgammon games.
+Class for playing backgammon games. Is the brain behind the game. Integrates all the other classes and logic.
+
+#### [GUI](src/GUI.java)
+
+Class for creating game graphics. Made using Swing.
 
 #### [Move](src/Move.java)
 
@@ -37,8 +34,9 @@ Class that manages checker movement between pips on a backgammon board. Manages 
 Class for board pips holding information about the color and number of checkers on a pip. Allows for adding/removing 
 checkers from pips.
 
+#### [Player](src/Player.java)
 
-[Work in progress: more info on class architecture, methods, libraries, etc. later]
+Enum that keeps track of the different players/checker colors.
 
 ### Important documents
 
