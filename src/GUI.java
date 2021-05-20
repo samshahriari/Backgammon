@@ -318,7 +318,7 @@ public class GUI {
         public int mouseOnPipIndex(int x, int y) {
             int pipIndex = -1;
             x -= INNER_LEFT_EDGE;
-            if (y > INNER_TOP_EDGE && y < INNER_TOP_EDGE + PIP_LENGTH) {
+            if (y > INNER_TOP_EDGE && y < INNER_TOP_EDGE + 5*(CHECKER_DIAMETER+3)) {
                 if (x > 0 && x < 6*PIP_WIDTH) {
                     pipIndex = 12-x/PIP_WIDTH;
                 }
@@ -330,7 +330,7 @@ public class GUI {
                     pipIndex = 6-x/PIP_WIDTH;
                 }
             }
-            else if (y > INNER_BOTTOM_EDGE - PIP_LENGTH && y < INNER_BOTTOM_EDGE) {
+            else if (y > INNER_BOTTOM_EDGE - 5*(CHECKER_DIAMETER+3) && y < INNER_BOTTOM_EDGE) {
                 if (x > 0 && x < 6*PIP_WIDTH) {
                     pipIndex = 13+x/PIP_WIDTH;
                 }
