@@ -212,15 +212,6 @@ public class Game implements MouseListener {
     }
 
     /**
-     * Run the game.
-     */
-    public static void main(String[] args) {
-        Game game = new Game();
-        game.gui.window.addMouseListener(game);
-        game.startScreen();
-    }
-
-    /**
      * Takes in mouse coordinates and determines what is being clicked and how to handle the clicks.
      * Handles pip, goal, and bar selections, button presses for roll dice, etc.
      *
@@ -345,4 +336,13 @@ public class Game implements MouseListener {
     public void mouseEntered(MouseEvent e) {}
     @Override
     public void mouseExited(MouseEvent e) {}
+
+    /**
+     * Run the game.
+     */
+    public static void main(String[] args) {
+        Game game = new Game();
+        game.gui.window.addMouseListener(game);
+        game.startScreen();
+    }
 }
