@@ -576,15 +576,18 @@ public class GUI {
             this.add(currentPlayer);
         }
 
-        public void updateBackground(Player col) {
-            setBackground(col == Player.WHITE ? WHITE_PIP : RED_PIP);
-        }
-
-        public void updateText(Player p) {
+        /**
+         * Update the text and background of the panel.
+         *
+         * @param p The player whose turn it is.
+         */
+        public void updateDisplay(Player p) {
             if (p == Player.WHITE) {
                 currentPlayer.setText("<html><br><h2>WHITE</h2></html>");
+                setBackground(WHITE_PIP);
             } else {
                 currentPlayer.setText("<html><br><h2>RED</h2></html>");
+                setBackground(RED_PIP);
             }
         }
     }
