@@ -1,6 +1,6 @@
-## Terminology
+## Glossary
 
-Each `board` contains 4 `quadrants`, each of which contains six `points`. There are a total of 24 points which alternate   
+Each `board` contains 4 `quadrants`, each of which contains six `pips`. There are a total of 24 points which alternate   
 in colour and are occupied by `checkers`. There are `red` checkers and `white` checkers.
 
 * `Board` - the entire board on which the game is played
@@ -30,5 +30,4 @@ in colour and are occupied by `checkers`. There are `red` checkers and `white` c
     * `Red` - player 2
 * `Roll` - to roll the dice
 * `Stack` - a stack of checkers (2 or more)
-* `Lone` - a lone checker that can be hit
 * `Turn` - each players' turn
