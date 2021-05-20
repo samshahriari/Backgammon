@@ -110,7 +110,7 @@ public class GUI {
     /**
      * Paints the outer board.
      */
-    private class BoardP extends JPanel {
+    private static class BoardP extends JPanel {
         public BoardP() {
             setBounds( OUTER_LEFT_EDGE,  OUTER_TOP_EDGE,  BOARD_WIDTH,  BOARD_HEIGHT );
             setBackground(BOARD_COLOR);
@@ -121,7 +121,7 @@ public class GUI {
     /**
      * Paints the bar
      */
-    private class BarP extends JPanel {
+    private static class BarP extends JPanel {
         public BarP() {
             setBounds( BOARD_X_AXIS-(BAR_WIDTH/2),  OUTER_TOP_EDGE,  BAR_WIDTH,BOARD_HEIGHT );
             setBackground(BAR_COLOR);
@@ -132,7 +132,7 @@ public class GUI {
     /**
      * Paints the dice tray
      */
-    private class DiceTrayP extends JPanel {
+    private static class DiceTrayP extends JPanel {
         public DiceTrayP() {
             setBounds( DICE_TRAY_LEFT,  DICE_TRAY_TOP,  DICE_TRAY_WIDTH,  DICE_TRAY_HEIGHT );
             setBackground(BOARD_COLOR);
@@ -144,7 +144,7 @@ public class GUI {
     /**
      * Paints  the checkers in the goal
      */
-    public class CheckersInGoalP extends JPanel {
+    public static class CheckersInGoalP extends JPanel {
 
         int whiteCheckersInGoal;
         int redCheckersInGoal;
@@ -197,7 +197,7 @@ public class GUI {
     /**
      * Paints and updates the checkers on the pips and bar.
      */
-    public class CheckersP extends JPanel {
+    public static class CheckersP extends JPanel {
 
         ArrayList<Pip> pips;
         int highlightPipIndex = -1;
@@ -335,7 +335,7 @@ public class GUI {
     /**
      * Paints the board.
      */
-    public class GoalP extends JPanel {
+    public static class GoalP extends JPanel {
         public GoalP() {
             setBounds(OUTER_RIGHT_EDGE + BOARD_DICE_DISTANCE / 2, OUTER_TOP_EDGE, CHECKER_DIAMETER + 30, BOARD_HEIGHT);
             setBackground(BOARD_COLOR);
@@ -367,7 +367,7 @@ public class GUI {
     /**
      * Paints the pips.
      */
-    public class PipsP extends JPanel {
+    public static class PipsP extends JPanel {
 
         private int[] xp;
         private int[] yp;
@@ -445,7 +445,7 @@ public class GUI {
     /**
      * Paints the dice.
      */
-    public class DiceFacesP extends JPanel {
+    public static class DiceFacesP extends JPanel {
 
         ArrayList<Integer> diceValues = new ArrayList<>();
 
@@ -520,7 +520,7 @@ public class GUI {
     /**
      * Paints roll dice button
      */
-    public class RollDiceP extends JPanel {
+    public static class RollDiceP extends JPanel {
         public RollDiceP() {
             setBounds( DICE_TRAY_LEFT,  DICE_TRAY_TOP + DICE_TRAY_HEIGHT + 20,  DICE_TRAY_WIDTH,  DICE_TRAY_WIDTH );
             setBackground(ROLL_DICE_COLOR);
@@ -549,18 +549,15 @@ public class GUI {
          * @return True if button is clicked : False otherwise
          */
         public boolean isMouseOn(int xp, int yp) {
-            if (xp > DICE_TRAY_LEFT && xp < DICE_TRAY_RIGHT && yp > DICE_TRAY_TOP + DICE_TRAY_HEIGHT + 20 &&
-                    yp < DICE_TRAY_TOP + DICE_TRAY_HEIGHT + DICE_TRAY_WIDTH) {
-                return true;
-            }
-            return false;
+            return xp > DICE_TRAY_LEFT && xp < DICE_TRAY_RIGHT && yp > DICE_TRAY_TOP + DICE_TRAY_HEIGHT + 20 &&
+                    yp < DICE_TRAY_TOP + DICE_TRAY_HEIGHT + DICE_TRAY_WIDTH;
         }
     }
 
     /**
      * Displays the current player.
      */
-    public class ActivePlayerP extends JPanel {
+    public static class ActivePlayerP extends JPanel {
 
         JLabel currentPlayer;
 
