@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import javax.swing.*;
 
 /**
