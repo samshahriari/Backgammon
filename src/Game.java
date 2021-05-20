@@ -174,7 +174,7 @@ public class Game implements MouseListener {
 
         // If player is unable to play at all, auto-end turn and clear the dice
 
-        if (!move.canPlay(this, diceValues)) {
+        if (!gameOver && !move.canPlay(this, diceValues)) {
             if (!diceValues.isEmpty()) {
                 JOptionPane.showMessageDialog(gui.window, "No valid moves, ending turn!");
             }
