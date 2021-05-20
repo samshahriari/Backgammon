@@ -3,18 +3,12 @@
  * Allows for adding/removing checkers from pips.
  *
  * @author Jordan & Sam
- * @version 2021-05-14
+ * @version 2021-05-20
  */
 public class Pip {
 
-    private int checkerCount; // holds the checkers on the pip
-    private Player checkerColor;
-
-    // Color codes for printing to the terminal
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
-    public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+    private int checkerCount;       // holds the checkers on the pip
+    private Player checkerColor;    // holds the color of the checkes on the pip
 
     /**
      * Create new pip.
@@ -97,30 +91,5 @@ public class Pip {
      */
     public boolean containsCheckers() {
         return checkerCount > 0;
-    }
-
-    /**
-     * Print the number and color of checkers in the pip.
-     *
-     * @return String representation of the pip
-     */
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(checkerCount);
-        if (String.valueOf(checkerColor).equals("WHITE")) {
-            sb.insert(0, ANSI_WHITE_BACKGROUND); // change the background color to white
-            sb.insert(0, ANSI_BLACK);
-            sb.append("W");
-            sb.append(ANSI_RESET);
-        } else if (String.valueOf(checkerColor).equals("RED")) {
-            sb.insert(0, ANSI_RED_BACKGROUND); // change the background color to red
-            sb.insert(0, ANSI_BLACK);
-            sb.append("R");
-            sb.append(ANSI_RESET);
-        } else {
-            return "  "; // return a string with whitespace if the pip is empty
-        }
-        return sb.toString();
     }
 }
