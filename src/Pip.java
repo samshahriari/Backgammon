@@ -8,7 +8,7 @@
 public class Pip {
 
     private int checkerCount;       // holds the checkers on the pip
-    private Player checkerColor;    // holds the color of the checkes on the pip
+    private Player checkerColor;    // holds the color of the checkers on the pip
 
     /**
      * Create new pip.
