@@ -190,7 +190,6 @@ public class Game implements MouseListener {
 
     /**
      * Welcome the player to the game.
-     * TODO: Copy in backgammon instructions from wikipedia
      */
     public void startScreen() {
         JLabel message = new JLabel("<html><body><br>Welcome to BACKGAMMON!<br><br>A Jordan & Sam production</body></html>");
