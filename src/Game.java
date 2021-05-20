@@ -32,6 +32,7 @@ public class Game implements MouseListener {
     // Declare and initialize pip-selection fields
     int selection1 = -1;
     int selection2 = -1;
+    boolean gameStarted = false;
 
     /**
      * Set up a new game and initialize its properties.
@@ -48,6 +49,7 @@ public class Game implements MouseListener {
         diceValues = new ArrayList<>();
         decideStartingPlayer();
         updateGameStatus();  // sets the initial game status
+        gameStarted = true;
     }
 
     /**
@@ -172,7 +174,11 @@ public class Game implements MouseListener {
         redBearingOff = (counterR == redCheckersLeft);
 
         // If player is unable to play at all, auto-end turn and clear the dice
+
         if (!move.canPlay(this, diceValues)) {
+            if (!diceValues.isEmpty()) {
+                JOptionPane.showMessageDialog(gui.window, "No valid moves, ending turn!");
+            }
             nextTurn();
             diceValues.clear();
         }
