@@ -396,8 +396,25 @@ public class GUI {
             repaint();
         }
 
-        public void drawSpots(Graphics2D g2) {
+        @Override
+        public void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g;
 
+            // Draw first dice
+            g2.setColor(Color.white);
+            g2.fillRect(15, 15,  DICE_WIDTH,  DICE_WIDTH);
+            g2.setColor(Color.black);
+            g2.setStroke(new BasicStroke(4));
+            g2.drawRect(15, 15, DICE_WIDTH, DICE_WIDTH);
+
+            // Draw second dice
+            g2.setColor(Color.white);
+            g2.fillRect(15, 15 + DICE_WIDTH + 10,  DICE_WIDTH,  DICE_WIDTH);
+            g2.setColor(Color.black);
+            g2.setStroke(new BasicStroke(4));
+            g2.drawRect(15, 15 + DICE_WIDTH + 10, DICE_WIDTH, DICE_WIDTH);
+
+            // Draw spots
             int spotTop = D1SpotTop;
             int tr = 2*spotSize;
             for (int numSpots : diceValues) {
@@ -424,28 +441,6 @@ public class GUI {
                 }
                 spotTop = D2SpotTop;
             }
-        }
-
-        @Override
-        public void paintComponent(Graphics g) {
-            Graphics2D g2 = (Graphics2D) g;
-
-            // Draw first dice
-            g2.setColor(Color.white);
-            g2.fillRect(15, 15,  DICE_WIDTH,  DICE_WIDTH);
-            g2.setColor(Color.black);
-            g2.setStroke(new BasicStroke(4));
-            g2.drawRect(15, 15, DICE_WIDTH, DICE_WIDTH);
-
-            // Draw second dice
-            g2.setColor(Color.white);
-            g2.fillRect(15, 15 + DICE_WIDTH + 10,  DICE_WIDTH,  DICE_WIDTH);
-            g2.setColor(Color.black);
-            g2.setStroke(new BasicStroke(4));
-            g2.drawRect(15, 15 + DICE_WIDTH + 10, DICE_WIDTH, DICE_WIDTH);
-
-            // Draw spots
-            drawSpots(g2);
         }
     }
 
