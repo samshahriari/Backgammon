@@ -265,12 +265,15 @@ public class Game implements MouseListener {
                 // Calculate the move distance between chosen pip and a previous selection
                 int moveDist = (clickedPipIndex - selection1)*move.getDirection(currentPlayerColor);
 
-                // Filter out move distances that are impossible both for normal play and bearing off
+                // Filter out move distances that are impossible for bearing off
                 boolean validMoveDist = false;
-                for (int dieValue : diceValues) {
-                    if (moveDist <= dieValue) {
-                        validMoveDist = true;
-                        break;
+                if (clickedPipIndex == 0 || clickedPipIndex == 25) {
+                    for (int dieValue : diceValues) {
+                        if (moveDist <= dieValue) {
+                            validMoveDist = true;
+                            moveDist = dieValue;
+                            break;
+                        }
                     }
                 }
 
