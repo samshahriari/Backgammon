@@ -19,11 +19,11 @@ Class for creating and initializing a backgammon board. Contains information abo
 
 #### [Game](src/Game.java)
 
-Class for playing backgammon games.
+Class for playing backgammon games. Is the brain behind the game. Integrates all the other classes and logic.
 
 #### [GUI](src/GUI.java)
 
-Class for creating game graphics.
+Class for creating game graphics. Made using Swing.
 
 #### [Move](src/Move.java)
 
@@ -37,8 +37,6 @@ checkers from pips.
 #### [Player](src/Player.java)
 
 Enum that keeps track of the different players/checker colors.
-
-[Work in progress: more info on class architecture, methods, libraries, etc. later]
 
 ### Important documents
 
