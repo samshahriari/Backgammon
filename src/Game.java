@@ -172,8 +172,11 @@ public class Game implements MouseListener {
         whiteBearingOff = (counterW == whiteCheckersLeft);
         redBearingOff = (counterR == redCheckersLeft);
 
-        // If player is unable to play at all, auto-end turn and clear the dice
+        // Update gui
+        gui.checkersPanel.updatePips(board.getPips());
+        gui.chkInGoalPanel.updateCheckers(whiteCheckersInGoal, redCheckersInGoal);
 
+        // If player is unable to play at all, auto-end turn and clear the dice
         if (!gameOver && !move.canPlay(this, diceValues)) {
             if (!diceValues.isEmpty()) {
                 JOptionPane.showMessageDialog(gui.window, "No valid moves, ending turn!");
@@ -182,10 +185,7 @@ public class Game implements MouseListener {
             diceValues.clear();
             gui.diceFacesPanel.updateDiceValues(diceValues);
         }
-        // Update gui
         gui.activePlayerPanel.updateDisplay(currentPlayerColor);
-        gui.checkersPanel.updatePips(board.getPips());
-        gui.chkInGoalPanel.updateCheckers(whiteCheckersInGoal, redCheckersInGoal);
 
         if (gameOver) {
             String gameOverMessage = currentPlayerColor + " won the game!";
