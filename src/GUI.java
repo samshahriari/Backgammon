@@ -2,7 +2,6 @@ import java.awt.*;
 import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.*;
-import com.apple.eawt.Application;
 
 /**
  * Generates graphics for Backgammon game.
@@ -74,9 +73,6 @@ public class GUI {
         // Set the icon
         ImageIcon img = new ImageIcon("img/backgammon-icon.png");
         window.setIconImage(img.getImage());
-        Application application = Application.getApplication();
-        Image image = Toolkit.getDefaultToolkit().getImage("img/backgammon-icon.png");
-        application.setDockIconImage(image);
 
         // Create base pane for layering panels
         JLayeredPane base = new JLayeredPane();
