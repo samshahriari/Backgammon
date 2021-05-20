@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.*;
 
+/**
+ * Generates graphics for Backgammon game.
+ *
+ * @author  Jordan & Sam
+ * @version 2021-05-20
+ */
 public class GUI {
 
     public static final int BOARD_HEIGHT = 580;
