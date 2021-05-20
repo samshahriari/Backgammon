@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -172,8 +173,11 @@ public class Game implements MouseListener {
         whiteBearingOff = (counterW == whiteCheckersLeft);
         redBearingOff = (counterR == redCheckersLeft);
 
-        // If player is unable to play at all, auto-end turn and clear the dice
+        // Update gui
+        gui.checkersPanel.updatePips(board.getPips());
+        gui.chkInGoalPanel.updateCheckers(whiteCheckersInGoal, redCheckersInGoal);
 
+        // If player is unable to play at all, auto-end turn and clear the dice
         if (!gameOver && !move.canPlay(this, diceValues)) {
             if (!diceValues.isEmpty()) {
                 JOptionPane.showMessageDialog(gui.window, "No valid moves, ending turn!");
@@ -182,10 +186,7 @@ public class Game implements MouseListener {
             diceValues.clear();
             gui.diceFacesPanel.updateDiceValues(diceValues);
         }
-        // Update gui
         gui.activePlayerPanel.updateDisplay(currentPlayerColor);
-        gui.checkersPanel.updatePips(board.getPips());
-        gui.chkInGoalPanel.updateCheckers(whiteCheckersInGoal, redCheckersInGoal);
 
         if (gameOver) {
             String gameOverMessage = currentPlayerColor + " won the game!";
@@ -268,6 +269,8 @@ public class Game implements MouseListener {
                 // Filter out move distances that are impossible for bearing off
                 boolean validMoveDist = false;
                 if (clickedPipIndex == 0 || clickedPipIndex == 25) {
+                    // Dice values must be sorted in ascending order for the bearing-off movement to function properly
+                    Collections.sort(diceValues);
                     for (int dieValue : diceValues) {
                         if (moveDist <= dieValue) {
                             validMoveDist = true;
