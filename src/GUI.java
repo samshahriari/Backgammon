@@ -72,7 +72,7 @@ public class GUI {
         window.setResizable(false);
 
         // Set the icon
-        ImageIcon img = new ImageIcon("Img/backgammon-icon.png");
+        ImageIcon img = new ImageIcon("img/backgammon-icon.png");
         window.setIconImage(img.getImage());
 
         // Create base pane for layering panels
