@@ -69,6 +69,10 @@ public class GUI {
         window.setLocationRelativeTo(null);
         window.setResizable(false);
 
+        // Set the icon
+        ImageIcon img = new ImageIcon("Img/backgammon-icon.png");
+        window.setIconImage(img.getImage());
+
         // Create base pane for layering panels
         JLayeredPane base = new JLayeredPane();
         base.setOpaque(false);
