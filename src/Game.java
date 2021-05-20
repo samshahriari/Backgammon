@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -268,6 +269,8 @@ public class Game implements MouseListener {
                 // Filter out move distances that are impossible for bearing off
                 boolean validMoveDist = false;
                 if (clickedPipIndex == 0 || clickedPipIndex == 25) {
+                    // Dice values must be sorted in ascending order for the bearing-off movement to function properly
+                    Collections.sort(diceValues);
                     for (int dieValue : diceValues) {
                         if (moveDist <= dieValue) {
                             validMoveDist = true;
