@@ -448,7 +448,7 @@ public class GUI {
      */
     public class DiceFacesP extends JPanel {
 
-        ArrayList<Integer> diceValues = new ArrayList<>(Arrays.asList(1,1));
+        ArrayList<Integer> diceValues = new ArrayList<>();
 
         int spotSize = 8;
         int spotLeft = (DICE_TRAY_WIDTH - DICE_WIDTH)/2 + spotSize + 4;

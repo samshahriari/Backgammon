@@ -181,6 +181,7 @@ public class Game implements MouseListener {
             }
             nextTurn();
             diceValues.clear();
+            gui.diceFacesPanel.updateDiceValues(diceValues);
         }
         // Update gui
         gui.activePlayerPanel.updateDisplay(currentPlayerColor);
