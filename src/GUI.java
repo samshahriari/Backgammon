@@ -499,18 +499,4 @@ public class GUI {
             }
         }
     }
-    public class CheckersOnBarP extends JPanel {
-
-        ArrayList<Pip> pips;
-
-        public CheckersOnBarP() {
-            setBounds( BOARD_X_AXIS-(BAR_WIDTH/2),  INNER_TOP_EDGE,  BAR_WIDTH,BOARD_HEIGHT );
-            setOpaque(false);
-        }
-
-        public void updatePips(ArrayList<Pip> newPips) {
-            pips = newPips;
-            repaint();
-        }
-    }
 }
